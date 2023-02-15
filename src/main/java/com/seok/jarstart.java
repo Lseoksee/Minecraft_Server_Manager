@@ -65,12 +65,11 @@ public class jarstart extends Main implements Runnable {
             sername.setEnabled(true);
             ram.setEnabled(true);
             state.setForeground(null);
-            line = log.toString();
-            if (line.contains("FAILED TO BIND TO PORT") || line.contains("Failed to start the minecraft server")) {
+            if (state.getText() == "서버가 정상적으로 시작되었습니다") {
+                state.setText("마인크래프트 서버 관리자");
+            } else {
                 state.setForeground(Color.RED);
                 state.setText("서버가 정상종료 되지 않았습니다!"); 
-            } else {
-                state.setText("마인크래프트 서버 관리자");
             } 
         } catch (IOException ex) {
             ex.printStackTrace();
