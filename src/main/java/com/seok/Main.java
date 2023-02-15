@@ -14,13 +14,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.AWTException;
 import java.awt.Button;
-import java.awt.Frame;
 import java.awt.Label;
 import java.awt.TextArea;
 import java.awt.Choice;
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Checkbox;
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
@@ -35,40 +37,43 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
     static String longver; // .포함 버전
     static int realver; // 실제 숫자 버전
 
-    static Frame fr = new Frame();
-    static Label state = new Label();
+    static JFrame fr = new JFrame();
+    static JLabel state = new JLabel();
 
     static Choice gamemode = new Choice();
-    static Label gamela = new Label();
+    static JLabel gamela = new JLabel("게임모드:",JLabel.RIGHT);
 
     static Choice difficulty = new Choice();
-    static Label difficultyla = new Label();
+    static JLabel difficultyla = new JLabel("난이도:",JLabel.RIGHT);
 
     static JTextField person = new JTextField();
-    static Label personla = new Label();
+    static JLabel personla = new JLabel("참여인원:",JLabel.RIGHT);
+
+    static Checkbox hard = new Checkbox();
+    static JLabel hardla = new JLabel("하드코어:",JLabel.RIGHT);
 
     static Checkbox real = new Checkbox();
-    static Label realla = new Label();
+    static JLabel realla = new JLabel("비정품 허용:",JLabel.RIGHT);
 
     static Checkbox command = new Checkbox();
-    static Label commandla = new Label();
+    static JLabel commandla = new JLabel("커맨드 블록 허용:",JLabel.RIGHT);
 
     static JTextField sername = new JTextField();
-    static Label sernamela = new Label();
+    static JLabel sernamela = new JLabel("서버이름:",JLabel.RIGHT);
 
     static JTextField ram = new JTextField();
-    static Label ramla = new Label();
+    static JLabel ramla = new JLabel("램(GB):",JLabel.RIGHT);
 
-    static Button savebt = new Button();
+    static Button savebt = new Button("저장하기");
 
     static TextArea consol = new TextArea();
-    static Button startbt = new Button();
-    static Button stopbt = new Button();
+    static Button startbt = new Button("시작");
+    static Button stopbt = new Button("정지");
 
     static JTextField meesge = new JTextField();
 
     static JTextField jarkey = new JTextField();
-    static Button jarok = new Button();
+    static Button jarok = new Button("확인");
 
     static SystemTray Tray;
     static TrayIcon trayico;
@@ -78,13 +83,13 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
 
     static boolean trayover;
     ClassLoader cl = getClass().getClassLoader();
-
     public static void main(String[] args) {
-        fr.setSize(400, 650); // (프레임크기-객체크기-8)*
+        fr.setSize(500, 750); // (프레임크기-객체크기-8)*
         fr.addWindowListener(new Main());
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
         fr.setLayout(null);
+        fr.getContentPane().setBackground(Color.white);
         fr.setFocusable(true);
         fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("com/seok/img/mincraft.png")));
 
@@ -99,7 +104,6 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             jarkey.setBounds(96, 308, 200, 25);
             jarkey.addKeyListener(new Main());
 
-            jarok.setLabel("확인");
             jarok.setBounds(156, 340, 80, 25);
             jarok.addActionListener(new Main());
             fr.add(versub);
@@ -125,108 +129,70 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
                 e.printStackTrace();
             }
         }
-
         fr.setTitle("마인크래프트 " + longver + " 서버 관리자");
+
         // 상단 상태라벨
         state.setText("마인크래프트 서버 관리자");
-        state.setBounds(8, 40, 384, 20);
-        state.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-        state.setAlignment(Label.CENTER);
+        state.setHorizontalAlignment(JLabel.CENTER);
+        state.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 
         // 게임모드
         gamemode.add("서바이벌");
         gamemode.add("크리에이티브");
         gamemode.add("모험모드");
         gamemode.add("관전모드");
-        gamemode.setBounds(171, 70, 150, 24);
         gamemode.select(setfile.mode);
-        //choice 높이값=24
-        gamela.setText("게임모드:");
         gamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        gamela.setAlignment(Label.RIGHT);
-        gamela.setBounds(8, 70, 160, 24);
 
         // 난이도
         difficulty.add("평화로움");
         difficulty.add("쉬움");
         difficulty.add("보통");
         difficulty.add("어려움");
-        difficulty.setBounds(171, 110, 150, 24);
         difficulty.select(setfile.diff);
-        //choice 높이값=24
-        difficultyla.setText("난이도:");
         difficultyla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        difficultyla.setAlignment(Label.RIGHT);
-        difficultyla.setBounds(8, 110, 160, 24);
 
         // 참여인원
-        person.setBounds(171, 150, 150, 24);
         person.setText(setfile.plear);
-
-        personla.setText("참여인원:");
         personla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        personla.setAlignment(Label.RIGHT);
-        personla.setBounds(8, 150, 160, 24);
+
+        //하드코어
+        hard.setState(setfile.hardcore);
+        hardla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 정품여부
-        real.setBounds(171, 190, 14, 24);
         real.setState(setfile.reel);
-
-        realla.setText("비정품 허용:");
         realla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        realla.setAlignment(Label.RIGHT);
-        realla.setBounds(8, 190, 160, 24);
 
         // 커멘드 블록
-        command.setBounds(171, 230, 14, 24);
         command.setState(setfile.comman);
-        
-        commandla.setText("커맨드 블록 허용:");
         commandla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        commandla.setAlignment(Label.RIGHT);
-        commandla.setBounds(8, 230, 160, 24);
 
         // 서버이름
-        sername.setBounds(171, 270, 150, 24);
         sername.setText(setfile.name);
-
-        sernamela.setText("서버이름:");
         sernamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        sernamela.setAlignment(Label.RIGHT);
-        sernamela.setBounds(8, 270, 160, 24);
 
         // 램
-        ram.setBounds(171, 310, 150, 24);
         ram.setText(jarstart.finalram);
-
-        ramla.setText("램(GB):");
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-        ramla.setAlignment(Label.RIGHT);
-        ramla.setBounds(8, 310, 160, 24);
 
         //저장
-        savebt.setLabel("저장하기");
         savebt.addActionListener(new Main());
-        savebt.setBounds(156, 340, 80, 30);
 
         // 콘솔
-        consol.setBounds(8, 380, 384, 180);
         consol.setEditable(false);
 
         // 시작
-        startbt.setLabel("시작");
         startbt.addActionListener(new Main());
-        startbt.setBounds(106, 600, 80, 30);
 
         // 정지
-        stopbt.setLabel("정지");
         stopbt.addActionListener(new Main());
-        stopbt.setBounds(206, 600, 80, 30);
 
         // 메시지 입력창
-        meesge.setBounds(36, 570, 320, 20);
         meesge.addKeyListener(new Main());
         meesge.setEditable(false);
+        
+        new setbounds();
 
         fr.add(startbt);
         fr.add(stopbt);
@@ -240,6 +206,8 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         fr.add(personla);
         fr.add(real);
         fr.add(realla);
+        fr.add(hard);
+        fr.add(hardla);
         fr.add(command);
         fr.add(commandla);
         fr.add(sername);

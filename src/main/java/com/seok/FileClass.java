@@ -16,6 +16,7 @@ public class FileClass extends Main {
     String mode;
     String diff;
     String plear;
+    boolean hardcore;
     boolean reel;
     boolean comman;
     String name;
@@ -58,6 +59,7 @@ public class FileClass extends Main {
                         }
                     }
                     case "max-players" -> plear = sb[1];
+                    case "hardcore" -> hardcore = Boolean.parseBoolean(sb[1]);
                     case "online-mode" -> reel = !Boolean.parseBoolean(sb[1]);
                     case "enable-command-block" -> comman = Boolean.parseBoolean(sb[1]);
                     case "motd" -> name = StringEscapeUtils.unescapeJava(sb[1]);
@@ -71,6 +73,7 @@ public class FileClass extends Main {
             mode = "서바이벌";
             diff = "평화로움";
             plear = "20";
+            hardcore = false;
             reel = false;
             comman = false;
             name = "A Minecraft Server";
@@ -91,6 +94,7 @@ public class FileClass extends Main {
     public void save() {
         try {
             filReader = new BufferedReader(new FileReader(filepath));
+            // 게임모드
             if (gamemode.getSelectedItem() == "서바이벌") {
                 mode = "0";
             } else if (gamemode.getSelectedItem() == "크리에이티브") {
@@ -100,7 +104,7 @@ public class FileClass extends Main {
             } else if (gamemode.getSelectedItem() == "관전모드") {
                 mode = "3";
             }
-            // 게임모드
+            // 난이도
             if (difficulty.getSelectedItem() == "평화로움") {
                 diff = "0";
             } else if (difficulty.getSelectedItem() == "쉬움") {
@@ -110,15 +114,17 @@ public class FileClass extends Main {
             } else if (difficulty.getSelectedItem() == "어려움") {
                 diff = "3";
             }
-            // 난이도
-            plear = person.getText();
             // 유저
-            reel = !real.getState();
+            plear = person.getText();
+            //하드코어
+            hardcore = hard.getState();
             // 정품여부
-            comman = command.getState();
+            reel = !real.getState();
             // 커멘드여부
-            name = StringEscapeUtils.escapeJava(sername.getText());
+            comman = command.getState();
             // 서버이름
+            name = StringEscapeUtils.escapeJava(sername.getText());
+            
             replaceini();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
@@ -136,6 +142,7 @@ public class FileClass extends Main {
                 switch (sp[0]) {
                     case "gamemode" -> sb.append(sp[0] + "=" + mode + "\n");
                     case "difficulty" -> sb.append(sp[0] + "=" + diff + "\n");
+                    case "hardcore" -> sb.append(sp[0] + "=" + hardcore + "\n");
                     case "max-players" -> sb.append(sp[0] + "=" + plear + "\n");
                     case "online-mode" -> sb.append(sp[0] + "=" + reel + "\n");
                     case "enable-command-block" -> sb.append(sp[0] + "=" + comman + "\n");
