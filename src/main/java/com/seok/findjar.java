@@ -119,7 +119,7 @@ public class findjar extends Main {
             new File(filename).renameTo(new File("Minecraft_"+longver+"_server.jar"));
             filename = "Minecraft_"+longver+"_server";
             realver = Integer.parseInt(longver.replace(".", ""));
-            fr.removeAll();
+            fr.getContentPane().removeAll();
             maingui();
         } catch (NumberFormatException e) {
             jarkey.setText(null);

@@ -4,7 +4,7 @@ public class setbounds extends Main {
     public setbounds() {
         int width = fr.getWidth()-16;
         //상단 상태라벨
-        state.setBounds(0, 20, width, 24);
+        state.setBounds(0, 20, width, 30);
         //게임모드
         gamemode.setBounds((width-150)/2+40, 60, 170, 24);
         //게임모드 라벨 

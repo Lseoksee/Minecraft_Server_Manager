@@ -14,20 +14,19 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.AWTException;
 import java.awt.Button;
-import java.awt.Label;
 import java.awt.TextArea;
 import java.awt.Choice;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Checkbox;
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class Main extends WindowAdapter implements ActionListener, KeyListener, MouseListener {
     static Thread readThread;
@@ -94,18 +93,18 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("com/seok/img/mincraft.png")));
 
         if (!new findjar().searchjar()) {
+            JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
             fr.setTitle("마인크래프트 서버 관리자");
-            Label versub = new Label("버전을 입력해주세요.");
 
-            versub.setBounds(8, 285, 384, 20);
-            versub.setFont(new Font("맑은 고딕", Font.BOLD, 14));
-            versub.setAlignment(Label.CENTER);
-
-            jarkey.setBounds(96, 308, 200, 25);
+            jarkey.setBounds((fr.getWidth()-216)/2, (fr.getHeight()-31)/2, 200, 25);
             jarkey.addKeyListener(new Main());
 
-            jarok.setBounds(156, 340, 80, 25);
+            versub.setBounds(0, jarkey.getY()-30, fr.getWidth()-16, 20);
+            versub.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+
+            jarok.setBounds((fr.getWidth()-96)/2, jarkey.getY()+30, 80, 25);
             jarok.addActionListener(new Main());
+
             fr.add(versub);
             fr.add(jarkey);
             fr.add(jarok);
