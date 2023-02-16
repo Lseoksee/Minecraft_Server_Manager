@@ -304,7 +304,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             } catch (Exception e1) {
                 System.exit(0);
             }
-        } else if (e.getSource() == manyset) {
+        } else if (e.getSource() == manyset && readThread == null) {
             try {
                 if (new File(setfile.filepath).exists()) {
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "notepad.exe \"server.properties\"");
@@ -317,7 +317,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        } else if (e.getSource() == world) {
+        } else if (e.getSource() == world && readThread == null) {
             try {
                 if (new File("./world").isDirectory()) {
                     int result = JOptionPane.showConfirmDialog(null, "월드를 삭제할까요?", "알림", JOptionPane.YES_NO_OPTION);
