@@ -23,12 +23,9 @@ public class FileClass extends Main {
     String filepath;
     BufferedReader filReader;
 
+    // 값 불러오기
     public FileClass(String filepath) {
         this.filepath = filepath;
-    }
-
-    // 값 불러오기
-    public void searchset() {
         try {
             String line;
             String sb[] = new String[3];
@@ -85,12 +82,26 @@ public class FileClass extends Main {
             command.setEnabled(false);
             sername.setEnabled(false);
             ram.setEnabled(false);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //게임모드
+        gamemode.select(mode);
+        //난이도
+        difficulty.select(diff);
+        //참여인원
+        person.setText(plear);
+        //하드코어
+        hard.setState(hardcore);
+        //정품여부
+        real.setState(reel);
+        //커멘드
+        command.setState(comman);
+        //이름
+        sername.setText(name);
     }
 
+    //저장하기
     public void save() {
         try {
             filReader = new BufferedReader(new FileReader(filepath));
@@ -132,7 +143,7 @@ public class FileClass extends Main {
     }
 
     // 파일변경
-    public void replaceini() { // 파일명, 바꿀라인(첫줄이1), 텍스트
+    public void replaceini() {
         try {
             String sp[] = new String[3];
             String read;

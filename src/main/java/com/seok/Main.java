@@ -1,8 +1,10 @@
 package com.seok;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -26,12 +28,14 @@ import java.awt.PopupMenu;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Main extends WindowAdapter implements ActionListener, KeyListener, MouseListener {
     static Thread readThread;
     static OutputStream outputStream;
-    static FileClass setfile = new FileClass("./server.properties"); // 서버 설정파일
+    static FileClass setfile; // 서버 설정파일
     static String filename; // jar 파일이름
     static String longver; // .포함 버전
     static int realver; // 실제 숫자 버전
@@ -40,30 +44,32 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
     static JLabel state = new JLabel();
 
     static Choice gamemode = new Choice();
-    static JLabel gamela = new JLabel("게임모드:",JLabel.RIGHT);
+    static JLabel gamela = new JLabel("게임모드:", JLabel.RIGHT);
 
     static Choice difficulty = new Choice();
-    static JLabel difficultyla = new JLabel("난이도:",JLabel.RIGHT);
+    static JLabel difficultyla = new JLabel("난이도:", JLabel.RIGHT);
 
     static JTextField person = new JTextField();
-    static JLabel personla = new JLabel("참여인원:",JLabel.RIGHT);
+    static JLabel personla = new JLabel("참여인원:", JLabel.RIGHT);
 
     static Checkbox hard = new Checkbox();
-    static JLabel hardla = new JLabel("하드코어:",JLabel.RIGHT);
+    static JLabel hardla = new JLabel("하드코어:", JLabel.RIGHT);
 
     static Checkbox real = new Checkbox();
-    static JLabel realla = new JLabel("비정품 허용:",JLabel.RIGHT);
+    static JLabel realla = new JLabel("비정품 허용:", JLabel.RIGHT);
 
     static Checkbox command = new Checkbox();
-    static JLabel commandla = new JLabel("커맨드 블록 허용:",JLabel.RIGHT);
+    static JLabel commandla = new JLabel("커맨드 블록 허용:", JLabel.RIGHT);
 
     static JTextField sername = new JTextField();
-    static JLabel sernamela = new JLabel("서버이름:",JLabel.RIGHT);
+    static JLabel sernamela = new JLabel("서버이름:", JLabel.RIGHT);
 
     static JTextField ram = new JTextField();
-    static JLabel ramla = new JLabel("램(GB):",JLabel.RIGHT);
+    static JLabel ramla = new JLabel("램(GB):", JLabel.RIGHT);
 
+    static Button world = new Button("월드삭제");
     static Button savebt = new Button("저장하기");
+    static Button manyset = new Button("추가설정");
 
     static TextArea consol = new TextArea();
     static Button startbt = new Button("시작");
@@ -82,8 +88,14 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
 
     static boolean trayover;
     ClassLoader cl = getClass().getClassLoader();
+
     public static void main(String[] args) {
-        fr.setSize(500, 750); // (프레임크기-객체크기-8)*
+        //os 스타일 ui로 변경
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch(Exception e) {}
+        
+        fr.setSize(500, 750); // (프레임크기-객체크기)*
         fr.addWindowListener(new Main());
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
@@ -96,13 +108,13 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
             fr.setTitle("마인크래프트 서버 관리자");
 
-            jarkey.setBounds((fr.getWidth()-216)/2, (fr.getHeight()-31)/2, 200, 25);
+            jarkey.setBounds((fr.getWidth() - 216) / 2, (fr.getHeight() - 31) / 2, 200, 25);
             jarkey.addKeyListener(new Main());
 
-            versub.setBounds(0, jarkey.getY()-30, fr.getWidth()-16, 20);
+            versub.setBounds(0, jarkey.getY() - 30, fr.getWidth() - 16, 20);
             versub.setFont(new Font("맑은 고딕", Font.BOLD, 17));
 
-            jarok.setBounds((fr.getWidth()-96)/2, jarkey.getY()+30, 80, 25);
+            jarok.setBounds((fr.getWidth() - 96) / 2, jarkey.getY() + 30, 80, 25);
             jarok.addActionListener(new Main());
 
             fr.add(versub);
@@ -115,8 +127,6 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
     }
 
     public static void maingui() {
-        setfile.searchset();
-
         File file = new File("eula.txt");
         if (!file.exists()) {
             try {
@@ -140,7 +150,6 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         gamemode.add("크리에이티브");
         gamemode.add("모험모드");
         gamemode.add("관전모드");
-        gamemode.select(setfile.mode);
         gamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 난이도
@@ -148,35 +157,35 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         difficulty.add("쉬움");
         difficulty.add("보통");
         difficulty.add("어려움");
-        difficulty.select(setfile.diff);
         difficultyla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 참여인원
-        person.setText(setfile.plear);
         personla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
-        //하드코어
-        hard.setState(setfile.hardcore);
+        // 하드코어
         hardla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 정품여부
-        real.setState(setfile.reel);
         realla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 커멘드 블록
-        command.setState(setfile.comman);
         commandla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 서버이름
-        sername.setText(setfile.name);
         sernamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 램
         ram.setText(jarstart.finalram);
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
-        //저장
+        // 월드삭제
+        world.addActionListener(new Main());
+
+        // 저장
         savebt.addActionListener(new Main());
+
+        // 추가설정
+        manyset.addActionListener(new Main());
 
         // 콘솔
         consol.setEditable(false);
@@ -190,7 +199,9 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         // 메시지 입력창
         meesge.addKeyListener(new Main());
         meesge.setEditable(false);
-        
+
+        //값불러오기
+        setfile = new FileClass("server.properties");
         new setbounds();
 
         fr.add(startbt);
@@ -215,6 +226,8 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         fr.add(ramla);
         fr.add(meesge);
         fr.add(savebt);
+        fr.add(world);
+        fr.add(manyset);
         fr.setVisible(true);
     }
 
@@ -257,6 +270,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
                     !setfile.diff.equals(difficulty.getSelectedItem()) ||
                     !setfile.plear.equals(person.getText()) ||
+                    !setfile.hardcore == hard.getState() ||
                     !setfile.reel == real.getState() ||
                     !setfile.comman == command.getState() ||
                     !setfile.name.equals(sername.getText())) {
@@ -290,6 +304,30 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             } catch (Exception e1) {
                 System.exit(0);
             }
+        } else if (e.getSource() == manyset) {
+            try {
+                if (new File(setfile.filepath).exists()) {
+                    ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "notepad.exe \"server.properties\"");
+                    Process process = processBuilder.start();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    while (reader.readLine() != null) {
+                    }
+                    new FileClass(setfile.filepath);
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+        } else if (e.getSource() == world) {
+            try {
+                if (new File("./world").isDirectory()) {
+                    int result = JOptionPane.showConfirmDialog(null, "월드를 삭제할까요?", "알림", JOptionPane.YES_NO_OPTION);
+                    if (result == JOptionPane.YES_OPTION) {
+                        new ProcessBuilder("cmd", "/c", "rmdir", "/s", "/q", "world", "world_nether", "world_the_end").start();
+                    }
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -312,7 +350,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //좌클릭
+        // 좌클릭
         if (e.getSource() == trayico && e.getButton() == MouseEvent.BUTTON1) {
             trayover = true;
             Tray = null;

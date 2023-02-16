@@ -37,8 +37,12 @@ public class setbounds extends Main {
         ram.setBounds((width-150)/2+40, sername.getY()+40, gamemode.getWidth(), 24);
         //램 라벨
         ramla.setBounds(0, sernamela.getY()+40, width/2-40, 24);
+        //월드삭제
+        world.setBounds((width-80)/2-120, ram.getY()+40, 80, 30);
         //저장
         savebt.setBounds((width-80)/2, ram.getY()+40, 80, 30);
+        //추가설정
+        manyset.setBounds((width-80)/2+120, ram.getY()+40, 80, 30);
         //콘솔
         consol.setBounds(0, savebt.getY()+40, width, 210);
         //메시지창
