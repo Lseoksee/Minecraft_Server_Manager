@@ -78,6 +78,7 @@ public class FileClass extends Main {
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
             person.setEnabled(false);
+            hard.setEnabled(false);
             real.setEnabled(false);
             command.setEnabled(false);
             sername.setEnabled(false);
