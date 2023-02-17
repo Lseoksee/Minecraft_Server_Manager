@@ -17,7 +17,4 @@ public class porttest {
             e.printStackTrace();
         }
     }
-    
-    
-    
 }
