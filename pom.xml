@@ -39,7 +39,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-assembly-plugin</artifactId>
-          <version>2.2.1</version>
+          <version>3.4.2</version>
           <configuration>
             <descriptorRefs>
               <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -78,9 +78,11 @@
                 <outfile>target/마인크래프트 버킷 구동기(Ver. ${project.version}).exe</outfile>
                 <jar>target/build-${project.version}.jar</jar>
                 <downloadUrl>http://java.com/download</downloadUrl>
-                <icon>D:/Downloads/mincraft.ico</icon>
+                <icon>D:/icon/mincraft.ico</icon>
+                <!-- 아이콘 위치 변경 -->
                 <jre>
                   <minVersion>8</minVersion>
+                  <runtimeBits>64/32</runtimeBits>
                 </jre>
                 <versionInfo>
                   <fileVersion>1.0.0.0</fileVersion>
@@ -92,6 +94,7 @@
                   <productName>Minecraft Server Manage</productName>
                   <internalName>Minecraft Server Manage</internalName>
                   <originalFilename>${project.name}.exe</originalFilename>
+                  <language>KOREAN</language>
                 </versionInfo>
               </configuration>
             </execution>
