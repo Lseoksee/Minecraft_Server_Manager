@@ -32,11 +32,6 @@
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
-    <dependency>
-      <groupId>com.akathist.maven.plugins.launch4j</groupId>
-      <artifactId>launch4j-maven-plugin</artifactId>
-      <version>2.1.1</version>
-    </dependency>
   </dependencies>
 
   <build>
@@ -49,20 +44,22 @@
             <descriptorRefs>
               <descriptorRef>jar-with-dependencies</descriptorRef>
             </descriptorRefs>
+            <appendAssemblyId>false</appendAssemblyId>
               <archive>
                   <manifest>
                       <mainClass>com.seok.Main</mainClass>
+                      <!-- 메인 클래스 지정 -->
                   </manifest>
               </archive>
           </configuration>
             <executions>
-                <execution>
-                    <id>assembly</id>
-                    <phase>package</phase>
-                    <goals>
-                        <goal>single</goal>
-                    </goals>
-                </execution>
+              <execution>
+                  <id>assembly</id>
+                  <phase>package</phase>
+                  <goals>
+                      <goal>single</goal>
+                  </goals>
+              </execution>
             </executions>
         </plugin>
         <plugin>
@@ -79,11 +76,8 @@
               <configuration>
                 <headerType>gui</headerType>
                 <outfile>target/마인크래프트 버킷 구동기(Ver. ${project.version}).exe</outfile>
-                <jar>target/build-${project.version}-jar-with-dependencies.jar</jar>
+                <jar>target/build-${project.version}.jar</jar>
                 <downloadUrl>http://java.com/download</downloadUrl>
-                <classPath>
-                  <mainClass>com.seok.Main</mainClass>
-                </classPath>
                 <icon>D:/Downloads/mincraft.ico</icon>
                 <jre>
                   <minVersion>8</minVersion>
@@ -124,13 +118,6 @@
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.0.2</version>
-          <configuration>
-              <archive>
-                  <manifest>
-                      <mainClass>com.seok.Main</mainClass>
-                  </manifest>
-              </archive>
-          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
