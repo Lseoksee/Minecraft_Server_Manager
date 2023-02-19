@@ -14,8 +14,8 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.17</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -34,11 +34,40 @@
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
+    <dependency>
+      <groupId>com.akathist.maven.plugins.launch4j</groupId>
+      <artifactId>launch4j-maven-plugin</artifactId>
+      <version>2.1.1</version>
+    </dependency>
   </dependencies>
 
   <build>
-    <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
+        <plugin>
+          <groupId>com.akathist.maven.plugins.launch4j</groupId>
+          <artifactId>launch4j-maven-plugin</artifactId>
+          <version>2.1.1</version>
+          <executions>
+            <execution>
+              <id>l4j-clui</id>
+              <phase>package</phase>
+              <goals>
+                <goal>launch4j</goal>
+              </goals>
+              <configuration>
+                <headerType>gui</headerType>
+                <outfile>target/demo.exe</outfile>
+                <jar>target/build-1.0-SNAPSHOT.jar</jar>
+                <classPath>
+                  <mainClass>com.seok.Main</mainClass>
+                </classPath>
+                <jre>
+                  <minVersion>8</minVersion>
+                </jre>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -79,6 +108,5 @@
           <version>3.0.0</version>
         </plugin>
       </plugins>
-    </pluginManagement>
   </build>
 </project>
