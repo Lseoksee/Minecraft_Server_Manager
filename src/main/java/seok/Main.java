@@ -1,4 +1,4 @@
-package com.seok;
+package seok;
 
 import java.io.BufferedReader;
 import java.io.File;

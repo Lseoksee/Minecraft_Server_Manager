@@ -1,4 +1,4 @@
-package com.seok.test;
+package seok.test;
 
 import java.io.IOException;
 import java.net.ConnectException;

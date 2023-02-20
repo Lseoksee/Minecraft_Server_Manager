@@ -1,4 +1,4 @@
-package com.seok;
+package seok;
 
 import java.awt.Frame;
 import java.io.File;

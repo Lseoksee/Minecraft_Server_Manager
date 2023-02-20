@@ -1,4 +1,4 @@
-package com.seok;
+package seok;
 
 public class setbounds extends Main {
     public setbounds() {
