@@ -102,7 +102,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         fr.setLayout(null);
         fr.getContentPane().setBackground(Color.white);
         fr.setFocusable(true);
-        fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("com/seok/img/mincraft.png")));
+        fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("seok/img/mincraft.png")));
 
         if (!new findjar().searchjar()) {
             JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
@@ -241,7 +241,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
             } else if (!trayover) {
                 // 시스템 트레이
                 Tray = SystemTray.getSystemTray();
-                trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("com/seok/img/minecraft_tray.png")));
+                trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
                 menu = new PopupMenu("Tray Menu");
                 open = new MenuItem("열기");
                 open.addActionListener(new Main());
