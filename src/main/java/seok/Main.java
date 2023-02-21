@@ -320,7 +320,7 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         } else if (e.getSource() == world && readThread == null) {
             try {
                 if (new File("./world").isDirectory()) {
-                    int result = JOptionPane.showConfirmDialog(null, "월드를 삭제할까요?", "알림", JOptionPane.YES_NO_OPTION);
+                    int result = JOptionPane.showConfirmDialog(fr, "월드를 삭제할까요?", "알림", JOptionPane.YES_NO_OPTION);
                     if (result == JOptionPane.YES_OPTION) {
                         new ProcessBuilder("cmd", "/c", "rmdir", "/s", "/q", "world", "world_nether", "world_the_end").start();
                     }

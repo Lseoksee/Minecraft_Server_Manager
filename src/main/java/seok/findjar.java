@@ -44,7 +44,7 @@ public class findjar extends Main {
             }
         }
         if (twocount == 0) {
-            JOptionPane.showMessageDialog(null, "버킷 jar 파일을 찾을 수 없습니다.", "경고", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(fr, "버킷 jar 파일을 찾을 수 없습니다.", "경고", JOptionPane.INFORMATION_MESSAGE);
             System.exit(0);
         }
         if (twocount > 1) {
