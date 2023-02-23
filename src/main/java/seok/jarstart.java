@@ -42,6 +42,7 @@ public class jarstart extends Main implements Runnable {
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
             person.setEnabled(false);
+            hard.setEnabled(false);
             real.setEnabled(false);
             command.setEnabled(false);
             sername.setEnabled(false);
@@ -60,6 +61,7 @@ public class jarstart extends Main implements Runnable {
             gamemode.setEnabled(true);
             difficulty.setEnabled(true);
             person.setEnabled(true);
+            hard.setEnabled(true);
             real.setEnabled(true);
             command.setEnabled(true);
             sername.setEnabled(true);
