@@ -32,7 +32,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 
-public class Main extends WindowAdapter implements ActionListener, KeyListener, MouseListener {
+public class Main implements ActionListener, KeyListener, MouseListener {
     static Thread readThread;
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
@@ -94,9 +94,42 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch(Exception e) {}
+
+        //종료 이벤트
+        fr.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                try {
+                    we.getWindow().setVisible(false);
+                    we.getWindow().dispose();
+                    if (readThread == null) {
+                        System.exit(0);
+                    } else if (!trayover) {
+                        // 시스템 트레이
+                        Tray = SystemTray.getSystemTray();
+                        trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
+                        menu = new PopupMenu("Tray Menu");
+                        open = new MenuItem("열기");
+                        open.addActionListener(new Main());
+                        exit = new MenuItem("종료");
+                        exit.addActionListener(new Main());
         
+                        trayico.setToolTip("마인크래프트 버킷 구동기");
+                        trayico.addMouseListener(new Main());
+        
+                        menu.add(open);
+                        menu.add(exit);
+                        trayico.setPopupMenu(menu);
+                        Tray.add(trayico);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (AWTException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
         fr.setSize(500, 750); // (프레임크기-객체크기)*
-        fr.addWindowListener(new Main());
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
         fr.setLayout(null);
@@ -229,38 +262,6 @@ public class Main extends WindowAdapter implements ActionListener, KeyListener, 
         fr.add(world);
         fr.add(manyset);
         fr.setVisible(true);
-    }
-
-    @Override
-    public void windowClosing(WindowEvent we) {
-        try {
-            we.getWindow().setVisible(false);
-            we.getWindow().dispose();
-            if (readThread == null) {
-                System.exit(0);
-            } else if (!trayover) {
-                // 시스템 트레이
-                Tray = SystemTray.getSystemTray();
-                trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
-                menu = new PopupMenu("Tray Menu");
-                open = new MenuItem("열기");
-                open.addActionListener(new Main());
-                exit = new MenuItem("종료");
-                exit.addActionListener(new Main());
-
-                trayico.setToolTip("마인크래프트 버킷 구동기");
-                trayico.addMouseListener(new Main());
-
-                menu.add(open);
-                menu.add(exit);
-                trayico.setPopupMenu(menu);
-                Tray.add(trayico);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (AWTException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
