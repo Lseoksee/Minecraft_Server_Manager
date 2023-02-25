@@ -87,9 +87,9 @@ public class FileClass extends Main {
             e.printStackTrace();
         }
         //게임모드
-        gamemode.select(mode);
+        gamemode.setSelectedItem(mode);
         //난이도
-        difficulty.select(diff);
+        difficulty.setSelectedItem(diff);
         //참여인원
         person.setText(plear);
         //하드코어

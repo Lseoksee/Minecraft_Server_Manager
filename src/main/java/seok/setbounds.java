@@ -2,14 +2,14 @@ package seok;
 
 public class setbounds extends Main {
     public setbounds() {
-        int width = fr.getWidth()-16;
+        int width = fr.getWidth()-20; // 프레임 사이즈 -16 - 탭바사이즈(5)
         int objwidth = 170;
         //상단 상태라벨
-        state.setBounds(0, 20, width, 30);
+        state.setBounds(0, 0, width, 30);
         //게임모드
-        gamemode.setBounds((width-objwidth)/2+45, 60, objwidth, 24);
+        gamemode.setBounds((width-objwidth)/2+45, 35, objwidth, 24);
         //게임모드 라벨 
-        gamela.setBounds(0, 60, width/2-45, 24);
+        gamela.setBounds(0, 35, width/2-45, 24);
         //난이도
         difficulty.setBounds((width-objwidth)/2+45, gamemode.getY()+40, objwidth, 24);
         //난이도 라벨
