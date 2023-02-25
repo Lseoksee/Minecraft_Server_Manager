@@ -13,20 +13,17 @@ import org.json.JSONObject;
 
 public class getuuid {
 
-    public void getUUID(String username) {
+    static int i = -1;
+    static JSONArray array;
+
+    public void getUUID(String uuid, String name) {
         try {
-            URL url = new URL("https://api.mojang.com/users/profiles/minecraft/" + username);
+            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-
-            String alive = new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
-            if (alive == null) {
-                System.out.println("복돌");
-            } else {
-                System.out.println(alive);
-            }
+            new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
+            System.out.println(name);
         } catch (Exception e) {
-            System.out.println("복돌");
         }
 
     }
@@ -42,9 +39,7 @@ public class getuuid {
     }
 }
 
-class search implements Runnable {
-    static int i = -1;
-    static JSONArray array;
+class search extends getuuid implements Runnable {
 
     public search() {
         try {
@@ -57,17 +52,17 @@ class search implements Runnable {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-        }  
+        }
     }
 
     @Override
     public void run() {
-        while (i < array.length()-Thread.activeCount()+1) {
+        while (i < array.length()-1) {
             synchronized (this) {
                 i++;
             }
             JSONObject jsonObject = array.getJSONObject(i);
-            new getuuid().getUUID((String) jsonObject.get("name")); 
+            new getuuid().getUUID(jsonObject.getString("uuid"), jsonObject.getString("name"));
         }
     }
 }

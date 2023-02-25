@@ -36,8 +36,8 @@ public class jarstart extends Main implements Runnable {
             ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getText()+"G", "-Xms1G", "-jar", "Minecraft_"+longver+"_server.jar", "nogui");
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            
             outputStream = process.getOutputStream();
+
             meesge.setEditable(true);
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
@@ -47,15 +47,17 @@ public class jarstart extends Main implements Runnable {
             command.setEnabled(false);
             sername.setEnabled(false);
             ram.setEnabled(false);
+
             String line;
-                    while ((line = reader.readLine()) != null) {
-                        if (line.contains("Done")) {
-                            state.setForeground(Color.GREEN);
-                            state.setText("서버가 정상적으로 시작되었습니다");
-                        }
-                        consol.append(line+"\n");
-                        log.append(line+"\n");
-                    }
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("Done")) {
+                    state.setForeground(Color.GREEN);
+                    state.setText("서버가 정상적으로 시작되었습니다");
+                }
+                consol.append(line+"\n");
+                log.append(line+"\n");
+            }
+            
             readThread = null;
             meesge.setEditable(false);
             gamemode.setEnabled(true);
@@ -67,6 +69,7 @@ public class jarstart extends Main implements Runnable {
             sername.setEnabled(true);
             ram.setEnabled(true);
             state.setForeground(null);
+
             if (state.getText() == "서버가 정상적으로 시작되었습니다") {
                 state.setText("마인크래프트 서버 관리자");
             } else {
