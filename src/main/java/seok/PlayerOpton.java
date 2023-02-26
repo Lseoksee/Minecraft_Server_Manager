@@ -55,6 +55,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             title.setForeground(Color.GREEN);
             title.setText("현재 정품 서버 입니다.");
         }
+
         try {
             File file = new File("ops.json");
             FileInputStream fis = new FileInputStream(file);
@@ -62,7 +63,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             array = new JSONArray(new String(data));
             fis.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            array = new JSONArray("[]");
         } 
     }
 

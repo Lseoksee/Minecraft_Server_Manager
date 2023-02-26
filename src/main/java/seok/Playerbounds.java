@@ -3,7 +3,6 @@ package seok;
 public class Playerbounds extends PlayerOpton {
     public Playerbounds() {
         int width = Main.fr.getWidth() - 21; // 프레임 사이즈 -16 - 탭바사이즈(5)
-
         //타이틀
         title.setBounds(0, 0, width, 30);
         //op라벨

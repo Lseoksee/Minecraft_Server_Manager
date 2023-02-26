@@ -19,15 +19,15 @@ public class Mainbounds extends Main {
         //참여 인원 라벨
         personla.setBounds(0, difficultyla.getY()+40, width/2-45, 24);
         //하드코어
-        hard.setBounds((width-objwidth)/2+45, person.getY()+43, 14, 24);
+        hard.setBounds((width-objwidth)/2+45, person.getY()+43, 11, 24);
         //하드코어 라벨
         hardla.setBounds(0, personla.getY()+40, width/2-45, 24);
         //정품 여부
-        real.setBounds((width-objwidth)/2+45, hard.getY()+40, 14, 24);
+        real.setBounds((width-objwidth)/2+45, hard.getY()+40, 11, 24);
         //정품 여부 라벨
         realla.setBounds(0, hardla.getY()+40, width/2-45, 24);
         //커멘드 블록
-        command.setBounds((width-objwidth)/2+45, real.getY()+40, 14, 24);
+        command.setBounds((width-objwidth)/2+45, real.getY()+40, 11, 24);
         //커멘드 블록 라벨
         commandla.setBounds(0, realla.getY()+40, width/2-45, 24);
         //서버이름
