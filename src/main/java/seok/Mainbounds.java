@@ -45,9 +45,9 @@ public class Mainbounds extends Main {
         //추가설정
         manyset.setBounds((width-80)/2+120, ram.getY()+40, 80, 30);
         //콘솔
-        consol.setBounds(0, savebt.getY()+40, width, 210);
+        consolsc.setBounds(0, savebt.getY()+40, width, 210);
         //메시지창
-        meesge.setBounds((width-(width-60))/2, consol.getY()+220, width-60, 20);
+        meesge.setBounds((width-(width-60))/2, consolsc.getY()+220, width-60, 20);
         //시작
         startbt.setBounds((width-80)/2-80, meesge.getY()+30, 80, 30);
         //정지

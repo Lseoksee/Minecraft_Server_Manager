@@ -15,7 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.AWTException;
-import java.awt.TextArea;
+import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Checkbox;
@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -78,7 +79,8 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     static JButton savebt;
     static JButton manyset;
 
-    static TextArea consol;
+    static JTextArea consol;
+    static JScrollPane consolsc;
     static JButton startbt;
     static JButton stopbt;
 
@@ -108,6 +110,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         fr.setSize(500, 750); // (프레임크기-객체크기)*
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
+        fr.setFocusable(true);
         fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("seok/img/mincraft.png")));
         // 종료 이벤트
         fr.addWindowListener(new WindowAdapter() {
@@ -256,8 +259,10 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         manyset.addActionListener(new Main());
 
         // 콘솔
-        consol = new TextArea();
+        consol = new JTextArea();
+        consol.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
         consol.setEditable(false);
+        consolsc = new JScrollPane(consol, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 
         // 시작
         startbt = new JButton("시작");
@@ -280,12 +285,11 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         mainpan = new JPanel();
         mainpan.setLayout(null);
         mainpan.setBackground(Color.WHITE);
-        mainpan.setFocusable(true);
 
         mainpan.add(startbt);
         mainpan.add(stopbt);
         mainpan.add(state);
-        mainpan.add(consol);
+        mainpan.add(consolsc);
         mainpan.add(gamemode);
         mainpan.add(gamela);
         mainpan.add(difficulty);
@@ -308,8 +312,8 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         mainpan.add(manyset);
 
         pane = new JTabbedPane();
-        pane.addTab("기본설정", mainpan);
-        pane.addTab("OP리스트", new PlayerOpton().Playergui());
+        pane.addTab("메인", mainpan);
+        pane.addTab("플레이어 관리", new PlayerOpton().Playergui());
         pane.setEnabled(false);
         pane.addChangeListener(new Main());
         pane.addMouseListener(new Main());
@@ -419,10 +423,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             trayover = true;
             Tray = null;
             fr.setVisible(true);
-        }
-        if (e.getSource() == pane && !pane.isEnabled()) {
-            JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
-            pane.setSelectedIndex(0);
         }
     }
 
