@@ -39,6 +39,7 @@ public class jarstart extends Main implements Runnable {
             outputStream = process.getOutputStream();
 
             meesge.setEditable(true);
+            pane.setEnabled(true);
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
             person.setEnabled(false);
@@ -60,6 +61,7 @@ public class jarstart extends Main implements Runnable {
             
             readThread = null;
             meesge.setEditable(false);
+            pane.setEnabled(false);
             gamemode.setEnabled(true);
             difficulty.setEnabled(true);
             person.setEnabled(true);
@@ -69,6 +71,10 @@ public class jarstart extends Main implements Runnable {
             sername.setEnabled(true);
             ram.setEnabled(true);
             state.setForeground(null);
+            
+            oplistclick = false;
+            PlayerOpton.i = -1;
+            PlayerOpton.addoplist.removeAllElements();
 
             if (state.getText() == "서버가 정상적으로 시작되었습니다") {
                 state.setText("마인크래프트 서버 관리자");

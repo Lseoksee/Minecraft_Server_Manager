@@ -113,6 +113,7 @@ public class findjar extends Main {
     
     //서버 버전 인식불가 처리
     public static void seljar() {
+        if (jarkey.getText().equals("")) return; //아무것도 입력 안하면
         try {
             findjar.reset();
             longver = jarkey.getText();

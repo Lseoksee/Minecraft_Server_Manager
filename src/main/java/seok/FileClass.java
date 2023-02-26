@@ -139,7 +139,7 @@ public class FileClass extends Main {
             
             replaceini();
         } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -169,7 +169,7 @@ public class FileClass extends Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        state.setForeground(Color.green);
+        state.setForeground(Color.GREEN);
         state.setText("저장완료!");
     }
 

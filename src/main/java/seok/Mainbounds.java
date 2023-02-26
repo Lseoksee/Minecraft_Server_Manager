@@ -1,8 +1,8 @@
 package seok;
 
-public class setbounds extends Main {
-    public setbounds() {
-        int width = fr.getWidth()-20; // 프레임 사이즈 -16 - 탭바사이즈(5)
+public class Mainbounds extends Main {
+    public Mainbounds() {
+        int width = fr.getWidth()-21; // 프레임 사이즈 -16 - 탭바사이즈(5)
         int objwidth = 170;
         //상단 상태라벨
         state.setBounds(0, 0, width, 30);

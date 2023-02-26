@@ -33,8 +33,10 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class Main implements ActionListener, KeyListener, MouseListener {
+public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener {
     static Thread readThread;
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
@@ -44,8 +46,9 @@ public class Main implements ActionListener, KeyListener, MouseListener {
 
     static JFrame fr;
     static JTabbedPane pane;
-    static JPanel Pane1;
     static JLabel state;
+
+    static JPanel mainpan; // 메인화면
 
     static JComboBox<String> gamemode;
     static JLabel gamela;
@@ -91,20 +94,22 @@ public class Main implements ActionListener, KeyListener, MouseListener {
     static MenuItem exit;
 
     static boolean trayover;
+    static boolean oplistclick;
     ClassLoader cl = getClass().getClassLoader();
 
     public static void main(String[] args) {
-        //os 스타일 ui로 변경
+        // os 스타일 ui로 변경
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch(Exception e) {}
+        } catch (Exception e) {
+        }
 
         fr = new JFrame();
         fr.setSize(500, 750); // (프레임크기-객체크기)*
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
         fr.setIconImage(fr.getToolkit().getImage(new Main().cl.getResource("seok/img/mincraft.png")));
-        //종료 이벤트
+        // 종료 이벤트
         fr.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent we) {
@@ -116,16 +121,17 @@ public class Main implements ActionListener, KeyListener, MouseListener {
                     } else if (!trayover) {
                         // 시스템 트레이
                         Tray = SystemTray.getSystemTray();
-                        trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
+                        trayico = new TrayIcon(
+                                ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
                         menu = new PopupMenu("Tray Menu");
                         open = new MenuItem("열기");
                         open.addActionListener(new Main());
                         exit = new MenuItem("종료");
                         exit.addActionListener(new Main());
-        
+
                         trayico.setToolTip("마인크래프트 버킷 구동기");
                         trayico.addMouseListener(new Main());
-        
+
                         menu.add(open);
                         menu.add(exit);
                         trayico.setPopupMenu(menu);
@@ -141,6 +147,10 @@ public class Main implements ActionListener, KeyListener, MouseListener {
 
         if (!new findjar().searchjar()) {
             JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
+            JPanel jp = new JPanel();
+            jp.setLayout(null);
+            jp.setBackground(Color.WHITE);
+
             fr.setTitle("마인크래프트 서버 관리자");
 
             jarkey = new JTextField();
@@ -154,9 +164,10 @@ public class Main implements ActionListener, KeyListener, MouseListener {
             jarok.setBounds((fr.getWidth() - 96) / 2, jarkey.getY() + 30, 80, 25);
             jarok.addActionListener(new Main());
 
-            fr.add(versub);
-            fr.add(jarkey);
-            fr.add(jarok);
+            jp.add(versub);
+            jp.add(jarkey);
+            jp.add(jarok);
+            fr.add(jp);
             fr.setVisible(true);
         } else {
             maingui();
@@ -261,44 +272,47 @@ public class Main implements ActionListener, KeyListener, MouseListener {
         meesge.addKeyListener(new Main());
         meesge.setEditable(false);
 
-        //값불러오기
+        // 값불러오기
         setfile = new FileClass("server.properties");
-        new setbounds();
-        
-        //패널 설정
-        Pane1 = new JPanel();
-        Pane1.setLayout(null);
-        Pane1.setBackground(Color.white);
-        Pane1.setFocusable(true);
+        new Mainbounds();
 
-        Pane1.add(startbt);
-        Pane1.add(stopbt);
-        Pane1.add(state);
-        Pane1.add(consol);
-        Pane1.add(gamemode);
-        Pane1.add(gamela);
-        Pane1.add(difficulty);
-        Pane1.add(difficultyla);
-        Pane1.add(person);
-        Pane1.add(personla);
-        Pane1.add(real);
-        Pane1.add(realla);
-        Pane1.add(hard);
-        Pane1.add(hardla);
-        Pane1.add(command);
-        Pane1.add(commandla);
-        Pane1.add(sername);
-        Pane1.add(sernamela);
-        Pane1.add(ram);
-        Pane1.add(ramla);
-        Pane1.add(meesge);
-        Pane1.add(savebt);
-        Pane1.add(world);
-        Pane1.add(manyset);
+        // 패널 설정
+        mainpan = new JPanel();
+        mainpan.setLayout(null);
+        mainpan.setBackground(Color.WHITE);
+        mainpan.setFocusable(true);
+
+        mainpan.add(startbt);
+        mainpan.add(stopbt);
+        mainpan.add(state);
+        mainpan.add(consol);
+        mainpan.add(gamemode);
+        mainpan.add(gamela);
+        mainpan.add(difficulty);
+        mainpan.add(difficultyla);
+        mainpan.add(person);
+        mainpan.add(personla);
+        mainpan.add(real);
+        mainpan.add(realla);
+        mainpan.add(hard);
+        mainpan.add(hardla);
+        mainpan.add(command);
+        mainpan.add(commandla);
+        mainpan.add(sername);
+        mainpan.add(sernamela);
+        mainpan.add(ram);
+        mainpan.add(ramla);
+        mainpan.add(meesge);
+        mainpan.add(savebt);
+        mainpan.add(world);
+        mainpan.add(manyset);
 
         pane = new JTabbedPane();
-        pane.addTab("기본설정", Pane1);
-        pane.addTab("OP리스트", new JLabel("OP리스트"));
+        pane.addTab("기본설정", mainpan);
+        pane.addTab("OP리스트", new PlayerOpton().Playergui());
+        pane.setEnabled(false);
+        pane.addChangeListener(new Main());
+        pane.addMouseListener(new Main());
 
         fr.add(pane);
         fr.setVisible(true);
@@ -309,20 +323,20 @@ public class Main implements ActionListener, KeyListener, MouseListener {
         if (e.getSource() == startbt && readThread == null) {
             consol.setText(null);
             if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
-                !setfile.diff.equals(difficulty.getSelectedItem()) ||
-                !setfile.plear.equals(person.getText()) ||
-                !setfile.hardcore == hard.getState() ||
-                !setfile.reel == real.getState() ||
-                !setfile.comman == command.getState() ||
-                !setfile.name.equals(sername.getText())
-                ) {
+                    !setfile.diff.equals(difficulty.getSelectedItem()) ||
+                    !setfile.plear.equals(person.getText()) ||
+                    !setfile.hardcore == hard.getState() ||
+                    !setfile.reel == real.getState() ||
+                    !setfile.comman == command.getState() ||
+                    !setfile.name.equals(sername.getText())) {
                 setfile.save();
             }
             state.setForeground(null);
             state.setText("서버시작중...");
             readThread = new Thread(new jarstart());
             readThread.start();
-        } else if (e.getSource() == stopbt && readThread != null) {
+        } 
+        if (e.getSource() == stopbt && readThread != null) {
             try {
                 String message = "stop\n";
                 outputStream.write(message.getBytes());
@@ -330,14 +344,18 @@ public class Main implements ActionListener, KeyListener, MouseListener {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } else if (e.getSource() == savebt && readThread == null) {
+        } 
+        if (e.getSource() == savebt && readThread == null) {
             setfile.save();
-        } else if (e.getSource() == jarok) {
+        }
+        if (e.getSource() == jarok) {
             findjar.seljar();
-        } else if (e.getSource() == open) {
+        }
+        if (e.getSource() == open) {
             trayover = true;
             fr.setVisible(true);
-        } else if (e.getSource() == exit) {
+        }
+        if (e.getSource() == exit) {
             try {
                 String message = "stop\n";
                 outputStream.write(message.getBytes());
@@ -346,10 +364,12 @@ public class Main implements ActionListener, KeyListener, MouseListener {
             } catch (Exception e1) {
                 System.exit(0);
             }
-        } else if (e.getSource() == manyset && readThread == null) {
+        }
+        if (e.getSource() == manyset && readThread == null) {
             try {
                 if (new File(setfile.filepath).exists()) {
-                    ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "notepad.exe \"server.properties\"");
+                    ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c",
+                            "notepad.exe \"server.properties\"");
                     Process process = processBuilder.start();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     while (reader.readLine() != null) {
@@ -359,7 +379,8 @@ public class Main implements ActionListener, KeyListener, MouseListener {
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
-        } else if (e.getSource() == world && readThread == null) {
+        }
+        if (e.getSource() == world && readThread == null) {
             try {
                 if (new File("./world").isDirectory()) {
                     int result = JOptionPane.showConfirmDialog(fr, "월드를 삭제할까요?", "알림", JOptionPane.YES_NO_OPTION);
@@ -385,7 +406,8 @@ public class Main implements ActionListener, KeyListener, MouseListener {
                 e1.printStackTrace();
             }
             meesge.setText(null);
-        } else if (e.getSource() == jarkey && e.getKeyCode() == KeyEvent.VK_ENTER) {
+        }
+        if (e.getSource() == jarkey && e.getKeyCode() == KeyEvent.VK_ENTER) {
             findjar.seljar();
         }
     }
@@ -397,6 +419,25 @@ public class Main implements ActionListener, KeyListener, MouseListener {
             trayover = true;
             Tray = null;
             fr.setVisible(true);
+        }
+        if (e.getSource() == pane && !pane.isEnabled()) {
+            JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
+            pane.setSelectedIndex(0);
+        }
+    }
+
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if (pane.isEnabled() && pane.getSelectedIndex() == 1 && !oplistclick) {
+            new PlayerOpton(real.getState());
+            Runnable r = new PlayerOpton();
+            new Thread(r).start();
+            new Thread(r).start();
+            new Thread(r).start();
+            new Thread(r).start();
+            new Thread(r).start();
+            new Thread(r).start();
+            oplistclick = true;
         }
     }
 
@@ -410,7 +451,6 @@ public class Main implements ActionListener, KeyListener, MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-
     }
 
     @Override
