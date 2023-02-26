@@ -264,10 +264,9 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         consol.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
         consol.setEditable(false);
         consol.setCaretPosition(consol.getDocument().getLength());
-        DefaultCaret caret = (DefaultCaret)consol.getCaret();
+        DefaultCaret caret = (DefaultCaret) consol.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         consolsc = new JScrollPane(consol, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-        
 
         // 시작
         startbt = new JButton("시작");
@@ -344,7 +343,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             state.setText("서버시작중...");
             readThread = new Thread(new jarstart());
             readThread.start();
-        } 
+        }
         if (e.getSource() == stopbt && readThread != null) {
             try {
                 String message = "stop\n";
@@ -353,7 +352,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        } 
+        }
         if (e.getSource() == savebt && readThread == null) {
             setfile.save();
         }
@@ -377,8 +376,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         if (e.getSource() == manyset && readThread == null) {
             try {
                 if (new File(setfile.filepath).exists()) {
-                    ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c",
-                            "notepad.exe \"server.properties\"");
+                    ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c","notepad.exe \"server.properties\"");
                     Process process = processBuilder.start();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     while (reader.readLine() != null) {
