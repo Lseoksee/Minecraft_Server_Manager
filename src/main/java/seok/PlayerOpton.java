@@ -12,6 +12,7 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
@@ -26,11 +27,10 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.event.MouseInputAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PlayerOpton implements Runnable, KeyListener, ActionListener, ListSelectionListener {
+public class PlayerOpton implements Runnable, KeyListener, ActionListener, MouseListener, ListSelectionListener {
 
     static int i = -1;
     static JSONArray array;
@@ -96,16 +96,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, ListS
         del.addActionListener(new PlayerOpton());
         opList.addListSelectionListener(new PlayerOpton());
         opList.addKeyListener(new PlayerOpton());
-        opList.addMouseListener(new MouseInputAdapter() {
-            //마우스 이벤트(버그로 인해 람다식 처리)
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getSource() == opList && e.getButton() == MouseEvent.BUTTON3) {
-                    opList.setSelectedIndex(opList.locationToIndex(e.getPoint())); // 우클릭도 선택되게
-                    menu.show(opList, e.getX(), e.getY());
-                }
-            }
-        });
+        opList.addMouseListener(new PlayerOpton());
 
         new Playerbounds();
 
@@ -159,6 +150,15 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, ListS
         if (e.getSource() == opList) {
             opField.setText(opList.getSelectedValue());
         } 
+    }
+
+    //마우스 이벤트
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getSource() == opList && e.getButton() == MouseEvent.BUTTON3) {
+            opList.setSelectedIndex(opList.locationToIndex(e.getPoint())); // 우클릭도 선택되게
+            menu.show(opList, e.getX(), e.getY());
+        }
     }
 
     //키보드 이벤트
@@ -221,5 +221,21 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, ListS
 
     @Override
     public void keyReleased(KeyEvent e) {
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }
