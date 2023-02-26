@@ -75,6 +75,7 @@ public class jarstart extends Main implements Runnable {
             oplistclick = false;
             PlayerOpton.i = -1;
             PlayerOpton.addoplist.removeAllElements();
+            pane.setSelectedIndex(0);
 
             if (state.getText() == "서버가 정상적으로 시작되었습니다") {
                 state.setText("마인크래프트 서버 관리자");

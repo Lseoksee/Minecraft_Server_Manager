@@ -13,7 +13,6 @@ import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.ActionListener;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -24,12 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.MouseInputAdapter;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PlayerOpton implements Runnable, KeyListener, ActionListener, MouseListener, ListSelectionListener {
+public class PlayerOpton implements Runnable, KeyListener, ActionListener, ListSelectionListener {
 
     static int i = -1;
     static JSONArray array;
@@ -73,6 +74,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         addoplist = new DefaultListModel<>();
         opList = new JList<>(addoplist);
         opscroll = new JScrollPane(opList);
+        opList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         opselbt = new JButton("추가");
         opdelbt = new JButton("삭제");
         opField = new JTextField();
@@ -92,9 +94,18 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         opdelbt.addActionListener(new PlayerOpton());
         opField.addKeyListener(new PlayerOpton());
         del.addActionListener(new PlayerOpton());
-        opList.addMouseListener(new PlayerOpton());
         opList.addListSelectionListener(new PlayerOpton());
         opList.addKeyListener(new PlayerOpton());
+        opList.addMouseListener(new MouseInputAdapter() {
+            //마우스 이벤트(버그로 인해 람다식 처리)
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getSource() == opList && e.getButton() == MouseEvent.BUTTON3) {
+                    opList.setSelectedIndex(opList.locationToIndex(e.getPoint())); // 우클릭도 선택되게
+                    menu.show(opList, e.getX(), e.getY());
+                }
+            }
+        });
 
         new Playerbounds();
 
@@ -139,15 +150,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             addoplist.removeElement(opList.getSelectedValue());
         } catch (Exception e) {
             opField.setText(null);
-        }
-    }
-
-    //마우스 클릭 이벤트
-    @Override
-    public void mousePressed(MouseEvent e) {
-        if (e.getSource() == opList && e.getButton() == MouseEvent.BUTTON3) {
-            opList.setSelectedIndex(opList.locationToIndex(e.getPoint())); // 우클릭도 선택되게
-            menu.show(opList, e.getX(), e.getY());
         }
     }
 
@@ -200,12 +202,12 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             connection.setRequestMethod("GET");
             new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
             if (!Main.real.getState()) {
-                addoplist.add(0, name); // 정품서버인 경우 리스트에 추가
+                addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
             }
 
         } catch (Exception e) {
             if (Main.real.getState()) {
-                addoplist.add(0, name); // 비정품 서버인경우 리스트에 추가
+                addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
             }
         }
     }
@@ -219,21 +221,5 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
 
     @Override
     public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 }
