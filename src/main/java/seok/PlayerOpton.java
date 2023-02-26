@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.awt.Color;
-import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
@@ -122,8 +121,8 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             String message = "op "+opField.getText()+"\n";
             Main.outputStream.write(message.getBytes());
             Main.outputStream.flush();
-            addoplist.add(0 ,opField.getText());
-            opscroll.getViewport().setViewPosition(new Point(0, 0));
+            addoplist.addElement(opField.getText());
+            opList.ensureIndexIsVisible(addoplist.getSize()-1);
             opField.setText(null);
         } catch (Exception e) {
             opField.setText(null);
@@ -214,11 +213,13 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
             new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
             if (!Main.real.getState()) {
                 addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
+                opList.ensureIndexIsVisible(addoplist.getSize()-1);
             }
 
         } catch (Exception e) {
             if (Main.real.getState()) {
                 addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
+                opList.ensureIndexIsVisible(addoplist.getSize()-1);
             }
         }
     }
