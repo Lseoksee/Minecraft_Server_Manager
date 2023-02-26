@@ -405,7 +405,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     public void keyPressed(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_ENTER && readThread != null) {
             String message = meesge.getText() + "\n";
-            consol.append("-->" + message);
+            consol.append("--> " + message);
             try {
                 outputStream.write(message.getBytes());
                 outputStream.flush();
