@@ -263,10 +263,11 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         consol = new JTextArea();
         consol.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
         consol.setEditable(false);
-        consol.setCaretPosition(consol.getDocument().getLength());
+        consol.setLineWrap(true);
         DefaultCaret caret = (DefaultCaret) consol.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        consolsc = new JScrollPane(consol, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        consolsc = new JScrollPane(consol);
+        consolsc.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         // 시작
         startbt = new JButton("시작");
