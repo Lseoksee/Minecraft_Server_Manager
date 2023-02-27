@@ -6,7 +6,9 @@ public class Playerbounds extends PlayerOpton {
         //타이틀
         title.setBounds(0, 0, width, 30);
         //op라벨
-        oplLabel.setBounds(0, 50, width, 24);
+        oplLabel.setBounds(0, 50, 100, 24);
+        //op파일 불러오기
+        opfile.setBounds(width-80, oplLabel.getY(), 80, 25);
         //op화면
         opscroll.setBounds(0, oplLabel.getY() + 25, width, 200);
         //추가버튼

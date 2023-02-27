@@ -5,6 +5,7 @@ import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -43,6 +44,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     static JPanel oppan; // OP리스트
     static JButton opselbt;
     static JButton opdelbt;
+    static JButton opfile;
     static JTextField opField;
     static JPopupMenu menu;
     static JMenuItem del;
@@ -75,10 +77,12 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
 
         addoplist = new DefaultListModel<>();
         opList = new JList<>(addoplist);
-        opscroll = new JScrollPane(opList);
         opList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        opscroll = new JScrollPane(opList);
+        
         opselbt = new JButton("추가");
         opdelbt = new JButton("삭제");
+        opfile = new JButton("가져오기");
         opField = new JTextField();
 
         title = new JLabel("", JLabel.CENTER);
@@ -94,6 +98,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
 
         opselbt.addActionListener(new PlayerOpton());
         opdelbt.addActionListener(new PlayerOpton());
+        opfile.addActionListener(new PlayerOpton());
         opField.addKeyListener(new PlayerOpton());
         opField.addFocusListener(new PlayerOpton());
         del.addActionListener(new PlayerOpton());
@@ -108,6 +113,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         oppan.add(opscroll);
         oppan.add(opselbt);
         oppan.add(opdelbt);
+        oppan.add(opfile);
         oppan.add(opField);
         return oppan;
     }
@@ -147,14 +153,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         }
     }
 
-    //선택값 변화있다면 
-    @Override
-    public void valueChanged(ListSelectionEvent e) {
-        if (e.getSource() == opList) {
-            opField.setText(opList.getSelectedValue());
-        } 
-    }
-
     //마우스 이벤트
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -184,6 +182,35 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         if (e.getSource() == opselbt) {
             seloplist();
         }
+        if (e.getSource() == opfile) {
+            try {
+                String check = FileClass.filedia(Main.fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오",  true);
+                BufferedReader br = new BufferedReader(new FileReader(check));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    if (addoplist.contains(line)) {
+                        continue;
+                    }
+                    String message = "op "+line+"\n";
+                    Main.outputStream.write(message.getBytes());
+                    Main.outputStream.flush();
+                    addoplist.addElement(line);
+                    opList.ensureIndexIsVisible(addoplist.getSize()-1);
+                }
+                br.close();
+            } catch (Exception ex) {
+                return;
+            }
+        }
+    }
+
+    
+    //선택값 변화있다면 
+    @Override
+    public void valueChanged(ListSelectionEvent e) {
+        if (e.getSource() == opList) {
+            opField.setText(opList.getSelectedValue());
+        } 
     }
 
     //포커스 이벤트

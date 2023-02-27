@@ -49,7 +49,7 @@ public class findjar extends Main {
         }
         if (twocount > 1) {
             while (true) {
-                filename = FileClass.filedia(fr, "*.jar");
+                filename = FileClass.filedia(fr, "*.jar", "버킷 jar파일을 선택하시오", false);
                 if (filename == null) {
                     System.exit(0);
                 }

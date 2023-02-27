@@ -174,13 +174,17 @@ public class FileClass extends Main {
     }
 
     // 파일선택
-    public static String filedia(Frame fr, String scanfile) { // 프레임, 찾을파일형
+    public static String filedia(Frame fr, String scanfile, String messege, boolean allpath) { // 프레임, 찾을파일형
         try {
-            FileDialog fileDialogOpen = new FileDialog(fr, "버킷 jar파일을 선택하시오", FileDialog.LOAD);
+            FileDialog fileDialogOpen = new FileDialog(fr, messege, FileDialog.LOAD);
             fileDialogOpen.setFile(scanfile);
             fileDialogOpen.setDirectory(new File("./").getAbsolutePath());
             fileDialogOpen.setVisible(true);
-            return fileDialogOpen.getFile();
+            if (allpath) {
+                return fileDialogOpen.getDirectory()+fileDialogOpen.getFile();
+            } else {
+                return fileDialogOpen.getFile();
+            }
         } catch (NullPointerException e) {
             return null;
         }
