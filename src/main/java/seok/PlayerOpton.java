@@ -3,7 +3,6 @@ package seok;
 import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
@@ -48,6 +47,7 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     static JTextField opField;
     static JPopupMenu menu;
     static JMenuItem del;
+    JSONObject jsonObject;
 
     public PlayerOpton(boolean real) {
         if (real) {
@@ -59,10 +59,8 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         }
 
         try {
-            File file = new File("ops.json");
-            FileInputStream fis = new FileInputStream(file);
-            byte[] data = fis.readAllBytes();
-            array = new JSONArray(new String(data));
+            FileInputStream fis = new FileInputStream("ops.json");
+            array = new JSONArray(new String(fis.readAllBytes()));
             fis.close();
         } catch (Exception e) {
             array = new JSONArray("[]");
@@ -224,11 +222,11 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     //op리스트 가져오기
     @Override
     public void run() {
-        while (i < array.length() - 1) {
+        while (i < array.length() -1) {
             synchronized (this) {
                 i++;
             }
-            JSONObject jsonObject = array.getJSONObject(i);
+            jsonObject = array.getJSONObject(i);
             new PlayerOpton().getUUID(jsonObject.getString("uuid"), jsonObject.getString("name"));
         }
     }

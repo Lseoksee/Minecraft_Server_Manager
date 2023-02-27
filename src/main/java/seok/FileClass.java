@@ -178,7 +178,7 @@ public class FileClass extends Main {
         try {
             FileDialog fileDialogOpen = new FileDialog(fr, messege, FileDialog.LOAD);
             fileDialogOpen.setFile(scanfile);
-            fileDialogOpen.setDirectory(new File("./").getAbsolutePath());
+            fileDialogOpen.setDirectory(new File("").getAbsolutePath());
             fileDialogOpen.setVisible(true);
             if (allpath) {
                 return fileDialogOpen.getDirectory()+fileDialogOpen.getFile();
