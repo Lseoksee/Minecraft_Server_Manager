@@ -2,7 +2,6 @@ package seok;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.awt.Color;
 
@@ -82,9 +81,10 @@ public class jarstart extends Main implements Runnable {
             } else {
                 state.setForeground(Color.RED);
                 state.setText("서버가 정상종료 되지 않았습니다!"); 
-            } 
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            }
+            readThread.wait();
+            readThread.interrupt();
+        } catch (Exception ex) {
         }
     }
 }
