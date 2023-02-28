@@ -47,7 +47,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     static JTextField opField;
     static JPopupMenu menu;
     static JMenuItem del;
-    JSONObject jsonObject;
 
     public PlayerOpton(boolean real) {
         if (real) {
@@ -222,32 +221,30 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     //op리스트 가져오기
     @Override
     public void run() {
-        while (i < array.length() -1) {
-            synchronized (this) {
-                i++;
+        for (i = 0; i < array.length() -1; i++) {
+            JSONObject jsonObject = array.getJSONObject(i);
+            String name = jsonObject.getString("name");
+            try {
+                URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestMethod("GET");
+                new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
+                if (!Main.real.getState()) {
+                    addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
+                    opList.ensureIndexIsVisible(addoplist.getSize()-1);
+                }
+    
+            } catch (Exception e) {
+                if (Main.real.getState()) {
+                    addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
+                    opList.ensureIndexIsVisible(addoplist.getSize()-1);
+                }
             }
-            jsonObject = array.getJSONObject(i);
-            new PlayerOpton().getUUID(jsonObject.getString("uuid"), jsonObject.getString("name"));
         }
     }
 
     public void getUUID(String uuid, String name) {
-        try {
-            URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
-            if (!Main.real.getState()) {
-                addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
-                opList.ensureIndexIsVisible(addoplist.getSize()-1);
-            }
 
-        } catch (Exception e) {
-            if (Main.real.getState()) {
-                addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
-                opList.ensureIndexIsVisible(addoplist.getSize()-1);
-            }
-        }
     }
 
     public PlayerOpton() {
