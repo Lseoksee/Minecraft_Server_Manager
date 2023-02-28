@@ -24,15 +24,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.text.DefaultCaret;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PlayerOpton implements Runnable, KeyListener, ActionListener, MouseListener, ListSelectionListener, FocusListener {
 
+    static JPanel oppan; // 플레이어 관리
     static int i = -1;
     static JSONArray array;
     static JLabel oplLabel;
@@ -40,7 +44,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     static JList<String> opList;
     static JScrollPane opscroll;
     static DefaultListModel<String> addoplist;
-    static JPanel oppan; // OP리스트
     static JButton opselbt;
     static JButton opdelbt;
     static JButton opfile;
@@ -48,6 +51,11 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     static JPopupMenu menu;
     static JMenuItem del;
 
+    static JLabel chatLabel;
+    static JTextArea chatlog;
+    static JTextField chatField;
+    static JScrollPane chatscroll;
+    
     public PlayerOpton(boolean real) {
         if (real) {
             title.setForeground(Color.ORANGE);
@@ -67,11 +75,15 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     }
 
     public JPanel Playergui() {
-        oplLabel = new JLabel("OP 리스트");
         oppan = new JPanel();
         oppan.setLayout(null);
         oppan.setBackground(Color.WHITE);
 
+        title = new JLabel("", JLabel.CENTER);
+        title.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+        
+        //OP 리스트
+        oplLabel = new JLabel("OP 리스트");
         addoplist = new DefaultListModel<>();
         opList = new JList<>(addoplist);
         opList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -82,9 +94,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         opfile = new JButton("가져오기");
         opField = new JTextField();
 
-        title = new JLabel("", JLabel.CENTER);
-        title.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-
         oplLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
         opList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 
@@ -92,6 +101,19 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         del = new JMenuItem("삭제");
         menu.add(del);
         opList.add(menu);
+
+        //채팅로그
+        chatLabel = new JLabel("채팅로그");
+        chatlog = new JTextArea();
+        chatlog.setEditable(false);
+        chatlog.setLineWrap(true);
+        DefaultCaret caret = (DefaultCaret) chatlog.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        chatscroll = new JScrollPane(chatlog);
+        chatField = new JTextField();
+
+        chatlog.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        chatLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         opselbt.addActionListener(new PlayerOpton());
         opdelbt.addActionListener(new PlayerOpton());
@@ -112,6 +134,9 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         oppan.add(opdelbt);
         oppan.add(opfile);
         oppan.add(opField);
+        oppan.add(chatLabel);
+        oppan.add(chatscroll);
+        oppan.add(chatField);
         return oppan;
     }
     
@@ -233,7 +258,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
                     addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
                     opList.ensureIndexIsVisible(addoplist.getSize()-1);
                 }
-    
             } catch (Exception e) {
                 if (Main.real.getState()) {
                     addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가

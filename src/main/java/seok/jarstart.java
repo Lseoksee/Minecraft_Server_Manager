@@ -7,6 +7,7 @@ import java.awt.Color;
 
 public class jarstart extends Main implements Runnable {
     public static final String finalram="4";
+    static String line;
     static StringBuffer log = new StringBuffer();
     String path;
 
@@ -47,8 +48,7 @@ public class jarstart extends Main implements Runnable {
             command.setEnabled(false);
             sername.setEnabled(false);
             ram.setEnabled(false);
-
-            String line;
+            
             while ((line = reader.readLine()) != null) {
                 if (line.contains("Done")) {
                     state.setForeground(Color.GREEN);

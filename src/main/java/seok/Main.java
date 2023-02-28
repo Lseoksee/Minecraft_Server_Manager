@@ -125,8 +125,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                     } else if (!trayover) {
                         // 시스템 트레이
                         Tray = SystemTray.getSystemTray();
-                        trayico = new TrayIcon(
-                                ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
+                        trayico = new TrayIcon(ImageIO.read(new Main().cl.getResourceAsStream("seok/img/minecraft_tray.png")));
                         menu = new PopupMenu("Tray Menu");
                         open = new MenuItem("열기");
                         open.addActionListener(new Main());
@@ -135,7 +134,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
                         trayico.setToolTip("마인크래프트 버킷 구동기");
                         trayico.addMouseListener(new Main());
-
+                        chatlog.newobj = true;  //채팅로그 갱신종료
                         menu.add(open);
                         menu.add(exit);
                         trayico.setPopupMenu(menu);
@@ -319,7 +318,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         pane = new JTabbedPane();
         pane.addTab("메인", mainpan);
         pane.addTab("플레이어 관리", new PlayerOpton().Playergui());
-        pane.setEnabled(false);
+        /* pane.setEnabled(false); */
         pane.addChangeListener(new Main());
         pane.addMouseListener(new Main());
 
@@ -361,6 +360,12 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             findjar.seljar();
         }
         if (e.getSource() == open) {
+            //채팅 로그 갱신
+            if (pane.getSelectedIndex() == 1) {
+                jarstart.line = null;
+                chatlog.newobj = false;
+                new chatlog();
+            }
             trayover = true;
             fr.setVisible(true);
         }
@@ -424,24 +429,36 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     public void mouseClicked(MouseEvent e) {
         // 좌클릭
         if (e.getSource() == trayico && e.getButton() == MouseEvent.BUTTON1) {
+            //채팅 로그 갱신
+            if (pane.getSelectedIndex() == 1) {
+                jarstart.line = null;
+                chatlog.newobj = false;
+                new chatlog();
+            }
             trayover = true;
-            Tray = null;
             fr.setVisible(true);
         }
     }
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        if (pane.isEnabled() && pane.getSelectedIndex() == 1 && !oplistclick) {
-            new PlayerOpton(real.getState());
-            Runnable r = new PlayerOpton();
-            new Thread(r).start();
-            new Thread(r).start();
-            new Thread(r).start();
-            new Thread(r).start();
-            new Thread(r).start();
-            new Thread(r).start();
-            oplistclick = true;
+        if (pane.getSelectedIndex() == 1) {
+            if (!oplistclick) {
+                new PlayerOpton(real.getState());
+                Runnable r = new PlayerOpton();
+                new Thread(r).start();
+                new Thread(r).start();
+                new Thread(r).start();
+                new Thread(r).start();
+                new Thread(r).start();
+                new Thread(r).start();
+                oplistclick = true;
+            }
+            jarstart.line = null;
+            new chatlog();
+        }
+        if (pane.getSelectedIndex() == 0) {
+            chatlog.newobj = true;
         }
     }
 
