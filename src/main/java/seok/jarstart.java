@@ -12,6 +12,19 @@ public class jarstart extends Main implements Runnable {
     String path;
 
     public jarstart() {
+        consol.setText(null);
+        if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
+                !setfile.diff.equals(difficulty.getSelectedItem()) ||
+                !setfile.plear.equals(person.getText()) ||
+                !setfile.hardcore == hard.getState() ||
+                !setfile.reel == real.getState() ||
+                !setfile.comman == command.getState() ||
+                !setfile.name.equals(sername.getText())) {
+            setfile.save();
+        }
+        state.setForeground(null);
+        state.setText("서버시작중...");
+        
         if (realver > 1000) {
             realver /= 10;
         }
@@ -28,6 +41,8 @@ public class jarstart extends Main implements Runnable {
                 path = "\"" + link + as + "/bin/java" + "\"";
             }
         }
+        readThread = new Thread(this);
+        readThread.start();
     }
 
     @Override

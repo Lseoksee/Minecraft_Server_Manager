@@ -39,7 +39,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
 
 public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener {
-    static Thread readThread;
+    static Thread readThread; //로그 쓰레드 
+    static Thread chatThread; //채팅 로그 쓰레드
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
     static String filename; // jar 파일이름
@@ -328,22 +329,11 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        //시작
         if (e.getSource() == startbt && readThread == null) {
-            consol.setText(null);
-            if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
-                    !setfile.diff.equals(difficulty.getSelectedItem()) ||
-                    !setfile.plear.equals(person.getText()) ||
-                    !setfile.hardcore == hard.getState() ||
-                    !setfile.reel == real.getState() ||
-                    !setfile.comman == command.getState() ||
-                    !setfile.name.equals(sername.getText())) {
-                setfile.save();
-            }
-            state.setForeground(null);
-            state.setText("서버시작중...");
-            readThread = new Thread(new jarstart());
-            readThread.start();
+            new jarstart();
         }
+        //정지
         if (e.getSource() == stopbt && readThread != null) {
             try {
                 String message = "stop\n";
@@ -353,12 +343,15 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 ex.printStackTrace();
             }
         }
+        //저장
         if (e.getSource() == savebt && readThread == null) {
             setfile.save();
         }
+        //첫시작 버튼
         if (e.getSource() == jarok) {
             findjar.seljar();
         }
+        //트레이 열기버튼
         if (e.getSource() == open) {
             //채팅 로그 갱신
             if (pane.getSelectedIndex() == 1) {
@@ -369,6 +362,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             trayover = true;
             fr.setVisible(true);
         }
+        //트레이 닫기버튼
         if (e.getSource() == exit) {
             try {
                 String message = "stop\n";
@@ -379,6 +373,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 System.exit(0);
             }
         }
+        //추가설정 버튼
         if (e.getSource() == manyset && readThread == null) {
             try {
                 if (new File(setfile.filepath).exists()) {
@@ -393,6 +388,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 e1.printStackTrace();
             }
         }
+        //월드삭제 버튼
         if (e.getSource() == world && readThread == null) {
             try {
                 if (new File("./world").isDirectory()) {
@@ -409,7 +405,8 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     @Override
     public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER && readThread != null) {
+        //메시지 입력창
+        if (e.getSource() == meesge && e.getKeyCode() == KeyEvent.VK_ENTER && readThread != null) {
             String message = meesge.getText() + "\n";
             consol.append("--> " + message);
             try {
@@ -420,6 +417,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             }
             meesge.setText(null);
         }
+        //처음시작 버전입력
         if (e.getSource() == jarkey && e.getKeyCode() == KeyEvent.VK_ENTER) {
             findjar.seljar();
         }
@@ -427,7 +425,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        // 좌클릭
+        // 트레이 우클릭 옵션
         if (e.getSource() == trayico && e.getButton() == MouseEvent.BUTTON1) {
             //채팅 로그 갱신
             if (pane.getSelectedIndex() == 1) {
@@ -442,6 +440,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     @Override
     public void stateChanged(ChangeEvent e) {
+        //탭 변화
         if (pane.getSelectedIndex() == 1) {
             if (!oplistclick) {
                 new PlayerOpton(real.getState());

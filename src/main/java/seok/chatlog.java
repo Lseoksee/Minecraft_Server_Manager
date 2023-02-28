@@ -1,13 +1,12 @@
 package seok;
 
-public class chatlog extends PlayerOpton  {
+public class chatlog extends Main implements Runnable  {
 
     String oldline;
     String line;
     String oldbuffer;   //stringbuffer와 겹치는 문제 해결을 위해
     static boolean newobj;  //채팅로그 갱신 여부
-    static Thread chatThread;
-
+    
     @Override
     public void run() {
         try {
@@ -16,7 +15,7 @@ public class chatlog extends PlayerOpton  {
                 line = jarstart.line;
                 //채팅 정규식
                 if (line != oldline && !line.equals(oldbuffer) && line.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
-                    chatlog.append(line+"\n");
+                    PlayerOpton.chatlog.append(line+"\n");
                     oldline = line;
                 }
             }
@@ -34,7 +33,7 @@ public class chatlog extends PlayerOpton  {
         for (String string : buffeString) {
             //채팅 정규식
             if (string.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
-                chatlog.append(string+"\n");
+                PlayerOpton.chatlog.append(string+"\n");
                 oldbuffer = string;
             }
         }
