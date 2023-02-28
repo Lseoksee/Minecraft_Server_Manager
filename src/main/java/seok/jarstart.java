@@ -65,6 +65,7 @@ public class jarstart extends Main implements Runnable {
 
             String line;
             while ((line = reader.readLine()) != null) {
+                Thread.sleep(10);
                 if (line.indexOf("Done") != -1) {
                     state.setForeground(Color.GREEN);
                     state.setText("서버가 정상적으로 시작되었습니다");
