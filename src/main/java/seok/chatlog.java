@@ -7,7 +7,6 @@ public class chatlog extends PlayerOpton  {
     String oldbuffer;   //stringbuffer와 겹치는 문제 해결을 위해
     static boolean newobj;  //채팅로그 갱신 여부
     static Thread chatThread;
-    
 
     @Override
     public void run() {
@@ -15,11 +14,8 @@ public class chatlog extends PlayerOpton  {
             while (!newobj) {
                 Thread.sleep(100);
                 line = jarstart.line;
-                if (line != oldline && !line.equals(oldbuffer) &&  (
-                line.indexOf("<") != -1 || 
-                line.indexOf("[Server]") != -1 || 
-                line.indexOf("issued server command") != -1
-                )) {
+                //채팅 정규식
+                if (line != oldline && !line.equals(oldbuffer) && line.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
                     chatlog.append(line+"\n");
                     oldline = line;
                 }
@@ -36,11 +32,8 @@ public class chatlog extends PlayerOpton  {
     public chatlog() {
         String[] buffeString = jarstart.log.toString().split("\n");
         for (String string : buffeString) {
-            if (
-            string.indexOf("<") != -1 || 
-            string.indexOf("[Server]") != -1 || 
-            string.indexOf("issued server command") != -1
-            ) {
+            //채팅 정규식
+            if (string.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
                 chatlog.append(string+"\n");
                 oldbuffer = string;
             }

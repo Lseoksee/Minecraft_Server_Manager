@@ -82,7 +82,7 @@ public class jarstart extends Main implements Runnable {
                 state.setForeground(Color.RED);
                 state.setText("서버가 정상종료 되지 않았습니다!"); 
             }
-            readThread.wait();
+            Thread.sleep(0);
             readThread.interrupt();
         } catch (Exception ex) {
         }

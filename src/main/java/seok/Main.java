@@ -318,7 +318,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         pane = new JTabbedPane();
         pane.addTab("메인", mainpan);
         pane.addTab("플레이어 관리", new PlayerOpton().Playergui());
-        /* pane.setEnabled(false); */
+        pane.setEnabled(false);
         pane.addChangeListener(new Main());
         pane.addMouseListener(new Main());
 
