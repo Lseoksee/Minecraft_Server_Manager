@@ -140,7 +140,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                         trayico.setPopupMenu(menu);
                         Tray.add(trayico);
 
-                        Thread.sleep(0);
                         chatThread.interrupt();
                         //쓰레드 갱신 종료
                     }
@@ -477,13 +476,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             new chatlog();
         }
         if (pane.getSelectedIndex() == 0) {
-            try {
-                Thread.sleep(0);
-                chatThread.interrupt();
-            } catch (InterruptedException e1) {
-                e1.printStackTrace();
-            }
-            
+            chatThread.interrupt();
         }
     }
     @Override

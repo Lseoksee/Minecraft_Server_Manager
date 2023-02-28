@@ -9,7 +9,7 @@ public class chatlog extends Main implements Runnable {
     public void run() {
         try {
             while (true) {
-                Thread.sleep(100);
+                Thread.sleep(50);
                 line = jarstart.line;
                 // 채팅 정규식
                 if (line != oldline && line.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
