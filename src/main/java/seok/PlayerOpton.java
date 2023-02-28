@@ -36,7 +36,6 @@ import org.json.JSONObject;
 public class PlayerOpton extends Main implements Runnable, ListSelectionListener {
 
     static JPanel oppan; // 플레이어 관리
-    static int i = -1;
     static JSONArray array;
 
     static JLabel oplLabel;
@@ -58,6 +57,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
     static JButton chatinput;
     static JButton chatclear;
     static JButton chatsave;
+    static int i = -1;
 
     public PlayerOpton(boolean real) {
         if (real) {
@@ -284,7 +284,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         }
         // 채팅 입력버튼
         if (e.getSource() == chatinput) {
-            chatinput();
+            System.out.println(Thread.activeCount());
+            /* chatinput(); */
         }
         // 채팅 지우기버튼
         if (e.getSource() == chatclear) {
@@ -336,12 +337,12 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
     // op리스트 가져오기
     @Override
     public void run() {
-        for (i = 0; i < array.length() - 1; i++) {
+        while (i < array.length() - 1) {
+            i++;
             JSONObject jsonObject = array.getJSONObject(i);
             String name = jsonObject.getString("name");
             try {
-                URL url = new URL(
-                        "https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
+                URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();

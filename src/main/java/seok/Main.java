@@ -16,7 +16,6 @@ import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
-import java.awt.AWTException;
 import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
@@ -136,15 +135,16 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
                         trayico.setToolTip("마인크래프트 버킷 구동기");
                         trayico.addMouseListener(new Main());
-                        chatlog.newobj = true;  //채팅로그 갱신종료
                         menu.add(open);
                         menu.add(exit);
                         trayico.setPopupMenu(menu);
                         Tray.add(trayico);
+
+                        Thread.sleep(0);
+                        chatThread.interrupt();
+                        //쓰레드 갱신 종료
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (AWTException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -380,8 +380,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         if (e.getSource() == open) {
             //채팅 로그 갱신
             if (pane.getSelectedIndex() == 1) {
-                jarstart.line = null;
-                chatlog.newobj = false;
                 new chatlog();
             }
             trayover = true;
@@ -454,8 +452,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         if (e.getSource() == trayico && e.getButton() == MouseEvent.BUTTON1) {
             //채팅 로그 갱신
             if (pane.getSelectedIndex() == 1) {
-                jarstart.line = null;
-                chatlog.newobj = false;
                 new chatlog();
             }
             trayover = true;
@@ -478,11 +474,16 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 new Thread(r).start();
                 oplistclick = true;
             }
-            jarstart.line = null;
             new chatlog();
         }
         if (pane.getSelectedIndex() == 0) {
-            chatlog.newobj = true;
+            try {
+                Thread.sleep(0);
+                chatThread.interrupt();
+            } catch (InterruptedException e1) {
+                e1.printStackTrace();
+            }
+            
         }
     }
     @Override
