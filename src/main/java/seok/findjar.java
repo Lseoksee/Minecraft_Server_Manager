@@ -49,11 +49,11 @@ public class findjar extends Main {
         }
         if (twocount > 1) {
             while (true) {
-                filename = FileClass.filedia(fr, "*.jar", "버킷 jar파일을 선택하시오", false);
+                filename = FileClass.filedia(fr, "*.jar", "버킷 jar파일을 선택하시오", 0, false);
                 if (filename == null) {
                     System.exit(0);
                 }
-                if (new File("./"+filename).exists()) 
+                if (new File("./" + filename).exists())
                     break;
                 else
                     continue;
@@ -76,8 +76,8 @@ public class findjar extends Main {
                     zipFile.close();
                     stream.close();
                     longver = splet[1];
-                    new File(filename).renameTo(new File("Minecraft_"+longver+"_server.jar"));
-                    filename = "Minecraft_"+longver+"_server";
+                    new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
+                    filename = "Minecraft_" + longver + "_server";
                     realver = Integer.parseInt(longver.replace(".", ""));
                     break;
                 }
@@ -100,8 +100,8 @@ public class findjar extends Main {
             zipFile.close();
             stream.close();
             longver = jsonObject.getString("id");
-            new File(filename).renameTo(new File("Minecraft_"+longver+"_server.jar"));
-            filename = "Minecraft_"+longver+"_server";
+            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
+            filename = "Minecraft_" + longver + "_server";
             realver = Integer.parseInt(longver.replace(".", ""));
         } catch (IOException e) {
             return false;
@@ -110,15 +110,16 @@ public class findjar extends Main {
         }
         return true;
     }
-    
-    //서버 버전 인식불가 처리
+
+    // 서버 버전 인식불가 처리
     public static void seljar() {
-        if (jarkey.getText().equals("")) return; //아무것도 입력 안하면
+        if (jarkey.getText().equals(""))
+            return; // 아무것도 입력 안하면
         try {
             findjar.reset();
             longver = jarkey.getText();
-            new File(filename).renameTo(new File("Minecraft_"+longver+"_server.jar"));
-            filename = "Minecraft_"+longver+"_server";
+            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
+            filename = "Minecraft_" + longver + "_server";
             realver = Integer.parseInt(longver.replace(".", ""));
             fr.getContentPane().removeAll();
             maingui();
@@ -126,13 +127,12 @@ public class findjar extends Main {
             jarkey.setText(null);
         }
     }
-
+    
     public static void reset() {
         try {
             zipFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-       
     }
 }

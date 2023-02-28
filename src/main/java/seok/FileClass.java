@@ -86,23 +86,23 @@ public class FileClass extends Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //게임모드
+        // 게임모드
         gamemode.setSelectedItem(mode);
-        //난이도
+        // 난이도
         difficulty.setSelectedItem(diff);
-        //참여인원
+        // 참여인원
         person.setText(plear);
-        //하드코어
+        // 하드코어
         hard.setState(hardcore);
-        //정품여부
+        // 정품여부
         real.setState(reel);
-        //커멘드
+        // 커멘드
         command.setState(comman);
-        //이름
+        // 이름
         sername.setText(name);
     }
 
-    //저장하기
+    // 저장하기
     public void save() {
         try {
             filReader = new BufferedReader(new FileReader(filepath));
@@ -128,7 +128,7 @@ public class FileClass extends Main {
             }
             // 유저
             plear = person.getText();
-            //하드코어
+            // 하드코어
             hardcore = hard.getState();
             // 정품여부
             reel = !real.getState();
@@ -136,7 +136,7 @@ public class FileClass extends Main {
             comman = command.getState();
             // 서버이름
             name = StringEscapeUtils.escapeJava(sername.getText());
-            
+
             replaceini();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
@@ -174,17 +174,18 @@ public class FileClass extends Main {
     }
 
     // 파일선택
-    public static String filedia(Frame fr, String scanfile, String messege, boolean allpath) { // 프레임, 찾을파일형
+    public static String filedia(Frame fr, String scanfile, String messege, int whatDialog, boolean allpath) {
+        // 프레임, 파일, 메세지, 방식(0=불러오기,1저장하기), 전체경로?
         try {
-            FileDialog fileDialogOpen = new FileDialog(fr, messege, FileDialog.LOAD);
+            FileDialog fileDialogOpen = new FileDialog(fr, messege, whatDialog);
             fileDialogOpen.setFile(scanfile);
             fileDialogOpen.setDirectory(new File("").getAbsolutePath());
             fileDialogOpen.setVisible(true);
-            if (allpath) {
-                return fileDialogOpen.getDirectory()+fileDialogOpen.getFile();
-            } else {
-                return fileDialogOpen.getFile();
-            }
+            String file = fileDialogOpen.getFile();
+            if (allpath && file != null)
+                return fileDialogOpen.getDirectory() + file;
+            else
+                return file;
         } catch (NullPointerException e) {
             return null;
         }

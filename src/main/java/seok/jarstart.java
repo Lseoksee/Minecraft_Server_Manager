@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.awt.Color;
 
 public class jarstart extends Main implements Runnable {
-    public static final String finalram="4";
+    public static final String finalram = "4";
     static String line;
     static StringBuffer log = new StringBuffer();
     String path;
@@ -14,17 +14,17 @@ public class jarstart extends Main implements Runnable {
     public jarstart() {
         consol.setText(null);
         if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
-                !setfile.diff.equals(difficulty.getSelectedItem()) ||
-                !setfile.plear.equals(person.getText()) ||
-                !setfile.hardcore == hard.getState() ||
-                !setfile.reel == real.getState() ||
-                !setfile.comman == command.getState() ||
-                !setfile.name.equals(sername.getText())) {
+            !setfile.diff.equals(difficulty.getSelectedItem()) ||
+            !setfile.plear.equals(person.getText()) ||
+            !setfile.hardcore == hard.getState() ||
+            !setfile.reel == real.getState() ||
+            !setfile.comman == command.getState() ||
+            !setfile.name.equals(sername.getText())) {
             setfile.save();
         }
         state.setForeground(null);
         state.setText("서버시작중...");
-        
+
         if (realver > 1000) {
             realver /= 10;
         }
@@ -48,12 +48,13 @@ public class jarstart extends Main implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getText()+"G", "-Xms1G", "-jar", "Minecraft_"+longver+"_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx" + ram.getText() + "G", "-Xms1G", "-jar", "Minecraft_" + longver + "_server.jar", "nogui");
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             outputStream = process.getOutputStream();
 
             meesge.setEditable(true);
+            meesge.setText("여기에 명령어 입력");
             pane.setEnabled(true);
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
@@ -63,18 +64,18 @@ public class jarstart extends Main implements Runnable {
             command.setEnabled(false);
             sername.setEnabled(false);
             ram.setEnabled(false);
-            
+
             while ((line = reader.readLine()) != null) {
                 if (line.contains("Done")) {
                     state.setForeground(Color.GREEN);
                     state.setText("서버가 정상적으로 시작되었습니다");
                 }
-                consol.append(line+"\n");
-                log.append(line+"\n");
+                consol.append(line + "\n");
+                log.append(line + "\n");
             }
-            
-            readThread = null;
+
             meesge.setEditable(false);
+            meesge.setText(null);
             pane.setEnabled(false);
             gamemode.setEnabled(true);
             difficulty.setEnabled(true);
@@ -85,7 +86,7 @@ public class jarstart extends Main implements Runnable {
             sername.setEnabled(true);
             ram.setEnabled(true);
             state.setForeground(null);
-            
+
             oplistclick = false;
             PlayerOpton.i = -1;
             PlayerOpton.addoplist.removeAllElements();
@@ -95,8 +96,9 @@ public class jarstart extends Main implements Runnable {
                 state.setText("마인크래프트 서버 관리자");
             } else {
                 state.setForeground(Color.RED);
-                state.setText("서버가 정상종료 되지 않았습니다!"); 
+                state.setText("서버가 정상종료 되지 않았습니다!");
             }
+            readThread = null;
             Thread.sleep(0);
             readThread.interrupt();
         } catch (Exception ex) {

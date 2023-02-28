@@ -10,7 +10,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -38,7 +40,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
 
-public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener {
+public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener, FocusListener {
     static Thread readThread; //로그 쓰레드 
     static Thread chatThread; //채팅 로그 쓰레드
     static OutputStream outputStream;
@@ -107,7 +109,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception e) {
         }
-
         fr = new JFrame();
         fr.setSize(500, 750); // (프레임크기-객체크기)*
         fr.setResizable(false);
@@ -149,33 +150,10 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             }
         });
 
-        if (!new findjar().searchjar()) {
-            JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
-            JPanel jp = new JPanel();
-            jp.setLayout(null);
-            jp.setBackground(Color.WHITE);
-
-            fr.setTitle("마인크래프트 서버 관리자");
-
-            jarkey = new JTextField();
-            jarkey.setBounds((fr.getWidth() - 216) / 2, (fr.getHeight() - 31) / 2, 200, 25);
-            jarkey.addKeyListener(new Main());
-
-            versub.setBounds(0, jarkey.getY() - 30, fr.getWidth() - 16, 20);
-            versub.setFont(new Font("맑은 고딕", Font.BOLD, 17));
-
-            jarok = new JButton("확인");
-            jarok.setBounds((fr.getWidth() - 96) / 2, jarkey.getY() + 30, 80, 25);
-            jarok.addActionListener(new Main());
-
-            jp.add(versub);
-            jp.add(jarkey);
-            jp.add(jarok);
-            fr.add(jp);
-            fr.setVisible(true);
-        } else {
+        if (!new findjar().searchjar()) 
+            new Main().whatver();
+        else 
             maingui();
-        }
     }
 
     public static void maingui() {
@@ -280,6 +258,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         // 메시지 입력창
         meesge = new JTextField();
         meesge.addKeyListener(new Main());
+        meesge.addFocusListener(new Main());
         meesge.setEditable(false);
 
         // 값불러오기
@@ -324,6 +303,32 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         pane.addMouseListener(new Main());
 
         fr.add(pane);
+        fr.setVisible(true);
+    }
+
+    public void whatver() {
+        JLabel versub = new JLabel("버전을 입력해주세요.", JLabel.CENTER);
+        JPanel jp = new JPanel();
+        jp.setLayout(null);
+        jp.setBackground(Color.WHITE);
+
+        fr.setTitle("마인크래프트 서버 관리자");
+
+        jarkey = new JTextField();
+        jarkey.setBounds((fr.getWidth() - 216) / 2, (fr.getHeight() - 31) / 2, 200, 25);
+        jarkey.addKeyListener(new Main());
+
+        versub.setBounds(0, jarkey.getY() - 30, fr.getWidth() - 16, 20);
+        versub.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+
+        jarok = new JButton("확인");
+        jarok.setBounds((fr.getWidth() - 96) / 2, jarkey.getY() + 30, 80, 25);
+        jarok.addActionListener(new Main());
+
+        jp.add(versub);
+        jp.add(jarkey);
+        jp.add(jarok);
+        fr.add(jp);
         fr.setVisible(true);
     }
 
@@ -462,6 +467,20 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     }
 
     @Override
+    public void focusGained(FocusEvent e) {
+        if (e.getSource() == meesge && meesge.getText().equals("여기에 명령어 입력")) {
+            meesge.setText(null);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == meesge && meesge.getText().equals("")) {
+            meesge.setText("여기에 명령어 입력");
+        }
+    }
+
+    @Override
     public void keyTyped(KeyEvent e) {
     }
 
@@ -484,4 +503,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     @Override
     public void mouseExited(MouseEvent e) {
     }
+
+
 }
