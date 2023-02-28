@@ -465,9 +465,9 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
             chatlog.newobj = true;
         }
     }
-
     @Override
     public void focusGained(FocusEvent e) {
+        //명령어 입력창 포커스
         if (e.getSource() == meesge && meesge.getText().equals("여기에 명령어 입력")) {
             meesge.setText(null);
         }
@@ -475,6 +475,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     @Override
     public void focusLost(FocusEvent e) {
+        //명령어 입력창 디포커스
         if (e.getSource() == meesge && meesge.getText().equals("")) {
             meesge.setText("여기에 명령어 입력");
         }
@@ -503,6 +504,4 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     @Override
     public void mouseExited(MouseEvent e) {
     }
-
-
 }
