@@ -2,7 +2,6 @@ package seok;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.zip.ZipEntry;
@@ -16,7 +15,7 @@ public class findjar extends Main {
     static ZipEntry entry;
     static InputStream stream;
 
-    public static void zip(String serch, String zip) throws IOException {
+    public static void zip(String serch, String zip) throws Exception {
         zipFile = new ZipFile(zip);
         entry = zipFile.getEntry(serch);
         stream = zipFile.getInputStream(entry);
@@ -29,7 +28,7 @@ public class findjar extends Main {
         int twocount = 0;
         for (String as : list) {
             String text[] = as.split("_");
-            if (as.contains(".jar")) {
+            if (as.indexOf(".jar") != -1) {
                 twocount++;
                 if (text[0].equals("Minecraft")) {
                     filename = as;
@@ -83,12 +82,10 @@ public class findjar extends Main {
                 }
             }
             reader.close();
-        } catch (IOException e) {
-            return newver();
-        } catch (NullPointerException e) {
+            return true;
+        } catch (Exception e) {
             return newver();
         }
-        return true;
     }
 
     public boolean newver() {
@@ -103,12 +100,10 @@ public class findjar extends Main {
             new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
             filename = "Minecraft_" + longver + "_server";
             realver = Integer.parseInt(longver.replace(".", ""));
-        } catch (IOException e) {
-            return false;
-        } catch (NullPointerException e) {
+            return true;
+        } catch (Exception e) {
             return false;
         }
-        return true;
     }
 
     // 서버 버전 인식불가 처리
@@ -131,7 +126,7 @@ public class findjar extends Main {
     public static void reset() {
         try {
             zipFile.close();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
