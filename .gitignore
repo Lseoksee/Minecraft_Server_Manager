@@ -24,3 +24,4 @@ server.properties
 spigot.yml
 usercache.json
 version_history.json
+target/maven-status/maven-compiler-plugin
