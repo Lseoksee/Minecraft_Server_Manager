@@ -7,8 +7,6 @@ import java.awt.Color;
 
 public class jarstart extends Main implements Runnable {
     public static final String finalram = "4";
-    static String line;
-    static StringBuffer log = new StringBuffer();
     String path;
 
     public jarstart() {
@@ -65,14 +63,16 @@ public class jarstart extends Main implements Runnable {
             sername.setEnabled(false);
             ram.setEnabled(false);
 
+            String line;
             while ((line = reader.readLine()) != null) {
-                Thread.sleep(10);
                 if (line.indexOf("Done") != -1) {
                     state.setForeground(Color.GREEN);
                     state.setText("서버가 정상적으로 시작되었습니다");
                 }
+                if (line.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
+                    PlayerOpton.chatlog.append(line + "\n");
+                }
                 consol.append(line + "\n");
-                log.append(line + "\n");
             }
 
             meesge.setEditable(false);

@@ -41,7 +41,6 @@ import javax.swing.text.DefaultCaret;
 
 public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener, FocusListener {
     static Thread readThread; //로그 쓰레드 
-    static Thread chatThread; //채팅 로그 쓰레드
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
     static String filename; // jar 파일이름
@@ -139,9 +138,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                         menu.add(exit);
                         trayico.setPopupMenu(menu);
                         Tray.add(trayico);
-
-                        chatThread.interrupt();
-                        //쓰레드 갱신 종료
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -377,10 +373,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         }
         //트레이 열기버튼
         if (e.getSource() == open) {
-            //채팅 로그 갱신
-            if (pane.getSelectedIndex() == 1) {
-                new chatlog();
-            }
             trayover = true;
             fr.setVisible(true);
         }
@@ -449,10 +441,6 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     public void mouseClicked(MouseEvent e) {
         // 트레이 우클릭 옵션
         if (e.getSource() == trayico && e.getButton() == MouseEvent.BUTTON1) {
-            //채팅 로그 갱신
-            if (pane.getSelectedIndex() == 1) {
-                new chatlog();
-            }
             trayover = true;
             fr.setVisible(true);
         }
@@ -473,12 +461,9 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 new Thread(r).start();
                 oplistclick = true;
             }
-            new chatlog();
-        }
-        if (pane.getSelectedIndex() == 0) {
-            chatThread.interrupt();
         }
     }
+
     @Override
     public void focusGained(FocusEvent e) {
         //명령어 입력창 포커스
