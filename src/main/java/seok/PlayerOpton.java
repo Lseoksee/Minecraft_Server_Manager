@@ -102,19 +102,6 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         menu.add(del);
         opList.add(menu);
 
-        //채팅로그
-        chatLabel = new JLabel("채팅로그");
-        chatlog = new JTextArea();
-        chatlog.setEditable(false);
-        chatlog.setLineWrap(true);
-        DefaultCaret caret = (DefaultCaret) chatlog.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
-        chatscroll = new JScrollPane(chatlog);
-        chatField = new JTextField();
-
-        chatlog.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
-        chatLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
-
         opselbt.addActionListener(new PlayerOpton());
         opdelbt.addActionListener(new PlayerOpton());
         opfile.addActionListener(new PlayerOpton());
@@ -124,6 +111,23 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         opList.addListSelectionListener(new PlayerOpton());
         opList.addKeyListener(new PlayerOpton());
         opList.addMouseListener(new PlayerOpton());
+
+        //채팅로그
+        chatLabel = new JLabel("채팅로그");
+        chatlog = new JTextArea();
+        chatlog.setEditable(false);
+        chatlog.setLineWrap(true);
+        DefaultCaret caret = (DefaultCaret) chatlog.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        chatscroll = new JScrollPane(chatlog);
+        chatField = new JTextField();
+        chatField.setText("여기에 메시지를 입력");
+
+        chatlog.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        chatLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+
+        chatField.addFocusListener(new PlayerOpton());
+        chatField.addKeyListener(new PlayerOpton());
 
         new Playerbounds();
 
@@ -175,6 +179,18 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         }
     }
 
+    //채팅입력
+    public void chatinput() {
+        try {
+            String message = "say "+chatField.getText()+"\n";
+            Main.outputStream.write(message.getBytes());
+            Main.outputStream.flush();
+            chatField.setText(null);
+        } catch (Exception e) {
+            chatField.setText(null);
+        }
+    }
+
     //마우스 이벤트
     @Override
     public void mouseClicked(MouseEvent e) {
@@ -192,6 +208,9 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
         }
         if (e.getSource() == opField && e.getKeyCode() == KeyEvent.VK_ENTER) {
             seloplist();
+        }
+        if (e.getSource() == chatField && e.getKeyCode() == KeyEvent.VK_ENTER) {
+            chatinput();
         }
     }
 
@@ -240,6 +259,16 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     public void focusGained(FocusEvent e) {
         if (e.getSource() == opField) {
             opField.setText(null);
+        }
+        if (e.getSource() == chatField && chatField.getText().equals("여기에 메시지를 입력")) {
+            chatField.setText(null);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+        if (e.getSource() == chatField && chatField.getText().equals("")) {
+            chatField.setText("여기에 메시지를 입력");
         }
     }
 
@@ -298,7 +327,4 @@ public class PlayerOpton implements Runnable, KeyListener, ActionListener, Mouse
     public void mouseExited(MouseEvent e) {
     }
 
-    @Override
-    public void focusLost(FocusEvent e) {
-    }
 }
