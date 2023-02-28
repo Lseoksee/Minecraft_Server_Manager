@@ -181,8 +181,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
                 return;
             }
             String message = "op " + opField.getText() + "\n";
-            Main.outputStream.write(message.getBytes());
-            Main.outputStream.flush();
+            outputStream.write(message.getBytes());
+            outputStream.flush();
             addoplist.addElement(opField.getText());
             opList.ensureIndexIsVisible(addoplist.getSize() - 1);
             opField.setText(null);
@@ -199,8 +199,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
                 return;
             }
             String message = "deop " + opField.getText() + "\n";
-            Main.outputStream.write(message.getBytes());
-            Main.outputStream.flush();
+            outputStream.write(message.getBytes());
+            outputStream.flush();
             addoplist.removeElement(opField.getText());
             opField.setText(null);
         } catch (Exception e) {
@@ -215,8 +215,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         }
         try {
             String message = "say " + chatField.getText() + "\n";
-            Main.outputStream.write(message.getBytes());
-            Main.outputStream.flush();
+            outputStream.write(message.getBytes());
+            outputStream.flush();
             chatField.setText(null);
         } catch (Exception e) {
             chatField.setText(null);
@@ -264,7 +264,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         // op 파일선택버튼
         if (e.getSource() == opfile) {
             try {
-                String check = FileClass.filedia(Main.fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오", 0, true);
+                String check = FileClass.filedia(fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오", 0, true);
                 BufferedReader br = new BufferedReader(new FileReader(check));
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -272,8 +272,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
                         continue;
                     }
                     String message = "op " + line + "\n";
-                    Main.outputStream.write(message.getBytes());
-                    Main.outputStream.flush();
+                    outputStream.write(message.getBytes());
+                    outputStream.flush();
                     addoplist.addElement(line);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 }
@@ -293,7 +293,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         // 채팅 저장버튼
         if (e.getSource() == chatsave) {
             try {
-                String save = FileClass.filedia(Main.fr, "채팅로그 " + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
+                String save = FileClass.filedia(fr, "채팅로그 " + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
                 BufferedWriter bw = new BufferedWriter(new FileWriter(save));
                 bw.write(chatlog.getText());
                 bw.close();
@@ -345,12 +345,12 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
-                if (!Main.real.getState()) {
+                if (!real.getState()) {
                     addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 }
             } catch (Exception e) {
-                if (Main.real.getState()) {
+                if (real.getState()) {
                     addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 }

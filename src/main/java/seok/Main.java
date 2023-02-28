@@ -332,6 +332,26 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         fr.setVisible(true);
     }
 
+    // 서버 버전 인식불가 처리
+    public void seljar() {
+        if (!jarkey.getText().matches("\\d+\\.\\d+\\.\\d+|\\d+\\.\\d+")) {
+            jarkey.setText(null);
+            return; // 올바른 형태가아니면
+        }
+        try {
+            findjar.reset();
+            longver = jarkey.getText();
+            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
+            filename = "Minecraft_" + longver + "_server";
+            realver = Integer.parseInt(longver.replace(".", ""));
+            fr.getContentPane().removeAll();
+            maingui();
+        } catch (Exception e) {
+            jarkey.setText(null);
+            return;
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         //시작
@@ -354,7 +374,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         }
         //첫시작 버튼
         if (e.getSource() == jarok) {
-            findjar.seljar();
+            seljar();
         }
         //트레이 열기버튼
         if (e.getSource() == open) {
@@ -424,7 +444,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         }
         //처음시작 버전입력
         if (e.getSource() == jarkey && e.getKeyCode() == KeyEvent.VK_ENTER) {
-            findjar.seljar();
+            seljar();
         }
     }
 

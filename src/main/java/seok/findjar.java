@@ -27,10 +27,9 @@ public class findjar extends Main {
         int count = 0;
         int twocount = 0;
         for (String as : list) {
-            String text[] = as.split("_");
             if (as.indexOf(".jar") != -1) {
                 twocount++;
-                if (text[0].equals("Minecraft")) {
+                if (as.matches("Minecraft_\\d+\\.\\d+\\.\\d+_server\\.jar|Minecraft_\\d+\\.\\d+_server\\.jar")) {
                     filename = as;
                     longver = as.split("_")[1];
                     realver = Integer.parseInt(longver.replace(".", ""));
@@ -103,23 +102,6 @@ public class findjar extends Main {
             return true;
         } catch (Exception e) {
             return false;
-        }
-    }
-
-    // 서버 버전 인식불가 처리
-    public static void seljar() {
-        if (jarkey.getText().equals(""))
-            return; // 아무것도 입력 안하면
-        try {
-            findjar.reset();
-            longver = jarkey.getText();
-            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
-            filename = "Minecraft_" + longver + "_server";
-            realver = Integer.parseInt(longver.replace(".", ""));
-            fr.getContentPane().removeAll();
-            maingui();
-        } catch (NumberFormatException e) {
-            jarkey.setText(null);
         }
     }
     
