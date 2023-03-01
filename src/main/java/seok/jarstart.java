@@ -41,7 +41,7 @@ public class jarstart extends Main implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx" + ram.getText() + "G", "-Xms1G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getText()+"G", "-Xms"+ram.getText()+"G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             outputStream = process.getOutputStream();
