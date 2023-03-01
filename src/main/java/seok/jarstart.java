@@ -42,6 +42,7 @@ public class jarstart extends Main implements Runnable {
     public void run() {
         try {
             ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getText()+"G", "-Xms"+ram.getText()+"G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
+            processBuilder.redirectErrorStream(true);       //에러스트림 인풋스트림 병합
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             outputStream = process.getOutputStream();
