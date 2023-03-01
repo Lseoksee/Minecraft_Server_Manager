@@ -68,7 +68,7 @@ public class FileClass extends Main {
             br.close();
         } catch (FileNotFoundException e) {
             mode = 0;
-            diff = 0;
+            diff = 1;
             plear = "20";
             hardcore = false;
             reel = false;
