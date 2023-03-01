@@ -13,8 +13,8 @@ import java.io.BufferedReader;
 import org.apache.commons.text.StringEscapeUtils;
 
 public class FileClass extends Main {
-    String mode;
-    String diff;
+    int mode;
+    int diff;
     String plear;
     boolean hardcore;
     boolean reel;
@@ -35,24 +35,24 @@ public class FileClass extends Main {
                 switch (sb[0]) {
                     case "gamemode" -> {
                         if (sb[1].equals("0") || sb[1].equals("survival")) {
-                            mode = "서바이벌";
+                            mode = 0;
                         } else if (sb[1].equals("1") || sb[1].equals("creative")) {
-                            mode = "크리에이티브";
+                            mode = 1;
                         } else if (sb[1].equals("2") || sb[1].equals("adventure")) {
-                            mode = "모험모드";
+                            mode = 2;
                         } else if (sb[1].equals("3") || sb[1].equals("spectator")) {
-                            mode = "관전모드";
+                            mode = 3;
                         }
                     }
                     case "difficulty" -> {
                         if (sb[1].equals("0") || sb[1].equals("peaceful")) {
-                            diff = "평화로움";
+                            diff = 0;
                         } else if (sb[1].equals("1") || sb[1].equals("easy")) {
-                            diff = "쉬움";
+                            diff = 1;
                         } else if (sb[1].equals("2") || sb[1].equals("normal")) {
-                            diff = "보통";
+                            diff = 2;
                         } else if (sb[1].equals("3") || sb[1].equals("hard")) {
-                            diff = "어려움";
+                            diff = 3;
                         }
                     }
                     case "max-players" -> plear = sb[1];
@@ -67,8 +67,8 @@ public class FileClass extends Main {
             }
             br.close();
         } catch (FileNotFoundException e) {
-            mode = "서바이벌";
-            diff = "평화로움";
+            mode = 0;
+            diff = 0;
             plear = "20";
             hardcore = false;
             reel = false;
@@ -87,9 +87,9 @@ public class FileClass extends Main {
             e.printStackTrace();
         }
         // 게임모드
-        gamemode.setSelectedItem(mode);
+        gamemode.setSelectedIndex(mode);
         // 난이도
-        difficulty.setSelectedItem(diff);
+        difficulty.setSelectedIndex(diff);
         // 참여인원
         person.setText(plear);
         // 하드코어
@@ -108,30 +108,30 @@ public class FileClass extends Main {
             filReader = new BufferedReader(new FileReader(filepath));
             // 게임모드
             if (gamemode.getSelectedItem() == "서바이벌") {
-                mode = "0";
+                mode = 0;
             } else if (gamemode.getSelectedItem() == "크리에이티브") {
-                mode = "1";
+                mode = 1;
             } else if (gamemode.getSelectedItem() == "모험모드") {
-                mode = "2";
+                mode = 2;
             } else if (gamemode.getSelectedItem() == "관전모드") {
-                mode = "3";
+                mode = 3;
             }
             // 난이도
             if (difficulty.getSelectedItem() == "평화로움") {
-                diff = "0";
+                diff = 0;
             } else if (difficulty.getSelectedItem() == "쉬움") {
-                diff = "1";
+                diff = 1;
             } else if (difficulty.getSelectedItem() == "보통") {
-                diff = "2";
+                diff = 2;
             } else if (difficulty.getSelectedItem() == "어려움") {
-                diff = "3";
+                diff = 3;
             }
             // 유저
             plear = person.getText();
             // 하드코어
             hardcore = hard.getState();
-            // 정품여부
-            reel = !real.getState();
+            // 정품여부(위에서 반대로 불러왔기 때문에 같다로 한다)
+            reel = real.getState();
             // 커멘드여부
             comman = command.getState();
             // 서버이름

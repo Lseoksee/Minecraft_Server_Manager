@@ -11,14 +11,14 @@ public class jarstart extends Main implements Runnable {
     String path;
 
     public jarstart() {
-        if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
-            !setfile.diff.equals(difficulty.getSelectedItem()) ||
+        if (setfile.mode != gamemode.getSelectedIndex() ||
+            setfile.diff != difficulty.getSelectedIndex() ||
             !setfile.plear.equals(person.getText()) ||
             !setfile.hardcore == hard.getState() ||
             !setfile.reel == real.getState() ||
             !setfile.comman == command.getState() ||
             !setfile.name.equals(sername.getText())) {
-            setfile.save();
+                setfile.save();
         }
         
         String java = "";
