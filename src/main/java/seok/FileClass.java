@@ -156,7 +156,7 @@ public class FileClass extends Main {
                     case "difficulty" -> sb.append(sp[0] + "=" + diff + "\n");
                     case "hardcore" -> sb.append(sp[0] + "=" + hardcore + "\n");
                     case "max-players" -> sb.append(sp[0] + "=" + plear + "\n");
-                    case "online-mode" -> sb.append(sp[0] + "=" + reel + "\n");
+                    case "online-mode" -> sb.append(sp[0] + "=" + !reel + "\n");
                     case "enable-command-block" -> sb.append(sp[0] + "=" + comman + "\n");
                     case "motd" -> sb.append(sp[0] + "=" + name + "\n");
                     default -> sb.append(read + "\n");
