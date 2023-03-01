@@ -292,9 +292,9 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
             chatlog.setText(null);
         }
         // 채팅 저장버튼
-        if (e.getSource() == chatsave) {
+        if (e.getSource() == chatsave && !chatlog.getText().equals("")) {
             try {
-                String save = FileClass.filedia(fr, "채팅로그 " + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
+                String save = FileClass.filedia(fr, "Chatlog-" + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
                 BufferedWriter bw = new BufferedWriter(new FileWriter(save));
                 bw.write(chatlog.getText());
                 bw.close();
