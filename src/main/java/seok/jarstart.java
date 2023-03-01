@@ -4,13 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.awt.Color;
+import javax.swing.JOptionPane;
 
 public class jarstart extends Main implements Runnable {
     public static final String finalram = "4";
     String path;
 
     public jarstart() {
-        consol.setText(null);
         if (!setfile.mode.equals(gamemode.getSelectedItem()) ||
             !setfile.diff.equals(difficulty.getSelectedItem()) ||
             !setfile.plear.equals(person.getText()) ||
@@ -20,17 +20,12 @@ public class jarstart extends Main implements Runnable {
             !setfile.name.equals(sername.getText())) {
             setfile.save();
         }
-        state.setForeground(null);
-        state.setText("서버시작중...");
-
-        if (realver > 1000) {
-            realver /= 10;
-        }
+        
         String java = "";
-        if (realver >= 116)
-            java = "jdk";
+        if (version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*"))
+            java = "jre"; 
         else
-            java = "jre";
+            java = "jdk";
         String link = "C:/Program Files/Java/";
         File fr = new File(link);
         String list[] = fr.list();
@@ -46,13 +41,17 @@ public class jarstart extends Main implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx" + ram.getText() + "G", "-Xms1G", "-jar", "Minecraft_" + longver + "_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx" + ram.getText() + "G", "-Xms1G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             outputStream = process.getOutputStream();
 
+            consol.setText(null);
+            state.setForeground(null);
+            state.setText("서버시작중...");
             meesge.setEditable(true);
             meesge.setText("여기에 명령어 입력");
+
             pane.setEnabled(true);
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
@@ -101,6 +100,9 @@ public class jarstart extends Main implements Runnable {
                 state.setForeground(Color.RED);
                 state.setText("서버가 정상종료 되지 않았습니다!");
             }
+            readThread = null;
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(fr, version+" 버전에 맞는 자바를 찾지 못하였습니다.", "경고", JOptionPane.ERROR_MESSAGE);
             readThread = null;
         } catch (Exception ex) {
         }

@@ -29,10 +29,9 @@ public class findjar extends Main {
         for (String as : list) {
             if (as.indexOf(".jar") != -1) {
                 twocount++;
-                if (as.matches("Minecraft_\\d+\\.\\d+\\.\\d+_server\\.jar|Minecraft_\\d+\\.\\d+_server\\.jar")) {
+                if (as.matches("Minecraft_\\d+\\.\\d+(\\.\\d+)*_server\\.jar")) {
                     filename = as;
-                    longver = as.split("_")[1];
-                    realver = Integer.parseInt(longver.replace(".", ""));
+                    version = as.split("_")[1];
                     count++;
                     twocount = 1;
                     break;
@@ -42,7 +41,7 @@ public class findjar extends Main {
             }
         }
         if (twocount == 0) {
-            JOptionPane.showMessageDialog(fr, "버킷 jar 파일을 찾을 수 없습니다.", "경고", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(fr, "버킷 jar 파일을 찾을 수 없습니다.", "경고", JOptionPane.ERROR_MESSAGE);
             System.exit(0);
         }
         if (twocount > 1) {
@@ -73,10 +72,9 @@ public class findjar extends Main {
                 if (splet[0].equals("version")) {
                     zipFile.close();
                     stream.close();
-                    longver = splet[1];
-                    new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
-                    filename = "Minecraft_" + longver + "_server";
-                    realver = Integer.parseInt(longver.replace(".", ""));
+                    version = splet[1];
+                    new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
+                    filename = "Minecraft_" + version + "_server";
                     break;
                 }
             }
@@ -95,10 +93,9 @@ public class findjar extends Main {
             JSONObject jsonObject = new JSONObject(new String(str));
             zipFile.close();
             stream.close();
-            longver = jsonObject.getString("id");
-            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
-            filename = "Minecraft_" + longver + "_server";
-            realver = Integer.parseInt(longver.replace(".", ""));
+            version = jsonObject.getString("id");
+            new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
+            filename = "Minecraft_" + version + "_server";
             return true;
         } catch (Exception e) {
             return false;

@@ -44,8 +44,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
     static String filename; // jar 파일이름
-    static String longver; // .포함 버전
-    static int realver; // 실제 숫자 버전
+    static String version; // .포함 버전
 
     static JFrame fr;
     static JTabbedPane pane;
@@ -163,7 +162,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
                 e.printStackTrace();
             }
         }
-        fr.setTitle("마인크래프트 " + longver + " 서버 관리자");
+        fr.setTitle("마인크래프트 " + version + " 서버 관리자");
 
         // 상단 상태라벨
         state = new JLabel();
@@ -329,16 +328,15 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
     // 서버 버전 인식불가 처리
     public void seljar() {
-        if (!jarkey.getText().matches("\\d+\\.\\d+\\.\\d+|\\d+\\.\\d+")) {
+        if (!jarkey.getText().matches("\\d+\\.\\d+(\\.\\d+)*")) {
             jarkey.setText(null);
             return; // 올바른 형태가아니면
         }
         try {
             findjar.reset();
-            longver = jarkey.getText();
-            new File(filename).renameTo(new File("Minecraft_" + longver + "_server.jar"));
-            filename = "Minecraft_" + longver + "_server";
-            realver = Integer.parseInt(longver.replace(".", ""));
+            version = jarkey.getText();
+            new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
+            filename = "Minecraft_" + version + "_server";
             fr.getContentPane().removeAll();
             maingui();
         } catch (Exception e) {
