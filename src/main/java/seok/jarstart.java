@@ -13,7 +13,7 @@ public class jarstart extends Main implements Runnable {
     public jarstart() {
         if (setfile.mode != gamemode.getSelectedIndex() ||
             setfile.diff != difficulty.getSelectedIndex() ||
-            !setfile.plear.equals(person.getText()) ||
+            setfile.plear != (int) person.getValue() ||
             !setfile.hardcore == hard.getState() ||
             !setfile.reel == real.getState() ||
             !setfile.comman == command.getState() ||

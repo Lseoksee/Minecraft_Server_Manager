@@ -59,7 +59,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     static JComboBox<String> difficulty;
     static JLabel difficultyla;
 
-    static JTextField person;
+    static JSpinner person;
     static JLabel personla;
 
     static Checkbox hard;
@@ -190,7 +190,9 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         difficultyla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 참여인원
-        person = new JTextField();
+        person = new JSpinner();
+        JSpinner.DefaultEditor personedit = (JSpinner.DefaultEditor) person.getEditor(); 
+        personedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
         personla = new JLabel("참여인원:", JLabel.RIGHT);
         personla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
@@ -216,8 +218,8 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
 
         // 램
         ram = new JSpinner();
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) ram.getEditor(); 
-        editor.getTextField().setHorizontalAlignment(JTextField.LEFT);
+        JSpinner.DefaultEditor ramedit = (JSpinner.DefaultEditor) ram.getEditor(); 
+        ramedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
         ram.setValue(jarstart.finalram);
         ramla = new JLabel("램(GB):", JLabel.RIGHT);
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));

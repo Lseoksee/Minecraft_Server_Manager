@@ -15,7 +15,7 @@ import org.apache.commons.text.StringEscapeUtils;
 public class FileClass extends Main {
     int mode;
     int diff;
-    String plear;
+    int plear;
     boolean hardcore;
     boolean reel;
     boolean comman;
@@ -55,7 +55,7 @@ public class FileClass extends Main {
                             diff = 3;
                         }
                     }
-                    case "max-players" -> plear = sb[1];
+                    case "max-players" -> plear = Integer.parseInt(sb[1]);
                     case "hardcore" -> hardcore = Boolean.parseBoolean(sb[1]);
                     case "online-mode" -> reel = !Boolean.parseBoolean(sb[1]);
                     case "enable-command-block" -> comman = Boolean.parseBoolean(sb[1]);
@@ -69,7 +69,7 @@ public class FileClass extends Main {
         } catch (FileNotFoundException e) {
             mode = 0;
             diff = 1;
-            plear = "20";
+            plear = 20;
             hardcore = false;
             reel = false;
             comman = false;
@@ -91,7 +91,7 @@ public class FileClass extends Main {
         // 난이도
         difficulty.setSelectedIndex(diff);
         // 참여인원
-        person.setText(plear);
+        person.setValue(plear);
         // 하드코어
         hard.setState(hardcore);
         // 정품여부
@@ -127,7 +127,7 @@ public class FileClass extends Main {
                 diff = 3;
             }
             // 유저
-            plear = person.getText();
+            plear = (int) person.getValue();
             // 하드코어
             hardcore = hard.getState();
             // 정품여부(위에서 반대로 불러왔기 때문에 같다로 한다)
