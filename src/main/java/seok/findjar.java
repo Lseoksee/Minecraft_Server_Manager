@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
-import org.apache.commons.io.IOUtils;
 
 public class findjar extends Main {
 
@@ -91,7 +91,8 @@ public class findjar extends Main {
         try {
             reset();
             zip("version.json", filename);
-            JSONObject jsonObject = new JSONObject(new String(IOUtils.toByteArray(stream)));    //1.8 에서 inputstream에 readallbyte 메소드가 없음
+            JSONObject jsonObject = new JSONObject(new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n")));    
+            //1.8 에서 inputstream에 readallbyte 메소드가 없음
             zipFile.close();
             stream.close();
             version = jsonObject.getString("id");
