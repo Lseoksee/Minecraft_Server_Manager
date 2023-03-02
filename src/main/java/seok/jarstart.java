@@ -90,9 +90,7 @@ public class jarstart extends Main implements Runnable {
             state.setForeground(null);
 
             oplistclick = false;
-            PlayerOpton.i = -1;
             PlayerOpton.addoplist.removeAllElements();
-            PlayerOpton.chatlog.setText(null);
             pane.setSelectedIndex(0);
 
             if (state.getText() == "서버가 정상적으로 시작되었습니다") {

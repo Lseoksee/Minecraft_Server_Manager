@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import javax.swing.JOptionPane;
+
 import org.json.JSONObject;
+import org.apache.commons.io.IOUtils;
 
 public class findjar extends Main {
 
@@ -89,8 +91,7 @@ public class findjar extends Main {
         try {
             reset();
             zip("version.json", filename);
-            byte str[] = stream.readAllBytes();
-            JSONObject jsonObject = new JSONObject(new String(str));
+            JSONObject jsonObject = new JSONObject(new String(IOUtils.toByteArray(stream)));
             zipFile.close();
             stream.close();
             version = jsonObject.getString("id");

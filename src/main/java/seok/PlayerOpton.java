@@ -4,12 +4,14 @@ import java.awt.Font;
 import java.awt.event.MouseEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
@@ -57,7 +59,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
     static JButton chatinput;
     static JButton chatclear;
     static JButton chatsave;
-    static int i = -1;
+    int i = -1;
 
     public PlayerOpton(boolean real) {
         if (real) {
@@ -68,9 +70,8 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
             title.setText("현재 정품 서버 입니다.");
         }
         try {
-            FileInputStream fis = new FileInputStream("ops.json");
-            array = new JSONArray(new String(fis.readAllBytes()));
-            fis.close();
+            Path path = Paths.get("ops.json");
+            array = new JSONArray(new String(Files.readAllBytes(path)));
         } catch (Exception e) {
             array = new JSONArray("[]");
         }
@@ -338,7 +339,9 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
     @Override
     public void run() {
         while (i < array.length() - 1) {
-            i++;
+            synchronized(this) {
+                i++;
+            }
             JSONObject jsonObject = array.getJSONObject(i);
             String name = jsonObject.getString("name");
             try {
