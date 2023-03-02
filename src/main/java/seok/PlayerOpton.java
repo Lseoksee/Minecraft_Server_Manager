@@ -72,7 +72,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         try {
             Path path = Paths.get("ops.json");
             //1.8 에서 inputstream에 readallbyte 메소드가 없음
-            array = new JSONArray(new String(Files.readAllBytes(path)));
+            array = new JSONArray(new String(Files.readAllBytes(path), "utf-8"));
         } catch (Exception e) {
             array = new JSONArray("[]");
         }
