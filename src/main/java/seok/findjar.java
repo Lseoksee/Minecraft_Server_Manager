@@ -91,7 +91,7 @@ public class findjar extends Main {
         try {
             reset();
             zip("version.json", filename);
-            JSONObject jsonObject = new JSONObject(new String(IOUtils.toByteArray(stream)));
+            JSONObject jsonObject = new JSONObject(new String(IOUtils.toByteArray(stream)));    //1.8 에서 inputstream에 readallbyte 메소드가 없음
             zipFile.close();
             stream.close();
             version = jsonObject.getString("id");

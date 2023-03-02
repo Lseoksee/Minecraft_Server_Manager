@@ -82,7 +82,7 @@
                 <headerType>gui</headerType>
                 <outfile>target/마인크래프트 버킷 구동기(Ver. ${project.version}).exe</outfile>
                 <jar>target/build-${project.version}.jar</jar>
-                <downloadUrl>http://java.com/download</downloadUrl>
+                <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
                 <icon>D:/icon/mincraft.ico</icon>
                 <!-- 아이콘 위치 변경 -->
                 <jre>
