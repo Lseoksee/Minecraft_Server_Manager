@@ -32,6 +32,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -73,7 +74,7 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
     static JTextField sername;
     static JLabel sernamela;
 
-    static JTextField ram;
+    static JSpinner ram;
     static JLabel ramla;
 
     static JButton world;
@@ -214,8 +215,10 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         sernamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
         // 램
-        ram = new JTextField();
-        ram.setText(jarstart.finalram);
+        ram = new JSpinner();
+        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) ram.getEditor(); 
+        editor.getTextField().setHorizontalAlignment(JTextField.LEFT);
+        ram.setValue(jarstart.finalram);
         ramla = new JLabel("램(GB):", JLabel.RIGHT);
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 

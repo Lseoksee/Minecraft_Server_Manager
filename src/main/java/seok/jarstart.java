@@ -7,7 +7,7 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 
 public class jarstart extends Main implements Runnable {
-    public static final String finalram = "4";
+    public static final int finalram = 4;
     String path;
 
     public jarstart() {
@@ -41,7 +41,7 @@ public class jarstart extends Main implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getText()+"G", "-Xms"+ram.getText()+"G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
             processBuilder.redirectErrorStream(true);       //에러스트림 인풋스트림 병합
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
