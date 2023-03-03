@@ -24,8 +24,9 @@ public class jarstart extends Main implements Runnable {
         String list[] = fr.list();
         if (version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*")) {
             for (String as : list) {
-                if (as.matches(".*jre.*|^jdk-[8|11]*$")) 
+                if (as.matches(".*jre.*|.*jdk-(8|11).*")) {
                     path = "\"" + link + as + "/bin/java" + "\"";
+                }     
             }
         } else {
             for (String as : list) {
