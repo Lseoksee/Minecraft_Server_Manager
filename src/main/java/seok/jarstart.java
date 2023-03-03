@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.awt.Color;
-import javax.swing.JOptionPane;
 
 public class jarstart extends Main implements Runnable {
     public static final int finalram = 4;
@@ -20,21 +19,22 @@ public class jarstart extends Main implements Runnable {
             !setfile.name.equals(sername.getText())) {
                 setfile.save();
         }
-        
-        String java = "";
-        if (version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*"))
-            java = "jre"; 
-        else
-            java = "jdk";
+
         String link = "C:/Program Files/Java/";
         File fr = new File(link);
         String list[] = fr.list();
-        for (String as : list) {
-            if (as.substring(0, 3).equals(java)) {
-                path = "\"" + link + as + "/bin/java" + "\"";
+        if (version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*")) {
+            for (String as : list) {
+                if (as.matches(".*jre.*|^jdk-[8|11]*$")) 
+                    path = "\"" + link + as + "/bin/java" + "\"";
+            }
+        } else {
+            for (String as : list) {
+                if (as.matches(".*jdk-17.*")) 
+                    path = "\"" + link + as + "/bin/java" + "\"";
             }
         }
-        if (java == null) java = "java";
+        if (path == null) path = "java";
         readThread = new Thread(this);
         readThread.start();
     }
