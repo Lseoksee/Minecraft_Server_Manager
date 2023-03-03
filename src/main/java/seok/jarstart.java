@@ -34,6 +34,7 @@ public class jarstart extends Main implements Runnable {
                 path = "\"" + link + as + "/bin/java" + "\"";
             }
         }
+        if (java == null) java = "java";
         readThread = new Thread(this);
         readThread.start();
     }
@@ -99,9 +100,6 @@ public class jarstart extends Main implements Runnable {
                 state.setForeground(Color.RED);
                 state.setText("서버가 정상종료 되지 않았습니다!");
             }
-            readThread = null;
-        } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(fr, version+" 버전에 맞는 자바를 찾지 못하였습니다.", "경고", JOptionPane.ERROR_MESSAGE);
             readThread = null;
         } catch (Exception ex) {
         }
