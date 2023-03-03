@@ -19,7 +19,6 @@ public class jarstart extends Main implements Runnable {
             !setfile.name.equals(sername.getText())) {
                 setfile.save();
         }
-
         String link = "C:/Program Files/Java/";
         File fr = new File(link);
         String list[] = fr.list();
