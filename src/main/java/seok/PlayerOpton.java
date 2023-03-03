@@ -286,8 +286,7 @@ public class PlayerOpton extends Main implements Runnable, ListSelectionListener
         }
         // 채팅 입력버튼
         if (e.getSource() == chatinput) {
-            System.out.println(Thread.activeCount());
-            /* chatinput(); */
+            chatinput();
         }
         // 채팅 지우기버튼
         if (e.getSource() == chatclear) {
