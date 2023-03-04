@@ -10,6 +10,7 @@ target/classes
 /world_the_end
 /versions
 /lib
+*.jar
 whitelist.json
 banned-ips.json
 banned-players.json
@@ -17,7 +18,6 @@ bukkit.yml
 commands.yml
 eula.txt
 help.yml
-Minecraft_1.19.2_server.jar
 ops.json
 permissions.yml
 server.properties
