@@ -2,7 +2,7 @@
 * 마인크래프트 버킷서버를 간단하게 열수있는 GUI 프로그램 입니다.
 * 자바8 이상에서 실행가능 합니다. (자바 17 권장)
 ## 사용법
-1. 자바를 설치합니다. ([1.15 이하 버전8](https://www.java.com/ko/download/ie_manual.jsp?locale=ko), [1.16 이상 버전17](https://www.oracle.com/kr/java/technologies/downloads/#jdk17))
+1. 자바를 설치합니다. ([1.15 이하 버전8](https://www.java.com/ko/download/), [1.16 이상 버전17](https://www.oracle.com/kr/java/technologies/downloads/#jdk17))
 2. [버킷 jar파일을 다운로드 합니다. (Paper 권장)](https://papermc.io/downloads)
 3. [Minecraft_Server_Manager.exe](https://github.com/Lseoksee/Minecraft_Server_Manager/releases) 를 다운로드 하여 버킷 jar과 같은 디렉토리에 넣습니다.
 4. Minecraft_Server_Manager.exe 를 실행하여 서버를 실행 합니다.
