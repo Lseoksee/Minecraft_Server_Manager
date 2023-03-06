@@ -71,7 +71,7 @@ public class jarstart extends Main implements Runnable {
                     state.setForeground(Color.GREEN);
                     state.setText("서버가 정상적으로 시작되었습니다");
                 }
-                if (line.matches("(.*)<(.*)>(.*)|(.*)\\[Server\\](.*)|(.*)issued server command(.*)")) {
+                if (line.matches("^\\[.*\\]: <(.*)>(.*)|^\\[.*\\]:( \\[Not Secure\\])? \\[Server\\] (.*)|^\\[.*\\]:(.*)issued server command:(.*)")) {
                     PlayerOpton.chatlog.append(line + "\n");
                 }
                 consol.append(line + "\n");
