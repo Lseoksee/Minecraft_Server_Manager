@@ -9,12 +9,8 @@ import java.io.OutputStream;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import javax.swing.JTextArea;
 import java.awt.Color;
@@ -37,10 +33,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultCaret;
 
-public class Main implements ActionListener, KeyListener, MouseListener, ChangeListener, FocusListener {
+public class Main extends EventSuper {
     static Thread readThread; //로그 쓰레드 
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
@@ -481,29 +476,5 @@ public class Main implements ActionListener, KeyListener, MouseListener, ChangeL
         if (e.getSource() == meesge && meesge.getText().equals("")) {
             meesge.setText("여기에 명령어 입력");
         }
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
     }
 }

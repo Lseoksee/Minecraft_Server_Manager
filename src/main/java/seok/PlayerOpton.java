@@ -29,13 +29,12 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.text.DefaultCaret;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PlayerOpton extends Main implements Runnable, ListSelectionListener {
+public class PlayerOpton extends Main implements Runnable {
 
     static JPanel oppan; // 플레이어 관리
     static JSONArray array;
