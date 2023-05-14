@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.awt.Color;
 
 public class jarstart extends Main implements Runnable {
-    public static final int finalram = 4;
+    public static final int FINALRAM = 4;
     String path;
 
     public jarstart() {

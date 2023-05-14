@@ -215,7 +215,7 @@ public class Main extends EventSuper {
         ram = new JSpinner();
         JSpinner.DefaultEditor ramedit = (JSpinner.DefaultEditor) ram.getEditor(); 
         ramedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
-        ram.setValue(jarstart.finalram);
+        ram.setValue(jarstart.FINALRAM);
         ramla = new JLabel("램(GB):", JLabel.RIGHT);
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 

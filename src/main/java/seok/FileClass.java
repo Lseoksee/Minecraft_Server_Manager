@@ -67,6 +67,7 @@ public class FileClass extends Main {
             }
             br.close();
         } catch (FileNotFoundException e) {
+            /* 기본값 할당 */
             mode = 0;
             diff = 1;
             plear = 20;

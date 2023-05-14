@@ -16,22 +16,24 @@
     <maven.compiler.target>8</maven.compiler.target>
   </properties>
 
+  <repositories>
+  	<repository>
+  		<id>jitpack.io</id>
+  		<url>https://jitpack.io</url>
+  	</repository>
+  </repositories>
+
   <dependencies>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>3.12.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-text</artifactId>
-      <version>1.10.0</version>
-    </dependency>
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
+  <dependency>
+  	<groupId>io.github.MrGraversen</groupId>
+  	<artifactId>minecraft-rcon</artifactId>
+  	<version>0.0.16</version>
+  </dependency>
   </dependencies>
 
   <build>
