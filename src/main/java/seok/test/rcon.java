@@ -8,6 +8,7 @@ import io.graversen.minecraft.rcon.RconResponse;
 import io.graversen.minecraft.rcon.commands.PlayerListCommand;
 import io.graversen.minecraft.rcon.commands.TimeCommand;
 import io.graversen.minecraft.rcon.commands.WeatherCommand;
+import io.graversen.minecraft.rcon.commands.base.ICommand;
 import io.graversen.minecraft.rcon.query.playerlist.PlayerNames;
 import io.graversen.minecraft.rcon.query.playerlist.PlayerNamesMapper;
 import io.graversen.minecraft.rcon.service.ConnectOptions;
@@ -20,8 +21,8 @@ public class rcon {
     public static void main(String[] args) {
         // 마인크래프트 rcon을 통한 서버 제어
 
-        // rcon 환경은 기본포트이고 비번이 test인 상태 (만일 포트가 바뀐다면 RconDetails의 생성자를 통해 생성)
-        final MinecraftRconService minecraftRconService = new MinecraftRconService(
+        // rcon 환경은 기본포트이고 비번이 seok인 상태 (만일 포트가 바뀐다면 RconDetails의 생성자를 통해 생성)
+        MinecraftRconService minecraftRconService = new MinecraftRconService(
                 RconDetails.localhost("seok"),
                 ConnectOptions.defaults());
 
@@ -29,25 +30,25 @@ public class rcon {
         minecraftRconService.connectBlocking(Duration.ofSeconds(5));
 
         // 실제 rcon을 통해 접속 시도 만약 IllegalStateException 이 발생하면 위에 ofSeconds값을 높여볼것
-        final MinecraftRcon minecraftRcon = minecraftRconService.minecraftRcon()
+        MinecraftRcon minecraftRcon = minecraftRconService.minecraftRcon()
                 .orElseThrow(IllegalStateException::new);
 
         // 시간 조절(time set day)
-        final TimeCommand timeCommand = new TimeCommand(TimeLabels.NOON);
+        TimeCommand timeCommand = new TimeCommand(TimeLabels.NOON);
         // 날씨조절 (Weather clear)
-        final WeatherCommand weatherCommand = new WeatherCommand(Weathers.CLEAR, Duration.ofHours(1).toSeconds());
+        WeatherCommand weatherCommand = new WeatherCommand(Weathers.CLEAR, Duration.ofHours(1).toSeconds());
 
         // 최종적으로 서버에 request
-        minecraftRcon.sendAsync(timeCommand, weatherCommand);
+        minecraftRcon.sendAsync(timeCommand, weatherCommand, new gamemode());
 
-        //플레이어 리스트 커멘드
-        final PlayerListCommand playerListCommand = PlayerListCommand.names();
+        // 플레이어 리스트 커멘드
+        PlayerListCommand playerListCommand = PlayerListCommand.names();
 
         // 서버 request 후 response 받기 (sendSync로 하면 response를 받아볼수 있음)
         RconResponse response = minecraftRcon.sendSync(playerListCommand);
-        
+
         // respone 데이터로 플레이어 목록 가져오기
-        PlayerNames names =  new PlayerNamesMapper().apply(response);
+        PlayerNames names = new PlayerNamesMapper().apply(response);
         List<String> list = names.getPlayerNames();
         if (!list.isEmpty()) {
             System.out.println(list);
@@ -57,5 +58,14 @@ public class rcon {
 
         // 연결 종료
         minecraftRconService.disconnect();
+    }
+}
+
+class gamemode implements ICommand {
+
+    /* 커스텀 커멘드 예제 */
+    @Override
+    public String command() {
+        return "gamemode survival Seok_see";
     }
 }
