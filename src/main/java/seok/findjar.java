@@ -11,13 +11,16 @@ import javax.swing.JOptionPane;
 
 import org.json.JSONObject;
 
-public class findjar extends Main {
+public class Findjar extends Main {
 
-    private ZipFile zipFile;
-    private ZipEntry entry;
-    private InputStream stream;
+    String filename; // jar 파일이름
+    String version; // .포함 버전
+    
+    ZipFile zipFile;
+    ZipEntry entry;
+    InputStream stream;
 
-    public boolean searchjar() {
+    public Findjar() {
         File fi = new File("./"); // 컴파일시 위치 변경할것!
         String list[] = fi.list();
         int count = 0;
@@ -53,12 +56,11 @@ public class findjar extends Main {
             }
         }
         if (count == 0) {
-            return oldver();
+            oldver();
         }
-        return true;
     }
 
-    public boolean oldver() {
+    private void oldver() {
         try {
             zip("patch.properties", filename);
             BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
@@ -75,26 +77,24 @@ public class findjar extends Main {
                 }
             }
             reader.close();
-            return true;
         } catch (Exception e) {
-            return newver();
+            newver();
         }
     }
 
-    public boolean newver() {
+    private void newver() {
         try {
             zipFile.close();
             zip("version.json", filename);
-            JSONObject jsonObject = new JSONObject(new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n")));    
-            //1.8 에서 inputstream에 readallbyte 메소드가 없음
+            JSONObject jsonObject = new JSONObject(
+                    new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n")));
+            // 1.8 에서 inputstream에 readallbyte 메소드가 없음
             zipFile.close();
             stream.close();
             version = jsonObject.getString("id");
             new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
             filename = "Minecraft_" + version + "_server";
-            return true;
         } catch (Exception e) {
-            return false;
         }
     }
 

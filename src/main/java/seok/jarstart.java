@@ -5,11 +5,11 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.awt.Color;
 
-public class jarstart extends Main implements Runnable {
+public class Jarstart extends Main implements Runnable {
     public static final int FINALRAM = 4;
     String path;
 
-    public jarstart() {
+    public Jarstart() {
         if (setfile.mode != gamemode.getSelectedIndex() ||
             setfile.diff != difficulty.getSelectedIndex() ||
             setfile.plear != (int) person.getValue() ||
@@ -22,7 +22,7 @@ public class jarstart extends Main implements Runnable {
         String link = "C:/Program Files/Java/";
         File fr = new File(link);
         String list[] = fr.list();
-        if (version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*")) {
+        if (jarver.version.matches("\\d+\\.(?:1[0-5]|[0-9])(\\.\\d+)*")) {
             for (String as : list) {
                 if (as.matches(".*jre.*|.*jdk-(8|11).*")) {
                     path = "\"" + link + as + "/bin/java" + "\"";
@@ -42,7 +42,7 @@ public class jarstart extends Main implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-jar", "Minecraft_" + version + "_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-jar", "Minecraft_" + jarver.version + "_server.jar", "nogui");
             processBuilder.redirectErrorStream(true);       //에러스트림 인풋스트림 병합
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

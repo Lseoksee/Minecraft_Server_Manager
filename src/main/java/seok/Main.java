@@ -39,8 +39,7 @@ public class Main extends EventSuper {
     static Thread readThread; //로그 쓰레드 
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
-    static String filename; // jar 파일이름
-    static String version; // .포함 버전
+    static Findjar jarver;
 
     static JFrame fr;
     static JTabbedPane pane;
@@ -140,10 +139,10 @@ public class Main extends EventSuper {
             }
         });
 
-        if (!new findjar().searchjar()) 
-            new Main().whatver();
-        else 
-            maingui();
+        jarver = new Findjar();
+
+        if (jarver.version == null) new Main().whatver();
+        else maingui();
     }
 
     public static void maingui() {
@@ -158,7 +157,7 @@ public class Main extends EventSuper {
                 e.printStackTrace();
             }
         }
-        fr.setTitle("마인크래프트 " + version + " 서버 관리자");
+        fr.setTitle("마인크래프트 " + jarver.version + " 서버 관리자");
 
         // 상단 상태라벨
         state = new JLabel();
@@ -215,7 +214,7 @@ public class Main extends EventSuper {
         ram = new JSpinner();
         JSpinner.DefaultEditor ramedit = (JSpinner.DefaultEditor) ram.getEditor(); 
         ramedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
-        ram.setValue(jarstart.FINALRAM);
+        ram.setValue(Jarstart.FINALRAM);
         ramla = new JLabel("램(GB):", JLabel.RIGHT);
         ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
 
@@ -333,9 +332,10 @@ public class Main extends EventSuper {
             return; // 올바른 형태가아니면
         }
         try {
-            version = jarkey.getText();
-            new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
-            filename = "Minecraft_" + version + "_server";
+            jarver.zipFile.close();
+            jarver.version = jarkey.getText();
+            new File(jarver.filename).renameTo(new File("Minecraft_" + jarver.version + "_server.jar"));
+            jarver.filename = "Minecraft_" + jarver.version + "_server";
             fr.getContentPane().removeAll();
             maingui();
         } catch (Exception e) {
@@ -348,7 +348,7 @@ public class Main extends EventSuper {
     public void actionPerformed(ActionEvent e) {
         //시작
         if (e.getSource() == startbt && readThread == null) {
-            new jarstart();
+            new Jarstart();
         }
         //정지
         if (e.getSource() == stopbt && readThread != null) {
