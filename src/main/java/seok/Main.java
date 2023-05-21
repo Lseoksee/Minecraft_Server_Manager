@@ -333,7 +333,6 @@ public class Main extends EventSuper {
             return; // 올바른 형태가아니면
         }
         try {
-            findjar.reset();
             version = jarkey.getText();
             new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
             filename = "Minecraft_" + version + "_server";

@@ -13,15 +13,9 @@ import org.json.JSONObject;
 
 public class findjar extends Main {
 
-    static ZipFile zipFile;
-    static ZipEntry entry;
-    static InputStream stream;
-
-    public static void zip(String serch, String zip) throws Exception {
-        zipFile = new ZipFile(zip);
-        entry = zipFile.getEntry(serch);
-        stream = zipFile.getInputStream(entry);
-    }
+    private ZipFile zipFile;
+    private ZipEntry entry;
+    private InputStream stream;
 
     public boolean searchjar() {
         File fi = new File("./"); // 컴파일시 위치 변경할것!
@@ -89,7 +83,7 @@ public class findjar extends Main {
 
     public boolean newver() {
         try {
-            reset();
+            zipFile.close();
             zip("version.json", filename);
             JSONObject jsonObject = new JSONObject(new BufferedReader(new InputStreamReader(stream)).lines().collect(Collectors.joining("\n")));    
             //1.8 에서 inputstream에 readallbyte 메소드가 없음
@@ -103,12 +97,10 @@ public class findjar extends Main {
             return false;
         }
     }
-    
-    public static void reset() {
-        try {
-            zipFile.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+    private void zip(String serch, String zip) throws Exception {
+        zipFile = new ZipFile(zip);
+        entry = zipFile.getEntry(serch);
+        stream = zipFile.getInputStream(entry);
     }
 }
