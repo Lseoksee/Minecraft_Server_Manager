@@ -142,7 +142,7 @@ public class FileClass extends Main {
             properties.setProperty("enable-command-block", Boolean.toString(comman));
             properties.setProperty("motd", name);
 
-            properties.store(new FileOutputStream(filepath), "");
+            properties.store(new FileOutputStream(filepath), "Minecraft server properties");
         } catch (Exception e) {
             e.printStackTrace();
         }
