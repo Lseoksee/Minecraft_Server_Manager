@@ -5,9 +5,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.util.Date;
 import java.util.Properties;
 import java.awt.Color;
 import javax.swing.JOptionPane;
+
 import java.awt.FileDialog;
 import java.io.BufferedReader;
 
@@ -140,9 +142,9 @@ public class FileClass extends Main {
             properties.setProperty("max-players", Integer.toString(plear));
             properties.setProperty("online-mode", Boolean.toString(!reel));
             properties.setProperty("enable-command-block", Boolean.toString(comman));
-            properties.setProperty("motd", name);
+            properties.setProperty("motd", escapeToUnicode(name));
 
-            properties.store(new FileOutputStream(filepath), "Minecraft server properties");
+            SaveProperties(properties);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -167,4 +169,35 @@ public class FileClass extends Main {
             return null;
         }
     }
+
+    //Properties 최종 저장
+    private void SaveProperties(Properties properties) throws Exception {
+        StringBuffer sb = new StringBuffer();
+        sb.append("#Minecraft server properties\n");
+        sb.append("#" + new Date().toString()+"\n");
+
+        properties.forEach((key, value) -> {
+            sb.append((String) key+"="+value+"\n");
+        });
+
+        FileOutputStream fos = new FileOutputStream(filepath);
+        fos.write(sb.toString().getBytes());
+        fos.flush();
+        fos.close();
+    }
+
+    //String to 유니코드
+    private String escapeToUnicode(String input) {
+        StringBuilder builder = new StringBuilder();
+        
+        for (char ch : input.toCharArray()) {
+            if (ch < 128) {
+                builder.append(ch);
+            } else {
+                builder.append("\\u").append(String.format("%04x", (int) ch));
+            }
+        }
+        return builder.toString();
+    }
+
 }
