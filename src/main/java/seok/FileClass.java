@@ -1,17 +1,16 @@
 package seok;
 
-import java.awt.Frame;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.util.Date;
 import java.util.Properties;
-import java.awt.Color;
-import javax.swing.JOptionPane;
-
-import java.awt.FileDialog;
 import java.io.BufferedReader;
+import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Frame;
+import javax.swing.JOptionPane;
 
 public class FileClass extends Main {
     int mode;
