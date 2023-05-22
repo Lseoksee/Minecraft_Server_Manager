@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.util.Date;
 import java.util.Properties;
 import java.io.BufferedReader;
 import java.awt.Color;
@@ -21,7 +20,6 @@ public class FileClass extends Main {
     boolean comman;
     String name;
     String filepath;
-    BufferedReader filReader;
 
     // 값 불러오기
     public FileClass(String filepath) {
@@ -31,17 +29,17 @@ public class FileClass extends Main {
             properties.load(new FileReader(filepath));
 
             switch (properties.getProperty("gamemode")) {
-                case "survival" -> mode = 0;  
+                case "survival" -> mode = 0;
                 case "creative" -> mode = 1;
-                case "adventure" -> mode = 2;  
+                case "adventure" -> mode = 2;
                 case "spectator" -> mode = 3;
                 default -> mode = Integer.parseInt(properties.getProperty("gamemode"));
             }
 
             switch (properties.getProperty("difficulty")) {
-                case "peaceful" -> diff = 0;  
-                case "easy" -> diff = 1;  
-                case "normal" -> diff = 2;  
+                case "peaceful" -> diff = 0;
+                case "easy" -> diff = 1;
+                case "normal" -> diff = 2;
                 case "hard" -> diff = 3;
                 default -> diff = Integer.parseInt(properties.getProperty("difficulty"));
             }
@@ -91,7 +89,6 @@ public class FileClass extends Main {
     // 저장하기
     public void save() {
         try {
-            filReader = new BufferedReader(new FileReader(filepath));
             // 게임모드
             if (gamemode.getSelectedItem() == "서바이벌") {
                 mode = 0;
@@ -126,27 +123,26 @@ public class FileClass extends Main {
             replaceproperties();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     // 파일변경
-    public void replaceproperties() {
-        try {
-            Properties properties = new Properties();
-            properties.load(new FileReader(filepath));
+    public void replaceproperties() throws Exception {
+        Properties properties = new Properties();
+        properties.load(new FileReader(filepath));
 
-            properties.setProperty("gamemode", Integer.toString(mode));
-            properties.setProperty("difficulty", Integer.toString(diff));
-            properties.setProperty("hardcore", Boolean.toString(hardcore));
-            properties.setProperty("max-players", Integer.toString(plear));
-            properties.setProperty("online-mode", Boolean.toString(!reel));
-            properties.setProperty("enable-command-block", Boolean.toString(comman));
-            properties.setProperty("motd", escapeToUnicode(name));
+        properties.setProperty("gamemode", Integer.toString(mode));
+        properties.setProperty("difficulty", Integer.toString(diff));
+        properties.setProperty("hardcore", Boolean.toString(hardcore));
+        properties.setProperty("max-players", Integer.toString(plear));
+        properties.setProperty("online-mode", Boolean.toString(!reel));
+        properties.setProperty("enable-command-block", Boolean.toString(comman));
+        properties.setProperty("motd", escapeToUnicode(name));
 
-            SaveProperties(properties);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SaveProperties(properties);
+
         state.setForeground(Color.GREEN);
         state.setText("저장완료!");
     }
@@ -169,34 +165,39 @@ public class FileClass extends Main {
         }
     }
 
-    //Properties 최종 저장
+    // Properties 최종 저장
     private void SaveProperties(Properties properties) throws Exception {
+        BufferedReader filReader = new BufferedReader(new FileReader(filepath));
+        filReader.readLine();
+
         StringBuffer sb = new StringBuffer();
         sb.append("#Minecraft server properties\n");
-        sb.append("#" + new Date().toString()+"\n");
+        sb.append(filReader.readLine() + "\n");
 
         properties.forEach((key, value) -> {
-            sb.append((String) key+"="+value+"\n");
+            sb.append((String) key + "=" + value + "\n");
         });
+
+        System.out.println(properties.toString());
 
         FileOutputStream fos = new FileOutputStream(filepath);
         fos.write(sb.toString().getBytes());
         fos.flush();
         fos.close();
+        filReader.close();
     }
 
-    //String to 유니코드
+    // String to 유니코드
     private String escapeToUnicode(String input) {
         StringBuilder builder = new StringBuilder();
-        
+
         for (char ch : input.toCharArray()) {
             if (ch < 128) {
                 builder.append(ch);
             } else {
-                builder.append("\\u").append(String.format("%04x", (int) ch));
+                builder.append("\\u").append(String.format("%04X", (int) ch));
             }
         }
         return builder.toString();
     }
-
 }
