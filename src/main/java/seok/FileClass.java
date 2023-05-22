@@ -10,7 +10,6 @@ import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.awt.FileDialog;
 import java.io.BufferedReader;
-import org.apache.commons.text.StringEscapeUtils;
 
 public class FileClass extends Main {
     int mode;
@@ -50,7 +49,7 @@ public class FileClass extends Main {
             hardcore = Boolean.parseBoolean(properties.getProperty("hardcore"));
             reel = !Boolean.parseBoolean(properties.getProperty("online-mode"));
             comman = Boolean.parseBoolean(properties.getProperty("enable-command-block"));
-            name = StringEscapeUtils.unescapeJava(properties.getProperty("motd"));
+            name = properties.getProperty("motd");
         } catch (FileNotFoundException e) {
             /* 기본값 할당 */
             mode = 0;
@@ -121,7 +120,7 @@ public class FileClass extends Main {
             // 커멘드여부
             comman = command.getState();
             // 서버이름
-            name = StringEscapeUtils.escapeJava(sername.getText());
+            name = sername.getText();
 
             replaceproperties();
         } catch (FileNotFoundException e) {
@@ -142,9 +141,8 @@ public class FileClass extends Main {
             properties.setProperty("online-mode", Boolean.toString(!reel));
             properties.setProperty("enable-command-block", Boolean.toString(comman));
             properties.setProperty("motd", name);
-            properties.store(new FileOutputStream(filepath), "");
 
-            name = sername.getText();
+            properties.store(new FileOutputStream(filepath), "");
         } catch (Exception e) {
             e.printStackTrace();
         }
