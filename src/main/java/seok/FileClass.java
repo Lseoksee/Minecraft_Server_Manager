@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.IOException;
+import java.util.Properties;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 import java.awt.FileDialog;
@@ -27,45 +27,30 @@ public class FileClass extends Main {
     public FileClass(String filepath) {
         this.filepath = filepath;
         try {
-            String line;
-            String sb[] = new String[3];
-            BufferedReader br = new BufferedReader(new FileReader(filepath));
-            while ((line = br.readLine()) != null) {
-                sb = line.split("=");
-                switch (sb[0]) {
-                    case "gamemode" -> {
-                        if (sb[1].equals("0") || sb[1].equals("survival")) {
-                            mode = 0;
-                        } else if (sb[1].equals("1") || sb[1].equals("creative")) {
-                            mode = 1;
-                        } else if (sb[1].equals("2") || sb[1].equals("adventure")) {
-                            mode = 2;
-                        } else if (sb[1].equals("3") || sb[1].equals("spectator")) {
-                            mode = 3;
-                        }
-                    }
-                    case "difficulty" -> {
-                        if (sb[1].equals("0") || sb[1].equals("peaceful")) {
-                            diff = 0;
-                        } else if (sb[1].equals("1") || sb[1].equals("easy")) {
-                            diff = 1;
-                        } else if (sb[1].equals("2") || sb[1].equals("normal")) {
-                            diff = 2;
-                        } else if (sb[1].equals("3") || sb[1].equals("hard")) {
-                            diff = 3;
-                        }
-                    }
-                    case "max-players" -> plear = Integer.parseInt(sb[1]);
-                    case "hardcore" -> hardcore = Boolean.parseBoolean(sb[1]);
-                    case "online-mode" -> reel = !Boolean.parseBoolean(sb[1]);
-                    case "enable-command-block" -> comman = Boolean.parseBoolean(sb[1]);
-                    case "motd" -> name = StringEscapeUtils.unescapeJava(sb[1]);
-                    default -> {
-                        continue;
-                    }
-                }
+            Properties properties = new Properties();
+            properties.load(new FileReader(filepath));
+
+            switch (properties.getProperty("gamemode")) {
+                case "survival" -> mode = 0;  
+                case "creative" -> mode = 1;
+                case "adventure" -> mode = 2;  
+                case "spectator" -> mode = 3;
+                default -> mode = Integer.parseInt(properties.getProperty("gamemode"));
             }
-            br.close();
+
+            switch (properties.getProperty("difficulty")) {
+                case "peaceful" -> diff = 0;  
+                case "easy" -> diff = 1;  
+                case "normal" -> diff = 2;  
+                case "hard" -> diff = 3;
+                default -> diff = Integer.parseInt(properties.getProperty("difficulty"));
+            }
+
+            plear = Integer.parseInt(properties.getProperty("max-players"));
+            hardcore = Boolean.parseBoolean(properties.getProperty("hardcore"));
+            reel = !Boolean.parseBoolean(properties.getProperty("online-mode"));
+            comman = Boolean.parseBoolean(properties.getProperty("enable-command-block"));
+            name = StringEscapeUtils.unescapeJava(properties.getProperty("motd"));
         } catch (FileNotFoundException e) {
             /* 기본값 할당 */
             mode = 0;
@@ -84,7 +69,7 @@ public class FileClass extends Main {
             command.setEnabled(false);
             sername.setEnabled(false);
             ram.setEnabled(false);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // 게임모드
@@ -138,36 +123,29 @@ public class FileClass extends Main {
             // 서버이름
             name = StringEscapeUtils.escapeJava(sername.getText());
 
-            replaceini();
+            replaceproperties();
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     // 파일변경
-    public void replaceini() {
+    public void replaceproperties() {
         try {
-            String sp[] = new String[3];
-            String read;
-            StringBuffer sb = new StringBuffer();
-            while ((read = filReader.readLine()) != null) {
-                sp = read.split("=");
-                switch (sp[0]) {
-                    case "gamemode" -> sb.append(sp[0] + "=" + mode + "\n");
-                    case "difficulty" -> sb.append(sp[0] + "=" + diff + "\n");
-                    case "hardcore" -> sb.append(sp[0] + "=" + hardcore + "\n");
-                    case "max-players" -> sb.append(sp[0] + "=" + plear + "\n");
-                    case "online-mode" -> sb.append(sp[0] + "=" + !reel + "\n");
-                    case "enable-command-block" -> sb.append(sp[0] + "=" + comman + "\n");
-                    case "motd" -> sb.append(sp[0] + "=" + name + "\n");
-                    default -> sb.append(read + "\n");
-                }
-            }
-            FileOutputStream fileOutputStream = new FileOutputStream(new File(filepath)); // 위치바꿀것
-            byte[] bytetext = sb.toString().getBytes();
-            fileOutputStream.write(bytetext);
-            fileOutputStream.close();
-        } catch (IOException e) {
+            Properties properties = new Properties();
+            properties.load(new FileReader(filepath));
+
+            properties.setProperty("gamemode", Integer.toString(mode));
+            properties.setProperty("difficulty", Integer.toString(diff));
+            properties.setProperty("hardcore", Boolean.toString(hardcore));
+            properties.setProperty("max-players", Integer.toString(plear));
+            properties.setProperty("online-mode", Boolean.toString(!reel));
+            properties.setProperty("enable-command-block", Boolean.toString(comman));
+            properties.setProperty("motd", name);
+            properties.store(new FileOutputStream(filepath), "");
+
+            name = sername.getText();
+        } catch (Exception e) {
             e.printStackTrace();
         }
         state.setForeground(Color.GREEN);

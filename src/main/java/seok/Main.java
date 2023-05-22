@@ -3,7 +3,6 @@ package seok;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.awt.event.WindowAdapter;
@@ -153,7 +152,7 @@ public class Main extends EventSuper {
                 FileWriter fw = new FileWriter(file);
                 fw.write("eula=true");
                 fw.close();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -332,7 +331,6 @@ public class Main extends EventSuper {
             return; // 올바른 형태가아니면
         }
         try {
-            jarver.zipFile.close();
             jarver.version = jarkey.getText();
             new File(jarver.filename).renameTo(new File("Minecraft_" + jarver.version + "_server.jar"));
             jarver.filename = "Minecraft_" + jarver.version + "_server";
@@ -356,7 +354,7 @@ public class Main extends EventSuper {
                 String message = "stop\n";
                 outputStream.write(message.getBytes());
                 outputStream.flush();
-            } catch (IOException ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -395,7 +393,7 @@ public class Main extends EventSuper {
                     }
                     new FileClass(setfile.filepath);
                 }
-            } catch (IOException e1) {
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
@@ -408,7 +406,7 @@ public class Main extends EventSuper {
                         new ProcessBuilder("cmd", "/c", "rmdir", "/s", "/q", "world", "world_nether", "world_the_end").start();
                     }
                 }
-            } catch (IOException e1) {
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
         }
@@ -423,7 +421,7 @@ public class Main extends EventSuper {
             try {
                 outputStream.write(message.getBytes());
                 outputStream.flush();
-            } catch (IOException e1) {
+            } catch (Exception e1) {
                 e1.printStackTrace();
             }
             meesge.setText(null);

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -15,10 +16,10 @@ public class Findjar extends Main {
 
     String filename; // jar 파일이름
     String version; // .포함 버전
-    
-    ZipFile zipFile;
-    ZipEntry entry;
-    InputStream stream;
+
+    private ZipFile zipFile;
+    private ZipEntry entry;
+    private InputStream stream;
 
     public Findjar() {
         File fi = new File("./"); // 컴파일시 위치 변경할것!
@@ -63,20 +64,15 @@ public class Findjar extends Main {
     private void oldver() {
         try {
             zip("patch.properties", filename);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String splet[] = line.split("=");
-                if (splet[0].equals("version")) {
-                    zipFile.close();
-                    stream.close();
-                    version = splet[1];
-                    new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
-                    filename = "Minecraft_" + version + "_server";
-                    break;
-                }
-            }
-            reader.close();
+            Properties properties = new Properties();
+            properties.load(stream);
+            version = properties.getProperty("version");
+            zipFile.close();
+            stream.close();
+
+            new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
+            filename = "Minecraft_" + version + "_server";
+
         } catch (Exception e) {
             newver();
         }
@@ -95,6 +91,11 @@ public class Findjar extends Main {
             new File(filename).renameTo(new File("Minecraft_" + version + "_server.jar"));
             filename = "Minecraft_" + version + "_server";
         } catch (Exception e) {
+            try {
+                zipFile.close();
+                stream.close();
+            } catch (Exception ex) {
+            }
         }
     }
 
