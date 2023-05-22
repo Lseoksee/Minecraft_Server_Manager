@@ -137,7 +137,7 @@ public class FileClass extends Main {
 
         String read;
         while ((read = filReader.readLine()) != null) {
-            sp = read.split("=");
+            sp = read.split("=", 2);
             switch (sp[0]) {
                 case "gamemode" -> sb.append(sp[0] + "=" + mode + "\n");
                 case "difficulty" -> sb.append(sp[0] + "=" + diff + "\n");
