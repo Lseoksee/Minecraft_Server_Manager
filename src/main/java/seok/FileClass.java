@@ -178,8 +178,6 @@ public class FileClass extends Main {
             sb.append((String) key + "=" + value + "\n");
         });
 
-        System.out.println(properties.toString());
-
         FileOutputStream fos = new FileOutputStream(filepath);
         fos.write(sb.toString().getBytes());
         fos.flush();
