@@ -91,7 +91,6 @@ public class FileClass extends Main {
     public void save() {
         try {
             filReader = new BufferedReader(new FileReader(filepath));
-            filReader.readLine();
             // 게임모드
             if (gamemode.getSelectedItem() == "서바이벌") {
                 mode = 0;
@@ -133,18 +132,27 @@ public class FileClass extends Main {
 
     // 파일변경
     public void replaceproperties() throws Exception {
-        Properties properties = new Properties();
-        properties.load(new FileReader(filepath));
+        String sp[] = new String[2];
+        StringBuffer sb = new StringBuffer();
 
-        properties.setProperty("gamemode", Integer.toString(mode));
-        properties.setProperty("difficulty", Integer.toString(diff));
-        properties.setProperty("hardcore", Boolean.toString(hardcore));
-        properties.setProperty("max-players", Integer.toString(plear));
-        properties.setProperty("online-mode", Boolean.toString(!reel));
-        properties.setProperty("enable-command-block", Boolean.toString(comman));
-        properties.setProperty("motd", escapeToUnicode(name));
+        String read;
+        while ((read = filReader.readLine()) != null) {
+            sp = read.split("=");
+            switch (sp[0]) {
+                case "gamemode" -> sb.append(sp[0] + "=" + mode + "\n");
+                case "difficulty" -> sb.append(sp[0] + "=" + diff + "\n");
+                case "hardcore" -> sb.append(sp[0] + "=" + hardcore + "\n");
+                case "max-players" -> sb.append(sp[0] + "=" + plear + "\n");
+                case "online-mode" -> sb.append(sp[0] + "=" + !reel + "\n");
+                case "enable-command-block" -> sb.append(sp[0] + "=" + comman + "\n");
+                case "motd" -> sb.append(sp[0] + "=" + escapeToUnicode(name) + "\n");
+                default -> sb.append(read + "\n");
+            }
+        }
 
-        SaveProperties(properties);
+        FileOutputStream fos = new FileOutputStream(filepath);
+        fos.write(sb.toString().getBytes());
+        fos.close();
 
         state.setForeground(Color.GREEN);
         state.setText("저장완료!");
@@ -166,23 +174,6 @@ public class FileClass extends Main {
         } catch (NullPointerException e) {
             return null;
         }
-    }
-
-    // Properties 최종 저장
-    private void SaveProperties(Properties properties) throws Exception {
-        StringBuffer sb = new StringBuffer();
-        sb.append("#Minecraft server properties\n");
-        sb.append(filReader.readLine() + "\n");
-
-        properties.forEach((key, value) -> {
-            sb.append((String) key + "=" + value + "\n");
-        });
-
-        FileOutputStream fos = new FileOutputStream(filepath);
-        fos.write(sb.toString().getBytes());
-        fos.flush();
-        fos.close();
-        filReader.close();
     }
 
     // String to 유니코드
