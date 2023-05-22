@@ -20,6 +20,7 @@ public class FileClass extends Main {
     boolean comman;
     String name;
     String filepath;
+    BufferedReader filReader;
 
     // 값 불러오기
     public FileClass(String filepath) {
@@ -89,6 +90,8 @@ public class FileClass extends Main {
     // 저장하기
     public void save() {
         try {
+            filReader = new BufferedReader(new FileReader(filepath));
+            filReader.readLine();
             // 게임모드
             if (gamemode.getSelectedItem() == "서바이벌") {
                 mode = 0;
@@ -167,9 +170,6 @@ public class FileClass extends Main {
 
     // Properties 최종 저장
     private void SaveProperties(Properties properties) throws Exception {
-        BufferedReader filReader = new BufferedReader(new FileReader(filepath));
-        filReader.readLine();
-
         StringBuffer sb = new StringBuffer();
         sb.append("#Minecraft server properties\n");
         sb.append(filReader.readLine() + "\n");
