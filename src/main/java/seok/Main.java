@@ -35,6 +35,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.text.DefaultCaret;
 
 public class Main extends EventSuper {
+    public static final String RESVER = "v1.5";
+
     static Thread readThread; //로그 쓰레드 
     static OutputStream outputStream;
     static FileClass setfile; // 서버 설정파일
@@ -142,6 +144,7 @@ public class Main extends EventSuper {
 
         if (jarver.version == null) new Main().whatver();
         else maingui();
+        new Thread(new CheckVer()).start(); //버전확인 쓰레드 실행
     }
 
     public static void maingui() {
