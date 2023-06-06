@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 import org.json.JSONObject;
 
 public class CheckVer extends Main implements Runnable  {
+    
     @Override
     public void run() {
         /* 깃허브 api를 사용한 버전확인 방법 */

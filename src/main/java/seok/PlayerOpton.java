@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -70,7 +69,7 @@ public class PlayerOpton extends Main implements Runnable {
         }
         try {
             Path path = Paths.get("ops.json");
-            //1.8 에서 inputstream에 readallbyte 메소드가 없음
+            // 1.8 에서 inputstream에 readallbyte 메소드가 없음
             array = new JSONArray(new String(Files.readAllBytes(path), "utf-8"));
         } catch (Exception e) {
             array = new JSONArray("[]");
@@ -338,7 +337,7 @@ public class PlayerOpton extends Main implements Runnable {
     @Override
     public void run() {
         while (i < array.length() - 1) {
-            synchronized(this) {
+            synchronized (this) {
                 i++;
             }
             JSONObject jsonObject = array.getJSONObject(i);
@@ -346,17 +345,18 @@ public class PlayerOpton extends Main implements Runnable {
             try {
                 URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                new BufferedReader(new InputStreamReader(connection.getInputStream())).readLine().toString();
-                if (!real.getState()) {
-                    addoplist.addElement(name); // 정품서버인 경우 리스트에 추가
+
+                int rescode = connection.getResponseCode();
+
+                if (rescode == 200 && !real.getState()) { // 정품서버인 경우 리스트에 추가
+                    addoplist.addElement(name);
+                    opList.ensureIndexIsVisible(addoplist.getSize() - 1);
+                } else if (rescode == 204 && real.getState()) { // 비정품 서버인경우 리스트에 추가
+                    addoplist.addElement(name);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 }
             } catch (Exception e) {
-                if (real.getState()) {
-                    addoplist.addElement(name); // 비정품 서버인경우 리스트에 추가
-                    opList.ensureIndexIsVisible(addoplist.getSize() - 1);
-                }
+                e.printStackTrace();
             }
         }
     }
