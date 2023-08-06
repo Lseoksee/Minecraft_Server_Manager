@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
-import java.util.stream.Collectors;
 
 import javax.swing.JOptionPane;
 
@@ -24,8 +23,7 @@ public class CheckVer extends Main implements Runnable {
             // httprequset 연결부분
 
             InputStream is = huc.getInputStream();
-            JSONObject jsonObject = new JSONObject(
-                    new BufferedReader(new InputStreamReader(is)).lines().collect(Collectors.joining("\n")));
+            JSONObject jsonObject = new JSONObject(new BufferedReader(new InputStreamReader(is, "utf-8")).readLine());
             String onver = jsonObject.getString("tag_name");
 
             if (!onver.equals(Main.RESVER)) {

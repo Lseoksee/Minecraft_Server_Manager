@@ -8,6 +8,7 @@ public class porttest {
         public static void main(String[] args) {
         try {
             ServerSocket svs = new ServerSocket(25565); //테스트로 오픈할 포트
+            svs.setSoTimeout(2000);
             new Thread(new isopen()).start();
             svs.accept();
             svs.close();
