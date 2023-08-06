@@ -11,16 +11,18 @@ import java.awt.FileDialog;
 import java.awt.Frame;
 import javax.swing.JOptionPane;
 
-public class FileClass extends Main {
-    int mode;
-    int diff;
-    int plear;
-    boolean hardcore;
-    boolean reel;
-    boolean comman;
-    String name;
-    String filepath;
-    BufferedReader filReader;
+import seok.UI.MainUI;
+
+public class FileClass extends MainUI {
+    public int mode;
+    public int diff;
+    public int plear;
+    public boolean hardcore;
+    public boolean reel;
+    public boolean comman;
+    public String name;
+    public String filepath;
+    public BufferedReader filReader;
 
     // 값 불러오기
     public FileClass(String filepath) {

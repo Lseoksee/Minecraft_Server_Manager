@@ -1,7 +1,9 @@
-package seok;
+package seok.UI;
 
-public class Playerbounds extends PlayerOpton {
-    public Playerbounds() {
+import seok.Main;
+
+public class PlayerOptonbounds extends PlayerOptonUI {
+    public PlayerOptonbounds() {
         int width = Main.fr.getWidth() - 21; // 프레임 사이즈 -16 - 탭바사이즈(5)
         // 타이틀
         title.setBounds(0, 0, width, 30);

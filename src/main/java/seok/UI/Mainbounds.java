@@ -1,6 +1,6 @@
-package seok;
+package seok.UI;
 
-public class Mainbounds extends Main {
+public class Mainbounds extends MainUI {
     public Mainbounds() {
         int width = fr.getWidth() - 21; // 프레임 사이즈 -16 - 탭바사이즈(5)
         int objwidth = 170;

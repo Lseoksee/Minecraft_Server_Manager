@@ -14,8 +14,8 @@ import org.json.JSONObject;
 
 public class Findjar extends Main {
 
-    String filename; // jar 파일이름
-    String version; // .포함 버전
+    public String filename; // jar 파일이름
+    public String version; // .포함 버전
 
     private ZipFile zipFile;
     private ZipEntry entry;

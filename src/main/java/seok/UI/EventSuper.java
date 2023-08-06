@@ -1,4 +1,4 @@
-package seok;
+package seok.UI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,9 +13,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 
-public class EventSuper implements ActionListener, KeyListener, MouseListener, ChangeListener, FocusListener, ListSelectionListener {
+public abstract class EventSuper implements ActionListener, KeyListener, MouseListener, ChangeListener, FocusListener, ListSelectionListener {
 
-    //각종 이벤트를 상속받는 슈퍼 클래스
+    //각종 이벤트를 상속받는 추상 클래스
     @Override
     public void focusGained(FocusEvent e) {
     }

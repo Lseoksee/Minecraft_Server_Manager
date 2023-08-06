@@ -3,9 +3,13 @@ package seok;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+
+import seok.UI.MainUI;
+import seok.UI.PlayerOptonUI;
+
 import java.awt.Color;
 
-public class Jarstart extends Main implements Runnable {
+public class Jarstart extends MainUI implements Runnable {
     public static final int FINALRAM = 4;
     String path;
 
@@ -72,7 +76,7 @@ public class Jarstart extends Main implements Runnable {
                     state.setText("서버가 정상적으로 시작되었습니다");
                 }
                 if (line.matches("^\\[.*\\]: <(.*)>(.*)|^\\[.*\\]:( \\[Not Secure\\])? \\[Server\\] (.*)|^\\[.*\\]:(.*)issued server command:(.*)")) {
-                    PlayerOpton.chatlog.append(line + "\n");
+                    PlayerOptonUI.chatlog.append(line + "\n");
                 }
                 consol.append(line + "\n");
             }
@@ -91,7 +95,7 @@ public class Jarstart extends Main implements Runnable {
             state.setForeground(null);
 
             oplistclick = false;
-            PlayerOpton.addoplist.removeAllElements();
+            PlayerOptonUI.addoplist.removeAllElements();
             pane.setSelectedIndex(0);
 
             if (state.getText() == "서버가 정상적으로 시작되었습니다") {

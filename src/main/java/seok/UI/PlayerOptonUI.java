@@ -1,4 +1,4 @@
-package seok;
+package seok.UI;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,33 +33,36 @@ import javax.swing.text.DefaultCaret;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class PlayerOpton extends Main implements Runnable {
+import seok.FileClass;
+import seok.Main;
 
-    static JPanel oppan; // 플레이어 관리
-    static JSONArray array;
+public class PlayerOptonUI extends Main implements Runnable {
 
-    static JLabel oplLabel;
-    static JLabel title;
-    static JList<String> opList;
-    static JScrollPane opscroll;
-    static DefaultListModel<String> addoplist;
-    static JButton opselbt;
-    static JButton opdelbt;
-    static JButton opfile;
-    static JTextField opField;
-    static JPopupMenu menu;
-    static JMenuItem del;
+    public static JPanel oppan; // 플레이어 관리
+    public static JSONArray array;
 
-    static JLabel chatLabel;
-    static JTextArea chatlog;
-    static JTextField chatField;
-    static JScrollPane chatscroll;
-    static JButton chatinput;
-    static JButton chatclear;
-    static JButton chatsave;
-    int i = -1;
+    public static JLabel oplLabel;
+    public static JLabel title;
+    public static JList<String> opList;
+    public static JScrollPane opscroll;
+    public static DefaultListModel<String> addoplist;
+    public static JButton opselbt;
+    public static JButton opdelbt;
+    public static JButton opfile;
+    public static JTextField opField;
+    public static JPopupMenu menu;
+    public static JMenuItem del;
 
-    public PlayerOpton(boolean real) {
+    public static JLabel chatLabel;
+    public static JTextArea chatlog;
+    public static JTextField chatField;
+    public static JScrollPane chatscroll;
+    public static JButton chatinput;
+    public static JButton chatclear;
+    public static JButton chatsave;
+    private int i = -1;
+
+    public PlayerOptonUI(boolean real) {
         if (real) {
             title.setForeground(Color.ORANGE);
             title.setText("현재 비정품 서버 입니다.");
@@ -76,7 +79,7 @@ public class PlayerOpton extends Main implements Runnable {
         }
     }
 
-    public JPanel Playergui() {
+    public JPanel playeropton() {
         // 패널설정
         oppan = new JPanel();
         oppan.setLayout(null);
@@ -95,32 +98,32 @@ public class PlayerOpton extends Main implements Runnable {
         opList = new JList<>(addoplist);
         opList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         opList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
-        opList.addListSelectionListener(new PlayerOpton());
-        opList.addKeyListener(new PlayerOpton());
-        opList.addMouseListener(new PlayerOpton());
+        opList.addListSelectionListener(this);
+        opList.addKeyListener(this);
+        opList.addMouseListener(this);
         opscroll = new JScrollPane(opList);
 
         // op추가 버튼
         opselbt = new JButton("추가");
-        opselbt.addActionListener(new PlayerOpton());
+        opselbt.addActionListener(this);
 
         // op삭제버튼
         opdelbt = new JButton("삭제");
-        opdelbt.addActionListener(new PlayerOpton());
+        opdelbt.addActionListener(this);
 
         // op가져오기 버튼
         opfile = new JButton("가져오기");
-        opfile.addActionListener(new PlayerOpton());
+        opfile.addActionListener(this);
 
         // op 입력창
         opField = new JTextField();
-        opField.addKeyListener(new PlayerOpton());
-        opField.addFocusListener(new PlayerOpton());
+        opField.addKeyListener(this);
+        opField.addFocusListener(this);
 
         // op 팝업메뉴
         menu = new JPopupMenu();
         del = new JMenuItem("삭제");
-        del.addActionListener(new PlayerOpton());
+        del.addActionListener(this);
         menu.add(del);
         opList.add(menu);
 
@@ -140,22 +143,22 @@ public class PlayerOpton extends Main implements Runnable {
         // 채팅 입력창
         chatField = new JTextField();
         chatField.setText("여기에 메시지를 입력");
-        chatField.addFocusListener(new PlayerOpton());
-        chatField.addKeyListener(new PlayerOpton());
+        chatField.addFocusListener(this);
+        chatField.addKeyListener(this);
 
         // 채팅 입력 버튼
         chatinput = new JButton("입력");
-        chatinput.addActionListener(new PlayerOpton());
+        chatinput.addActionListener(this);
 
         // 채팅 초기화 버튼
         chatclear = new JButton("초기화");
-        chatclear.addActionListener(new PlayerOpton());
+        chatclear.addActionListener(this);
 
         // 채팅 저장버튼
         chatsave = new JButton("저장하기");
-        chatsave.addActionListener(new PlayerOpton());
+        chatsave.addActionListener(this);
 
-        new Playerbounds();
+        new PlayerOptonbounds();
 
         oppan.add(oplLabel);
         oppan.add(title);
@@ -348,10 +351,10 @@ public class PlayerOpton extends Main implements Runnable {
 
                 int rescode = connection.getResponseCode();
 
-                if (rescode == 200 && !real.getState()) { // 정품서버인 경우 리스트에 추가
+                if (rescode == 200 && ! MainUI.real.getState()) { // 정품서버인 경우 리스트에 추가
                     addoplist.addElement(name);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
-                } else if (rescode == 204 && real.getState()) { // 비정품 서버인경우 리스트에 추가
+                } else if (rescode == 204 && MainUI.real.getState()) { // 비정품 서버인경우 리스트에 추가
                     addoplist.addElement(name);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 }
@@ -361,6 +364,6 @@ public class PlayerOpton extends Main implements Runnable {
         }
     }
 
-    public PlayerOpton() {
+    public PlayerOptonUI() {
     }
 }
