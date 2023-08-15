@@ -38,8 +38,8 @@ import seok.Main;
 
 public class PlayerOptonUI extends Main implements Runnable {
 
-    public static JPanel oppan; // 플레이어 관리
-    public static JSONArray array;
+    private JPanel oppan; // 플레이어 관리 패널
+    private JSONArray array;
 
     public static JLabel oplLabel;
     public static JLabel title;
@@ -80,11 +80,6 @@ public class PlayerOptonUI extends Main implements Runnable {
     }
 
     public JPanel playeropton() {
-        // 패널설정
-        oppan = new JPanel();
-        oppan.setLayout(null);
-        oppan.setBackground(Color.WHITE);
-
         // 타이틀
         title = new JLabel("", JLabel.CENTER);
         title.setFont(new Font("맑은 고딕", Font.BOLD, 17));
@@ -159,6 +154,10 @@ public class PlayerOptonUI extends Main implements Runnable {
         chatsave.addActionListener(this);
 
         new PlayerOptonbounds();
+
+        // 패널설정
+        oppan = new JPanel(null);
+        oppan.setBackground(Color.WHITE);
 
         oppan.add(oplLabel);
         oppan.add(title);

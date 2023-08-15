@@ -26,7 +26,8 @@ import seok.Jarstart;
 import seok.Main;
 
 public class MainUI extends Main {
-    public static JPanel mainpan; // 메인화면
+
+    private JPanel mainpan; // 메인 패널
 
     public static JLabel state;
 
@@ -66,7 +67,8 @@ public class MainUI extends Main {
     public static JTextField meesge;
 
     public JPanel main() {
-        fr.setTitle("마인크래프트 " + jarver.version + " 서버 관리자");
+        //타이틀 설정
+        fr.setTitle("마인크래프트 " + jarver.version + " 서버 관리자"); 
 
         // 상단 상태라벨
         state = new JLabel();
@@ -168,8 +170,7 @@ public class MainUI extends Main {
         new Mainbounds();
 
         // 패널 설정
-        mainpan = new JPanel();
-        mainpan.setLayout(null);
+        mainpan = new JPanel(null);
         mainpan.setBackground(Color.WHITE);
 
         mainpan.add(startbt);

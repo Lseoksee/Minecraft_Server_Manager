@@ -36,6 +36,7 @@ import org.json.JSONObject;
 
 import seok.UI.EventSuper;
 import seok.UI.MainUI;
+import seok.UI.NetworkinfoUI;
 import seok.UI.PlayerOptonUI;
 
 public class Main extends EventSuper {
@@ -112,13 +113,11 @@ public class Main extends EventSuper {
 
         jarver = new Findjar();
 
-        if (jarver.version == null) {
+        if (jarver.version == null) 
             main.whatver();
-
-        } else {
+        else
             main.start();
-        }
-
+        
         new Thread(() -> main.CheckVer()).start(); // 버전확인 쓰레드 실행
     }
 
@@ -138,10 +137,11 @@ public class Main extends EventSuper {
 
         MainUI mainui = new MainUI();
         PlayerOptonUI playeroptonui = new PlayerOptonUI();
+        NetworkinfoUI networkinfoui = new NetworkinfoUI();
 
         pane.addTab("메인", mainui.main());
         pane.addTab("플레이어 관리", playeroptonui.playeropton());
-        pane.setEnabled(false);
+        pane.addTab("네트워크 정보", networkinfoui.networkinfo());
         pane.addChangeListener(this);
         pane.addMouseListener(this);
 
@@ -254,8 +254,7 @@ public class Main extends EventSuper {
         // 탭 변화
         if (pane.getSelectedIndex() == 1) {
             if (!oplistclick) {
-                new PlayerOptonUI(MainUI.real.getState());
-                Runnable r = new PlayerOptonUI();
+                Runnable r = new PlayerOptonUI(MainUI.real.getState());
                 new Thread(r).start();
                 new Thread(r).start();
                 new Thread(r).start();
