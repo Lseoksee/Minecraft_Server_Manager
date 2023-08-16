@@ -3,6 +3,7 @@ package seok;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -41,6 +42,7 @@ import seok.UI.PlayerOptonUI;
 
 public class Main extends EventSuper {
     public static final String RESVER = "v1.5"; //앱 버전
+    public static final Font APPFONT = new Font("맑은 고딕", Font.PLAIN, 15);   // 앱 폰트
 
     public static Thread readThread; // 로그 쓰레드
     public static OutputStream outputStream;
@@ -162,7 +164,7 @@ public class Main extends EventSuper {
         jarkey.addKeyListener(this);
 
         versub.setBounds(0, jarkey.getY() - 30, fr.getWidth() - 16, 20);
-        versub.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+        versub.setFont(APPFONT.deriveFont(Font.BOLD, 17));
 
         jarok = new JButton("확인");
         jarok.setBounds((fr.getWidth() - 96) / 2, jarkey.getY() + 30, 80, 25);
@@ -211,6 +213,8 @@ public class Main extends EventSuper {
                     Desktop.getDesktop().browse(new URI(jsonObject.getString("html_url")));
                 }
             }
+        } catch (IOException e) {
+            System.out.println("API 토큰 소진");
         } catch (Exception e) {
             e.printStackTrace();
         }

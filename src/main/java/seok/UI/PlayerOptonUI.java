@@ -82,17 +82,17 @@ public class PlayerOptonUI extends Main implements Runnable {
     public JPanel playeropton() {
         // 타이틀
         title = new JLabel("", JLabel.CENTER);
-        title.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+        title.setFont(APPFONT.deriveFont(Font.BOLD, 17));
 
         // OP 리스트
         oplLabel = new JLabel("OP 리스트");
-        oplLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        oplLabel.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // op 리스트 페이지 설정
         addoplist = new DefaultListModel<>();
         opList = new JList<>(addoplist);
         opList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        opList.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
+        opList.setFont(APPFONT.deriveFont(Font.BOLD));
         opList.addListSelectionListener(this);
         opList.addKeyListener(this);
         opList.addMouseListener(this);
@@ -124,13 +124,13 @@ public class PlayerOptonUI extends Main implements Runnable {
 
         // 채팅로그
         chatLabel = new JLabel("채팅로그");
-        chatLabel.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        chatLabel.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 채팅 페이지 설정
         chatlog = new JTextArea();
         chatlog.setEditable(false);
         chatlog.setLineWrap(true);
-        chatlog.setFont(new Font("맑은 고딕", Font.PLAIN, 13));
+        chatlog.setFont(APPFONT.deriveFont(Font.PLAIN,13));
         DefaultCaret caret = (DefaultCaret) chatlog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         chatscroll = new JScrollPane(chatlog);

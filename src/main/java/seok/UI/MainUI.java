@@ -74,7 +74,7 @@ public class MainUI extends Main {
         state = new JLabel();
         state.setText("마인크래프트 서버 관리자");
         state.setHorizontalAlignment(JLabel.CENTER);
-        state.setFont(new Font("맑은 고딕", Font.BOLD, 17));
+        state.setFont(APPFONT.deriveFont(Font.BOLD, 17));
 
         // 게임모드
         gamemode = new JComboBox<>();
@@ -83,7 +83,7 @@ public class MainUI extends Main {
         gamemode.addItem("모험모드");
         gamemode.addItem("관전모드");
         gamela = new JLabel("게임모드:", JLabel.RIGHT);
-        gamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        gamela.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 난이도
         difficulty = new JComboBox<>();
@@ -92,34 +92,34 @@ public class MainUI extends Main {
         difficulty.addItem("보통");
         difficulty.addItem("어려움");
         difficultyla = new JLabel("난이도:", JLabel.RIGHT);
-        difficultyla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        difficultyla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 참여인원
         person = new JSpinner();
         JSpinner.DefaultEditor personedit = (JSpinner.DefaultEditor) person.getEditor();
         personedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
         personla = new JLabel("참여인원:", JLabel.RIGHT);
-        personla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        personla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 하드코어
         hard = new Checkbox();
         hardla = new JLabel("하드코어:", JLabel.RIGHT);
-        hardla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        hardla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 정품여부
         real = new Checkbox();
         realla = new JLabel("비정품 허용:", JLabel.RIGHT);
-        realla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        realla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 커멘드 블록
         command = new Checkbox();
         commandla = new JLabel("커맨드 블록 허용:", JLabel.RIGHT);
-        commandla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        commandla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 서버이름
         sername = new JTextField();
         sernamela = new JLabel("서버이름:", JLabel.RIGHT);
-        sernamela.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        sernamela.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 램
         ram = new JSpinner();
@@ -127,7 +127,7 @@ public class MainUI extends Main {
         ramedit.getTextField().setHorizontalAlignment(JTextField.LEFT);
         ram.setValue(Jarstart.FINALRAM);
         ramla = new JLabel("램(GB):", JLabel.RIGHT);
-        ramla.setFont(new Font("맑은 고딕", Font.BOLD, 15));
+        ramla.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // 월드삭제
         world = new JButton("월드삭제");
@@ -143,7 +143,7 @@ public class MainUI extends Main {
 
         // 콘솔
         consol = new JTextArea();
-        consol.setFont(new Font("맑은 고딕", Font.PLAIN, 12));
+        consol.setFont(APPFONT.deriveFont(Font.PLAIN ,12));
         consol.setEditable(false);
         consol.setLineWrap(true);
         DefaultCaret caret = (DefaultCaret) consol.getCaret();
