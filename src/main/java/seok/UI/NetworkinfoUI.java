@@ -11,12 +11,18 @@ import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.text.NumberFormat;
+
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 import seok.Main;
 
@@ -28,6 +34,9 @@ public class NetworkinfoUI extends Main implements Runnable {
 
     public static JLabel inip;
     public static JTextField iniptext;
+
+    public static JSpinner setport;
+    public static JLabel setportlabel;
 
     public static JLabel outip;
     public static JTextField outiptext;
@@ -60,6 +69,21 @@ public class NetworkinfoUI extends Main implements Runnable {
         outiptext = new JTextField(getoutip());
         outiptext.setEditable(false);
 
+        // 포트포워딩 포트 설정
+        setport = new JSpinner();
+        setport.setValue(25565);
+
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        numberFormat.setGroupingUsed(false);
+        JSpinner.DefaultEditor setportedit = (JSpinner.DefaultEditor) setport.getEditor();
+        JFormattedTextField textField = setportedit.getTextField();
+        textField.setHorizontalAlignment(JTextField.LEFT);
+        textField.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(numberFormat)));
+
+        setportlabel = new JLabel("테스트 포트:");
+        setportlabel.setFont(APPFONT.deriveFont(Font.PLAIN, 13));
+        
+
         // 포트포워딩 테스트 버튼
         porttestbt = new JButton("포트포워딩 테스트");
         porttestbt.addActionListener(this);
@@ -85,6 +109,8 @@ public class NetworkinfoUI extends Main implements Runnable {
         networkinfopan.add(iniptext);
         networkinfopan.add(outip);
         networkinfopan.add(outiptext);
+        networkinfopan.add(setport);
+        networkinfopan.add(setportlabel);
         networkinfopan.add(porttestbt);
         networkinfopan.add(porttestlabel);
         networkinfopan.add(rconpan);
@@ -123,7 +149,8 @@ public class NetworkinfoUI extends Main implements Runnable {
                 // 서버 시작전 포트 포워딩 테스트
                 new Thread(() -> {
                     try {
-                        ServerSocket svs = new ServerSocket(25565); // 테스트로 오픈할 포트
+                        int port = Integer.parseInt(setport.getValue().toString()); 
+                        ServerSocket svs = new ServerSocket(port); // 테스트로 오픈할 포트
                         svs.setSoTimeout(2000);
                         new Thread(this).start();
                         svs.accept();
@@ -154,7 +181,8 @@ public class NetworkinfoUI extends Main implements Runnable {
             return;
         }
         try (Socket socket = new Socket()) {
-            socket.connect(new InetSocketAddress(ip, 25565), 2000);
+            int port = Integer.parseInt(setport.getValue().toString()); 
+            socket.connect(new InetSocketAddress(ip, port), 2000);
             // 오픈된 포트를 외부IP주소로 연결하여 포트포워딩이 정상적으로 되었는지를 확인
             porttestlabel.setForeground(Color.GREEN);
             porttestlabel.setText("성공적으로 연결됨");

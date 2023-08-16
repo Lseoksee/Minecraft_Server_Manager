@@ -58,7 +58,7 @@ public class Jarstart extends MainUI implements Runnable {
             meesge.setEditable(true);
             meesge.setText("여기에 명령어 입력");
 
-            pane.setEnabled(true);
+            pane.setEnabledAt(1, true);
             gamemode.setEnabled(false);
             difficulty.setEnabled(false);
             person.setEnabled(false);
@@ -83,7 +83,7 @@ public class Jarstart extends MainUI implements Runnable {
 
             meesge.setEditable(false);
             meesge.setText(null);
-            pane.setEnabled(false);
+            pane.setEnabledAt(1, false);
             gamemode.setEnabled(true);
             difficulty.setEnabled(true);
             person.setEnabled(true);

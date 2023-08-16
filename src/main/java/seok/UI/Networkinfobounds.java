@@ -20,11 +20,17 @@ public class Networkinfobounds extends NetworkinfoUI {
         //외부 ip 주소
         outiptext.setBounds((width/2)-15, iniptext.getY()+35, width/2-100,24);
 
+        //포트포워딩 포트 설정
+        setport.setBounds(width/2, outip.getY()+50, 80,20);
+
+        //포트포워딩 포트 설정 라벨
+        setportlabel.setBounds(width/2-80, outip.getY()+50, 80,20);
+
         //포트포워딩 테스트 버튼
-        porttestbt.setBounds(width/2-70, outip.getY()+50, 140,30);
+        porttestbt.setBounds(width/2- 70, setport.getY()+30, 140,30);
 
         //포트포워딩 테스트 라벨
-        porttestlabel.setBounds(0, porttestbt.getY()+50, width,30);
+        porttestlabel.setBounds(0, porttestbt.getY()+35, width,30);
 
         //RCON 설정 페널
         rconpan.setBounds(10, porttestlabel.getY()+100, width-20,250);
