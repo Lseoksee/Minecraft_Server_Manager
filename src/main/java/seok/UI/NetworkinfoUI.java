@@ -65,8 +65,8 @@ public class NetworkinfoUI extends Main implements Runnable {
         porttestbt.addActionListener(this);
 
         // 포트포워딩 테스트 정보 라벨
-        porttestlabel = new JLabel("테스트", JLabel.CENTER);
-        porttestlabel.setFont(APPFONT);
+        porttestlabel = new JLabel("", JLabel.CENTER);
+        porttestlabel.setFont(APPFONT.deriveFont(Font.BOLD));
 
         // ROCN 설정 쪽
         TitledBorder rconbBorder = BorderFactory.createTitledBorder("RCON 설정"); // 테두리 설정
@@ -135,7 +135,10 @@ public class NetworkinfoUI extends Main implements Runnable {
                 }).start();
 
             } else {
-                // 서버 시작 후 포트 테스트
+                if (!MainUI.state.getText().equals("서버가 정상적으로 시작되었습니다")) {
+                    porttestlabel.setText("서버가 열린 후 다시 시도해 주세요");
+                    return;
+                }
                 new Thread(this).start();
             }
         }
@@ -143,7 +146,7 @@ public class NetworkinfoUI extends Main implements Runnable {
 
     @Override
     public void run() {
-        // 포트포워딩 테스트 
+        // 포트포워딩 테스트
         String ip = outiptext.getText();
         if (ip.equals("")) {
             porttestlabel.setForeground(Color.RED);
