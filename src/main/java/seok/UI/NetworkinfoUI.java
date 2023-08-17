@@ -1,7 +1,13 @@
 package seok.UI;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Insets;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,14 +38,18 @@ public class NetworkinfoUI extends Main implements Runnable {
 
     public static JLabel netinfo;
 
-    public static JLabel inip;
-    public static JTextField iniptext;
+    public static JPanel inipppanel;
+    public static JLabel iniplabel;
+    public static JTextField inip;
+    public static JButton inipcopybutton;
+
+    public static JPanel outippanel;
+    public static JLabel outiplabel;
+    public static JTextField outip;
+    public static JButton outcopybt;
 
     public static JSpinner setport;
     public static JLabel setportlabel;
-
-    public static JLabel outip;
-    public static JTextField outiptext;
 
     public static JButton porttestbt;
     public static JLabel porttestlabel;
@@ -54,20 +64,46 @@ public class NetworkinfoUI extends Main implements Runnable {
         netinfo.setFont(APPFONT.deriveFont(Font.BOLD, 17));
 
         // 내부 ip 주소 라벨
-        inip = new JLabel("내부 IP 주소:", JLabel.RIGHT);
-        inip.setFont(APPFONT);
+        iniplabel = new JLabel("내부 IP 주소:", JLabel.RIGHT);
+        iniplabel.setFont(APPFONT);
 
         // 내부 ip 주소 필드
-        iniptext = new JTextField(getinip());
-        iniptext.setEditable(false);
+        inip = new JTextField(getinip());
+        inip.setMaximumSize(new Dimension(120, 24));
+        inip.setEditable(false);
+
+        // 내부 ip 주소 복사 버튼
+        inipcopybutton = new JButton("복사");
+        inipcopybutton.addActionListener(this);
+
+        // 내부 ip 주소 패널
+        inipppanel = new JPanel();
+        inipppanel.setLayout(new FlowLayout(FlowLayout.CENTER, 8, 0));
+        inipppanel.setBackground(null);
+
+        inipppanel.add(iniplabel);
+        inipppanel.add(inip);
+        inipppanel.add(inipcopybutton);
 
         // 외부 ip 주소 라벨
-        outip = new JLabel("외부 IP 주소:", JLabel.RIGHT);
-        outip.setFont(APPFONT);
+        outiplabel = new JLabel("외부 IP 주소:", JLabel.RIGHT);
+        outiplabel.setFont(APPFONT);
 
         // 외부 ip 주소 필드
-        outiptext = new JTextField(getoutip());
-        outiptext.setEditable(false);
+        outip = new JTextField(getoutip());
+        outip.setEditable(false);
+
+        // 외부 ip 주소 복사 버튼
+        outcopybt = new JButton("복사");
+        outcopybt.addActionListener(this);
+
+        // 외부 ip 주소 패널
+        outippanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 8, 0));
+        outippanel.setBackground(null);
+
+        outippanel.add(outiplabel);
+        outippanel.add(outip);
+        outippanel.add(outcopybt);
 
         // 포트포워딩 포트 설정
         setport = new JSpinner();
@@ -82,10 +118,10 @@ public class NetworkinfoUI extends Main implements Runnable {
 
         setportlabel = new JLabel("테스트 포트:");
         setportlabel.setFont(APPFONT.deriveFont(Font.PLAIN, 13));
-        
 
         // 포트포워딩 테스트 버튼
         porttestbt = new JButton("포트포워딩 테스트");
+        porttestbt.setMargin(new Insets(0, 0, 0, 0)); // margen 조정
         porttestbt.addActionListener(this);
 
         // 포트포워딩 테스트 정보 라벨
@@ -105,10 +141,8 @@ public class NetworkinfoUI extends Main implements Runnable {
         networkinfopan.setBackground(Color.WHITE);
 
         networkinfopan.add(netinfo);
-        networkinfopan.add(inip);
-        networkinfopan.add(iniptext);
-        networkinfopan.add(outip);
-        networkinfopan.add(outiptext);
+        networkinfopan.add(inipppanel);
+        networkinfopan.add(outippanel);
         networkinfopan.add(setport);
         networkinfopan.add(setportlabel);
         networkinfopan.add(porttestbt);
@@ -149,7 +183,7 @@ public class NetworkinfoUI extends Main implements Runnable {
                 // 서버 시작전 포트 포워딩 테스트
                 new Thread(() -> {
                     try {
-                        int port = Integer.parseInt(setport.getValue().toString()); 
+                        int port = Integer.parseInt(setport.getValue().toString());
                         ServerSocket svs = new ServerSocket(port); // 테스트로 오픈할 포트
                         svs.setSoTimeout(2000);
                         new Thread(this).start();
@@ -169,19 +203,43 @@ public class NetworkinfoUI extends Main implements Runnable {
                 new Thread(this).start();
             }
         }
+
+        if (e.getSource() == inipcopybutton) {
+            if (!outcopybt.getText().equals("복사")) {
+                outcopybt.setText("복사");
+            }
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+			Clipboard clipboard = toolkit.getSystemClipboard();
+			StringSelection strSel = new StringSelection(inip.getText());
+			clipboard.setContents(strSel, null);
+
+            inipcopybutton.setText("복사완료");
+        }
+
+        if (e.getSource() == outcopybt) {
+            if (!inipcopybutton.getText().equals("복사")) {
+                inipcopybutton.setText("복사");
+            }
+            Toolkit toolkit = Toolkit.getDefaultToolkit();
+			Clipboard clipboard = toolkit.getSystemClipboard();
+			StringSelection strSel = new StringSelection(outip.getText());
+			clipboard.setContents(strSel, null);
+
+            outcopybt.setText("복사완료");
+        }
     }
 
     @Override
     public void run() {
         // 포트포워딩 테스트
-        String ip = outiptext.getText();
+        String ip = outip.getText();
         if (ip.equals("")) {
             porttestlabel.setForeground(Color.RED);
             porttestlabel.setText("외부 ip 주소를 확인 할 수 없음");
             return;
         }
         try (Socket socket = new Socket()) {
-            int port = Integer.parseInt(setport.getValue().toString()); 
+            int port = Integer.parseInt(setport.getValue().toString());
             socket.connect(new InetSocketAddress(ip, port), 2000);
             // 오픈된 포트를 외부IP주소로 연결하여 포트포워딩이 정상적으로 되었는지를 확인
             porttestlabel.setForeground(Color.GREEN);
