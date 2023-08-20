@@ -14,15 +14,6 @@ public class Jarstart extends MainUI implements Runnable {
     String path;
 
     public Jarstart() {
-        if (setfile.mode != gamemode.getSelectedIndex() ||
-            setfile.diff != difficulty.getSelectedIndex() ||
-            setfile.plear != (int) person.getValue() ||
-            !setfile.hardcore == hard.getState() ||
-            !setfile.reel == real.getState() ||
-            !setfile.comman == command.getState() ||
-            !setfile.name.equals(sername.getText())) {
-                setfile.save();
-        }
         String link = "C:/Program Files/Java/";
         File fr = new File(link);
         String list[] = fr.list();

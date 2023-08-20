@@ -46,7 +46,7 @@ public class Findjar extends Main {
         }
         if (twocount > 1) {
             while (true) {
-                filename = FileClass.filedia(fr, "*.jar", "버킷 jar파일을 선택하시오", 0, false);
+                filename = ParseProperties.filedia(fr, "*.jar", "버킷 jar파일을 선택하시오", 0, false);
                 if (filename == null) {
                     System.exit(0);
                 }

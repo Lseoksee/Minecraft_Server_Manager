@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -21,7 +22,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.DefaultCaret;
 
-import seok.FileClass;
+import seok.ParseProperties;
 import seok.Jarstart;
 import seok.Main;
 
@@ -66,9 +67,11 @@ public class MainUI extends Main {
 
     public static JTextField meesge;
 
+    ParseProperties pps;
+
     public JPanel main() {
-        //타이틀 설정
-        fr.setTitle("마인크래프트 " + jarver.version + " 서버 관리자"); 
+        // 타이틀 설정
+        fr.setTitle("마인크래프트 " + jarver.version + " 서버 관리자");
 
         // 상단 상태라벨
         state = new JLabel();
@@ -143,7 +146,7 @@ public class MainUI extends Main {
 
         // 콘솔
         consol = new JTextArea();
-        consol.setFont(APPFONT.deriveFont(Font.PLAIN ,12));
+        consol.setFont(APPFONT.deriveFont(Font.PLAIN, 12));
         consol.setEditable(false);
         consol.setLineWrap(true);
         DefaultCaret caret = (DefaultCaret) consol.getCaret();
@@ -165,9 +168,11 @@ public class MainUI extends Main {
         meesge.addFocusListener(this);
         meesge.setEditable(false);
 
-        // 값불러오기
-        setfile = new FileClass("server.properties");
+        // ui 위치 로드
         new Mainbounds();
+
+        // 설정값 로드
+        getPropertys();
 
         // 패널 설정
         mainpan = new JPanel(null);
@@ -200,10 +205,102 @@ public class MainUI extends Main {
         return mainpan;
     }
 
+    /*
+     * gamemode
+     * difficulty
+     * max-players
+     * hardcore
+     * online-mode
+     * enable-command-block
+     * motd
+     */
+    private void getPropertys() {
+        try {
+            pps = new ParseProperties();
+
+            // 게임모드
+            gamemode.setSelectedIndex(
+                    Integer.parseInt(pps.properties.getProperty("gamemode")));
+            // 난이도
+            difficulty.setSelectedIndex(
+                    Integer.parseInt(pps.properties.getProperty("difficulty")));
+            // 참여인원
+            person.setValue(
+                    Integer.parseInt(pps.properties.getProperty("max-players")));
+            // 하드코어
+            hard.setState(
+                    Boolean.parseBoolean(pps.properties.getProperty("hardcore")));
+            // 정품여부
+            real.setState(
+                    !Boolean.parseBoolean(pps.properties.getProperty("online-mode")));
+            // 커멘드
+            command.setState(
+                    Boolean.parseBoolean(pps.properties.getProperty("enable-command-block")));
+            // 서버 이름
+            sername.setText(
+                    pps.properties.getProperty("motd"));
+        } catch (Exception e) {
+            // server.properties 파일이 없을시
+
+            // 게임모드
+            gamemode.setSelectedIndex(0);
+            gamemode.setEnabled(false);
+            // 난이도
+            difficulty.setSelectedIndex(1);
+            difficulty.setEnabled(false);
+            // 참여인원
+            person.setValue(20);
+            person.setEnabled(false);
+            // 하드코어
+            hard.setState(false);
+            hard.setEnabled(false);
+            // 정품여부
+            real.setState(false);
+            real.setEnabled(false);
+            // 커멘드
+            command.setState(false);
+            command.setEnabled(false);
+            // 서버 이름
+            sername.setText("A Minecraft Server");
+            sername.setEnabled(false);
+        }
+    }
+
+    private void saveProperty(Boolean checkmodify) throws Exception {
+        HashMap<String, Object> map = new HashMap<>();
+
+        map.put("gamemode", gamemode.getSelectedIndex());
+        map.put("difficulty", difficulty.getSelectedIndex());
+        map.put("max-players", person.getValue());
+        map.put("hardcore", hard.getState());
+        map.put("online-mode", !real.getState());
+        map.put("enable-command-block", command.getState());
+
+        try {
+            if (checkmodify) {
+                map.put("motd", sername.getText());
+                if (!pps.isModify(map)) return;
+            }
+
+            map.put("motd", ParseProperties.escapeToUnicode(sername.getText()));
+            pps.saveProperties(map);
+            pps = new ParseProperties();
+        } catch (NullPointerException e) {
+            // 처음 서버 시작후 정지한 다음 저장 누르면 null 애러 발생하는거 방지
+            pps = new ParseProperties();
+            pps.saveProperties(map);
+        }
+
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // 시작
         if (e.getSource() == startbt && readThread == null) {
+            try {
+                saveProperty(true);
+            } catch (Exception e1) {
+            }
             new Jarstart();
         }
         // 정지
@@ -218,18 +315,24 @@ public class MainUI extends Main {
         }
         // 저장
         if (e.getSource() == savebt && readThread == null) {
-            setfile.save();
+            try {
+                saveProperty(false);
+                state.setForeground(Color.GREEN);
+                state.setText("저장완료!");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(fr, "먼저 서버를 실행해 주세요.", "알림", JOptionPane.INFORMATION_MESSAGE);
+            }
         }
         // 추가설정 버튼
         if (e.getSource() == manyset && readThread == null) {
             try {
-                if (new File(setfile.filepath).exists()) {
+                if (new File(propertiesfile).exists()) {
                     ProcessBuilder processBuilder = new ProcessBuilder("cmd", "/c", "notepad.exe \"server.properties\"");
                     Process process = processBuilder.start();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
                     while (reader.readLine() != null) {
                     }
-                    new FileClass(setfile.filepath);
+                    getPropertys();
                 }
             } catch (Exception e1) {
                 e1.printStackTrace();

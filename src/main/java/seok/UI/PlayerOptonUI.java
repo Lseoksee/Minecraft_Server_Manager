@@ -33,7 +33,7 @@ import javax.swing.text.DefaultCaret;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import seok.FileClass;
+import seok.ParseProperties;
 import seok.Main;
 
 public class PlayerOptonUI extends Main implements Runnable {
@@ -266,7 +266,7 @@ public class PlayerOptonUI extends Main implements Runnable {
         // op 파일선택버튼
         if (e.getSource() == opfile) {
             try {
-                String check = FileClass.filedia(fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오", 0, true);
+                String check = ParseProperties.filedia(fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오", 0, true);
                 BufferedReader br = new BufferedReader(new FileReader(check));
                 String line;
                 while ((line = br.readLine()) != null) {
@@ -295,7 +295,7 @@ public class PlayerOptonUI extends Main implements Runnable {
         // 채팅 저장버튼
         if (e.getSource() == chatsave && !chatlog.getText().equals("")) {
             try {
-                String save = FileClass.filedia(fr, "Chatlog-" + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
+                String save = ParseProperties.filedia(fr, "Chatlog-" + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
                 BufferedWriter bw = new BufferedWriter(new FileWriter(save));
                 bw.write(chatlog.getText());
                 bw.close();

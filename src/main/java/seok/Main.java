@@ -46,8 +46,8 @@ public class Main extends EventSuper {
 
     public static Thread readThread; // 로그 쓰레드
     public static OutputStream outputStream;
-    public static FileClass setfile; // 서버 설정파일
     public static Findjar jarver;   // 서버 실행파일 찾기
+    public static String propertiesfile = "server.properties"; // 서버 설정파일
 
     public static JFrame fr;   //메인 프레임
     public static JTabbedPane pane; //텝 패널
