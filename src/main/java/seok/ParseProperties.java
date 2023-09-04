@@ -71,9 +71,19 @@ public class ParseProperties extends Main {
         return false;
     }
 
-    // 파일선택
+    /** 파일 다이얼로그를 띄웁니다.
+     * 
+     * @param fr : 프레임
+     * @param scanfile : 파일경로
+     * @param messege : 다이얼로그 제목
+     * @param whatDialog : 방식 {@code 0: 블러오기} {@code 1: 저장하기}
+     * @param allpath : 전체경로 반환여부 {@code ture: 전체경로} {@code false: 파일이름}
+     * 
+     * @return
+     * {@code 정상반환: }파일경로 또는 파일이름
+     * {@code 오류반환: }null
+      */
     public static String filedia(Frame fr, String scanfile, String messege, int whatDialog, boolean allpath) {
-        // 프레임, 파일, 메세지, 방식(0=불러오기,1저장하기), 전체경로?
         try {
             FileDialog fileDialogOpen = new FileDialog(fr, messege, whatDialog);
             fileDialogOpen.setFile(scanfile);

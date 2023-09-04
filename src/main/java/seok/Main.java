@@ -41,16 +41,16 @@ import seok.UI.NetworkinfoUI;
 import seok.UI.PlayerOptonUI;
 
 public class Main extends EventSuper {
-    public static final String RESVER = "v1.5"; //앱 버전
-    public static final Font APPFONT = new Font("맑은 고딕", Font.PLAIN, 15);   // 앱 폰트
+    public static final String RESVER = "v1.5"; // 앱 버전
+    public static final Font APPFONT = new Font("맑은 고딕", Font.PLAIN, 15); // 앱 폰트
 
     public static Thread readThread; // 로그 쓰레드
     public static OutputStream outputStream;
-    public static Findjar jarver;   // 서버 실행파일 찾기
+    public static Findjar jarver; // 서버 실행파일 찾기
     public static String propertiesfile = "server.properties"; // 서버 설정파일
 
-    public static JFrame fr;   //메인 프레임
-    public static JTabbedPane pane; //텝 패널
+    public static JFrame fr; // 메인 프레임
+    public static JTabbedPane pane; // 텝 패널
 
     public static SystemTray Tray;
     public static TrayIcon trayico;
@@ -65,7 +65,7 @@ public class Main extends EventSuper {
     private JButton jarok;
 
     private ClassLoader cl = getClass().getClassLoader();
-    
+
     public static void main(String[] args) {
         // os 스타일 ui로 변경
         try {
@@ -115,11 +115,11 @@ public class Main extends EventSuper {
 
         jarver = new Findjar();
 
-        if (jarver.version == null) 
+        if (jarver.version == null)
             main.whatver();
         else
             main.start();
-        
+
         new Thread(() -> main.CheckVer()).start(); // 버전확인 쓰레드 실행
     }
 

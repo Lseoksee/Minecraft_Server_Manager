@@ -205,27 +205,17 @@ public class NetworkinfoUI extends Main implements Runnable {
         }
 
         if (e.getSource() == inipcopybutton) {
-            if (!outcopybt.getText().equals("복사")) {
-                outcopybt.setText("복사");
-            }
             Toolkit toolkit = Toolkit.getDefaultToolkit();
 			Clipboard clipboard = toolkit.getSystemClipboard();
 			StringSelection strSel = new StringSelection(inip.getText());
 			clipboard.setContents(strSel, null);
-
-            inipcopybutton.setText("복사완료");
         }
 
         if (e.getSource() == outcopybt) {
-            if (!inipcopybutton.getText().equals("복사")) {
-                inipcopybutton.setText("복사");
-            }
             Toolkit toolkit = Toolkit.getDefaultToolkit();
 			Clipboard clipboard = toolkit.getSystemClipboard();
 			StringSelection strSel = new StringSelection(outip.getText());
 			clipboard.setContents(strSel, null);
-
-            outcopybt.setText("복사완료");
         }
     }
 
