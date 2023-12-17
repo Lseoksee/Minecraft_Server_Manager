@@ -7,7 +7,6 @@ import io.graversen.minecraft.rcon.MinecraftRcon;
 import io.graversen.minecraft.rcon.RconResponse;
 import io.graversen.minecraft.rcon.commands.PlayerListCommand;
 import io.graversen.minecraft.rcon.commands.TimeCommand;
-import io.graversen.minecraft.rcon.commands.WeatherCommand;
 import io.graversen.minecraft.rcon.commands.base.ICommand;
 import io.graversen.minecraft.rcon.query.playerlist.PlayerNames;
 import io.graversen.minecraft.rcon.query.playerlist.PlayerNamesMapper;
@@ -15,7 +14,6 @@ import io.graversen.minecraft.rcon.service.ConnectOptions;
 import io.graversen.minecraft.rcon.service.MinecraftRconService;
 import io.graversen.minecraft.rcon.service.RconDetails;
 import io.graversen.minecraft.rcon.util.TimeLabels;
-import io.graversen.minecraft.rcon.util.Weathers;
 
 public class rcon {
     public static void main(String[] args) {
@@ -35,11 +33,9 @@ public class rcon {
 
         // 시간 조절(time set day)
         TimeCommand timeCommand = new TimeCommand(TimeLabels.NOON);
-        // 날씨조절 (Weather clear)
-        WeatherCommand weatherCommand = new WeatherCommand(Weathers.CLEAR, Duration.ofHours(1).toSeconds());
 
         // 최종적으로 서버에 request
-        minecraftRcon.sendAsync(timeCommand, weatherCommand, new gamemode());
+        minecraftRcon.sendAsync(timeCommand, new gamemode());
 
         // 플레이어 리스트 커멘드
         PlayerListCommand playerListCommand = PlayerListCommand.names();
