@@ -25,7 +25,7 @@ public class Jarstart extends MainUI implements Runnable {
             }
         } else {
             for (String as : list) {
-                if (as.matches(".*jdk-17.*")) 
+                if (as.matches(".*jdk-(1[7-9]|[2-9][0-9]).*")) 
                     path = "\"" + link + as + "/bin/java" + "\"";
             }
         }
