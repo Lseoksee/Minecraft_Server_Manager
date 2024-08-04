@@ -2,8 +2,11 @@ package seok.UI;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -32,8 +35,10 @@ import javax.swing.text.DefaultCaret;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.mozilla.universalchardet.UniversalDetector;
 
 import seok.ParseProperties;
+import seok.Utills;
 import seok.Main;
 
 public class PlayerOptonUI extends Main implements Runnable {
@@ -73,7 +78,7 @@ public class PlayerOptonUI extends Main implements Runnable {
         try {
             Path path = Paths.get("ops.json");
             // 1.8 에서 inputstream에 readallbyte 메소드가 없음
-            array = new JSONArray(new String(Files.readAllBytes(path), "utf-8"));
+            array = new JSONArray(new String(Files.readAllBytes(path), "UTF-8"));
         } catch (Exception e) {
             array = new JSONArray("[]");
         }
@@ -130,7 +135,7 @@ public class PlayerOptonUI extends Main implements Runnable {
         chatlog = new JTextArea();
         chatlog.setEditable(false);
         chatlog.setLineWrap(true);
-        chatlog.setFont(APPFONT.deriveFont(Font.PLAIN,13));
+        chatlog.setFont(APPFONT.deriveFont(Font.PLAIN, 13));
         DefaultCaret caret = (DefaultCaret) chatlog.getCaret();
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         chatscroll = new JScrollPane(chatlog);
@@ -267,7 +272,12 @@ public class PlayerOptonUI extends Main implements Runnable {
         if (e.getSource() == opfile) {
             try {
                 String check = ParseProperties.filedia(fr, "*.txt", "OP리스트 텍스트 파일을 선택하시오", 0, true);
-                BufferedReader br = new BufferedReader(new FileReader(check));
+
+                // 파일 인코딩 정보 얻기
+                String fileEncoding = Utills.CheckFileEncoding(check);
+                FileInputStream opFileStream = new FileInputStream(check);
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(opFileStream, fileEncoding));
                 String line;
                 while ((line = br.readLine()) != null) {
                     if (addoplist.contains(line)) {
@@ -295,9 +305,10 @@ public class PlayerOptonUI extends Main implements Runnable {
         // 채팅 저장버튼
         if (e.getSource() == chatsave && !chatlog.getText().equals("")) {
             try {
-                String save = ParseProperties.filedia(fr, "Chatlog-" + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1, true);
-                BufferedWriter bw = new BufferedWriter(new FileWriter(save));
-                bw.write(chatlog.getText());
+                String save = ParseProperties.filedia(fr, "Chatlog-" + LocalDate.now() + ".txt", "저장할 위치를 지정하시오", 1,
+                        true);
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(save), "UTF-8"));
+                bw.write(new String(chatlog.getText().getBytes()));
                 bw.close();
             } catch (Exception e1) {
                 return;
@@ -345,12 +356,13 @@ public class PlayerOptonUI extends Main implements Runnable {
             JSONObject jsonObject = array.getJSONObject(i);
             String name = jsonObject.getString("name");
             try {
-                URL url = new URL("https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
+                URL url = new URL(
+                        "https://sessionserver.mojang.com/session/minecraft/profile/" + jsonObject.getString("uuid"));
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
                 int rescode = connection.getResponseCode();
 
-                if (rescode == 200 && ! MainUI.real.getState()) { // 정품서버인 경우 리스트에 추가
+                if (rescode == 200 && !MainUI.real.getState()) { // 정품서버인 경우 리스트에 추가
                     addoplist.addElement(name);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);
                 } else if (rescode == 204 && MainUI.real.getState()) { // 비정품 서버인경우 리스트에 추가

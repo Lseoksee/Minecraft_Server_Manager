@@ -167,7 +167,10 @@ public class NetworkinfoUI extends Main implements Runnable {
         try {
             URL url = new URL("http://checkip.amazonaws.com/"); // 외부 ip 리턴
             HttpURLConnection hur = (HttpURLConnection) url.openConnection();
-            return new BufferedReader(new InputStreamReader(hur.getInputStream(), "utf-8")).readLine();
+            BufferedReader br = new BufferedReader(new InputStreamReader(hur.getInputStream(), "utf-8"));
+            String ipAddr = br.readLine();
+            br.close();
+            return ipAddr;
         } catch (Exception e) {
             return null;
         }

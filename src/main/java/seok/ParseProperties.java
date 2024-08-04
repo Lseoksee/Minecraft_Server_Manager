@@ -1,9 +1,11 @@
 package seok;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Properties;
 
@@ -18,7 +20,7 @@ public class ParseProperties extends Main {
 
     public ParseProperties() throws IOException {
         properties = new Properties();
-        properties.load(new FileReader(propertiesfile));
+        properties.load(new InputStreamReader(new FileInputStream(propertiesfile), "UTF-8"));
 
         defmap = new HashMap<>();
         defmap.put("survival", "0");
@@ -61,7 +63,7 @@ public class ParseProperties extends Main {
         fos.close();
     }
 
-    // 불러온 값과 현제 값이 같은지 확인    
+    // 불러온 값과 현제 값이 같은지 확인
     public Boolean isModify(HashMap<String, Object> values) {
         for (Object object : values.keySet().toArray()) {
             if (!properties.get(object).equals(values.get(object).toString())) {
@@ -71,18 +73,19 @@ public class ParseProperties extends Main {
         return false;
     }
 
-    /** 파일 다이얼로그를 띄웁니다.
+    /**
+     * 파일 다이얼로그를 띄웁니다.
      * 
-     * @param fr : 프레임
-     * @param scanfile : 파일경로
-     * @param messege : 다이얼로그 제목
+     * @param fr         : 프레임
+     * @param scanfile   : 파일경로
+     * @param messege    : 다이얼로그 제목
      * @param whatDialog : 방식 {@code 0: 블러오기} {@code 1: 저장하기}
-     * @param allpath : 전체경로 반환여부 {@code ture: 전체경로} {@code false: 파일이름}
+     * @param allpath    : 전체경로 반환여부 {@code ture: 전체경로} {@code false: 파일이름}
      * 
      * @return
-     * {@code 정상반환: }파일경로 또는 파일이름
-     * {@code 오류반환: }null
-      */
+     *         {@code 정상반환: }파일경로 또는 파일이름
+     *         {@code 오류반환: }null
+     */
     public static String filedia(Frame fr, String scanfile, String messege, int whatDialog, boolean allpath) {
         try {
             FileDialog fileDialogOpen = new FileDialog(fr, messege, whatDialog);

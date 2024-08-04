@@ -37,7 +37,7 @@ public class Jarstart extends MainUI implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-jar", "Minecraft_" + jarver.version + "_server.jar", "nogui");
+            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-Dfile.encoding=MS949", "-jar", "Minecraft_" + jarver.version + "_server.jar", "nogui");
             processBuilder.redirectErrorStream(true);       //에러스트림 인풋스트림 병합
             Process process = processBuilder.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));

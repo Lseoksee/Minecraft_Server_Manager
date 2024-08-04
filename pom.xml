@@ -25,11 +25,19 @@
   </repositories>
 
   <dependencies>
+    <!-- JSON 파싱 라이브러리 -->
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20220924</version>
     </dependency>
+    <!-- 파일 인코딩 판단 라이브러리 -->
+    <dependency>
+      <groupId>com.googlecode.juniversalchardet</groupId>
+      <artifactId>juniversalchardet</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <!-- RCON 라이브러리 -->
     <dependency>
       <groupId>io.github.MrGraversen</groupId>
       <artifactId>minecraft-rcon</artifactId>
@@ -88,6 +96,10 @@
               <jre>
                 <minVersion>8</minVersion>
                 <runtimeBits>64/32</runtimeBits>
+                <opts>
+                  <opt>-Dfile.encoding=MS949</opt>
+                  <!-- 인코딩을 MS949 로 실행하게-->
+                </opts>
               </jre>
               <versionInfo>
                 <fileVersion>1.0.0.0</fileVersion>

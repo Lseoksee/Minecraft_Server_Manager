@@ -204,8 +204,11 @@ public class Main extends EventSuper {
             // httprequset 연결부분
 
             InputStream is = huc.getInputStream();
-            JSONObject jsonObject = new JSONObject(new BufferedReader(new InputStreamReader(is, "utf-8")).readLine());
+            BufferedReader br = new BufferedReader(new InputStreamReader(is, "utf-8"));
+
+            JSONObject jsonObject = new JSONObject(br.readLine());
             String onver = jsonObject.getString("tag_name");
+            br.close();
 
             if (!onver.equals(Main.RESVER)) {
                 String mesege = "업데이트가 있습니다!\n현재버전: " + Main.RESVER + "\n최신버전: " + onver;
