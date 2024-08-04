@@ -79,7 +79,6 @@
             <configuration>
               <headerType>gui</headerType>
               <outfile>target/Minecraft_Server_Manager.exe</outfile>
-              
               <jar>target/build-${project.version}.jar</jar>
               <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
               <icon>.github\\assets\\icon.ico</icon>

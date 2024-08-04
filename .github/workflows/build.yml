@@ -34,6 +34,4 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{secrets.ACTIONS_TOKEN}}
               with:
-                  files: |
-                      target/Minecraft_Server_Manager_v${{env.TAG}}.exe
-                      target/build-${{env.TAG}}.jar
+                  files: target/Minecraft_Server_Manager_v${{env.TAG}}.exe

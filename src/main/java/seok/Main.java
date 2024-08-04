@@ -80,7 +80,7 @@ public class Main extends EventSuper {
         fr.setResizable(false);
         fr.setLocationRelativeTo(null);
         fr.setFocusable(true);
-        fr.setIconImage(fr.getToolkit().getImage(main.cl.getResource("seok/img/mincraft.png")));
+        fr.setIconImage(fr.getToolkit().getImage(main.cl.getResource("mincraft.png")));
         // 종료 이벤트
         fr.addWindowListener(new WindowAdapter() {
             @Override
@@ -93,7 +93,7 @@ public class Main extends EventSuper {
                     } else if (!trayover) {
                         // 시스템 트레이
                         Tray = SystemTray.getSystemTray();
-                        trayico = new TrayIcon(ImageIO.read(main.cl.getResourceAsStream("seok/img/minecraft_tray.png")));
+                        trayico = new TrayIcon(ImageIO.read(main.cl.getResourceAsStream("minecraft_tray.png")));
                         menu = new PopupMenu("Tray Menu");
                         open = new MenuItem("열기");
                         open.addActionListener(main);
