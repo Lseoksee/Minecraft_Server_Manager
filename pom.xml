@@ -83,7 +83,7 @@
               <outfile>target/Minecraft_Server_Manager.exe</outfile>
               <jar>target/build-${project.version}.jar</jar>
               <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
-              <icon>D:\icon\\mincraft.ico</icon>
+              <icon>.github\\assets\\icon.ico</icon>
               <!-- 한글 경로 문제 있어서 한글경로에서 작업하려면 icon 위치 변경하기  -->
               <jre>
                 <minVersion>8</minVersion>
