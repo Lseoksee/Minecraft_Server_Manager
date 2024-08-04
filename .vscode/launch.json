@@ -6,17 +6,22 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch Java Program",
+            "name": "프로그램 실행",
             "request": "launch",
             "mainClass": "seok.Main",
-            "vmArgs": "-Dfile.encoding=MS949"
         },
         {
             "type": "java",
-            "name": "Current File",
+            "name": "프로그램 실행 (java21)",
+            "request": "launch",
+            "mainClass": "seok.Main",
+            "javaExec": "C:\\Program Files\\Java\\jdk-21\\bin\\java.exe"
+        },
+        {
+            "type": "java",
+            "name": "현재파일",
             "request": "launch",
             "mainClass": "${file}",
-            "vmArgs": "-Dfile.encoding=MS949"
         }
     ]
 }

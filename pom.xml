@@ -96,10 +96,6 @@
               <jre>
                 <minVersion>8</minVersion>
                 <runtimeBits>64/32</runtimeBits>
-                <opts>
-                  <opt>-Dfile.encoding=MS949</opt>
-                  <!-- 인코딩을 MS949 로 실행하게-->
-                </opts>
               </jre>
               <versionInfo>
                 <fileVersion>1.0.0.0</fileVersion>

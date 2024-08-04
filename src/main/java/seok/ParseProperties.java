@@ -58,7 +58,7 @@ public class ParseProperties extends Main {
         br.close();
 
         FileOutputStream fos = new FileOutputStream(propertiesfile);
-        fos.write(sb.toString().getBytes("utf-8"));
+        fos.write(sb.toString().getBytes("UTF-8"));
         fos.flush();
         fos.close();
     }

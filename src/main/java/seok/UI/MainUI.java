@@ -307,7 +307,7 @@ public class MainUI extends Main {
         if (e.getSource() == stopbt && readThread != null) {
             try {
                 String message = "stop\n";
-                outputStream.write(message.getBytes());
+                outputStream.write(message.getBytes("UTF-8"));
                 outputStream.flush();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -360,7 +360,7 @@ public class MainUI extends Main {
             String message = meesge.getText() + "\n";
             consol.append("--> " + message);
             try {
-                outputStream.write(message.getBytes());
+                outputStream.write(message.getBytes("UTF-8"));
                 outputStream.flush();
             } catch (Exception e1) {
                 e1.printStackTrace();

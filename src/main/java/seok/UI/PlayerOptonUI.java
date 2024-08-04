@@ -186,7 +186,7 @@ public class PlayerOptonUI extends Main implements Runnable {
                 return;
             }
             String message = "op " + opField.getText() + "\n";
-            outputStream.write(message.getBytes());
+            outputStream.write(message.getBytes("UTF-8"));
             outputStream.flush();
             addoplist.addElement(opField.getText());
             opList.ensureIndexIsVisible(addoplist.getSize() - 1);
@@ -204,7 +204,7 @@ public class PlayerOptonUI extends Main implements Runnable {
                 return;
             }
             String message = "deop " + opField.getText() + "\n";
-            outputStream.write(message.getBytes());
+            outputStream.write(message.getBytes("UTF-8"));
             outputStream.flush();
             addoplist.removeElement(opField.getText());
             opField.setText(null);
@@ -220,7 +220,7 @@ public class PlayerOptonUI extends Main implements Runnable {
         }
         try {
             String message = "say " + chatField.getText() + "\n";
-            outputStream.write(message.getBytes());
+            outputStream.write(message.getBytes("UTF-8"));
             outputStream.flush();
             chatField.setText(null);
         } catch (Exception e) {
@@ -282,7 +282,7 @@ public class PlayerOptonUI extends Main implements Runnable {
                         continue;
                     }
                     String message = "op " + line + "\n";
-                    outputStream.write(message.getBytes());
+                    outputStream.write(message.getBytes("UTF-8"));
                     outputStream.flush();
                     addoplist.addElement(line);
                     opList.ensureIndexIsVisible(addoplist.getSize() - 1);

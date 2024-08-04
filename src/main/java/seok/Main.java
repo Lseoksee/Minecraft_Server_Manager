@@ -235,7 +235,7 @@ public class Main extends EventSuper {
         if (e.getSource() == exit) {
             try {
                 String message = "stop\n";
-                outputStream.write(message.getBytes());
+                outputStream.write(message.getBytes("UTF-8"));
                 outputStream.flush();
                 System.exit(0);
             } catch (Exception e1) {

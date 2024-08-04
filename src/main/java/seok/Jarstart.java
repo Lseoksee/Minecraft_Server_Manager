@@ -21,15 +21,16 @@ public class Jarstart extends MainUI implements Runnable {
             for (String as : list) {
                 if (as.matches(".*jre.*|.*jdk-(8|11).*")) {
                     path = "\"" + link + as + "/bin/java" + "\"";
-                }     
+                }
             }
         } else {
             for (String as : list) {
-                if (as.matches(".*jdk-(1[7-9]|[2-9][0-9]).*")) 
+                if (as.matches(".*jdk-(1[7-9]|[2-9][0-9]).*"))
                     path = "\"" + link + as + "/bin/java" + "\"";
             }
         }
-        if (path == null) path = "java";
+        if (path == null)
+            path = "java";
         readThread = new Thread(this);
         readThread.start();
     }
@@ -37,10 +38,17 @@ public class Jarstart extends MainUI implements Runnable {
     @Override
     public void run() {
         try {
-            ProcessBuilder processBuilder = new ProcessBuilder(path, "-Xmx"+ram.getValue()+"G", "-Xms"+ram.getValue()+"G", "-Dfile.encoding=MS949", "-jar", "Minecraft_" + jarver.version + "_server.jar", "nogui");
-            processBuilder.redirectErrorStream(true);       //에러스트림 인풋스트림 병합
+            ProcessBuilder processBuilder = new ProcessBuilder(path,
+                    "-Xmx" + ram.getValue() + "G", "-Xms" + ram.getValue() + "G",
+                    "-Dfile.encoding=UTF-8", "-Dstdout.encoding=UTF-8", "-Dstderr.encoding=UTF-8",
+                    "-jar", "Minecraft_" + jarver.version + "_server.jar",
+                    "nogui");
+            processBuilder.redirectErrorStream(true); // 에러스트림 인풋스트림 병합
             Process process = processBuilder.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "UTF-8"));
+
+            // 버킷 실행 스트림이 UTF-8 이므로 스트림에 쓸때도 UTF-8 로 보내줘야함
+            // outputStream.write(message.getBytes("UTF-8"));
             outputStream = process.getOutputStream();
 
             consol.setText(null);
