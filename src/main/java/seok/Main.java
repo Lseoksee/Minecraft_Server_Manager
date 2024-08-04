@@ -144,6 +144,7 @@ public class Main extends EventSuper {
         pane.addTab("메인", mainui.main());
         pane.addTab("플레이어 관리", playeroptonui.playeropton());
         pane.addTab("네트워크 정보", networkinfoui.networkinfo());
+        pane.setEnabledAt(1, false);
         pane.addChangeListener(this);
         pane.addMouseListener(this);
 
