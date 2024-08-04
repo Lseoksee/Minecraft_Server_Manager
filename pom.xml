@@ -78,7 +78,8 @@
             </goals>
             <configuration>
               <headerType>gui</headerType>
-              <outfile>target/마인크래프트 버킷 구동기(Ver. ${project.version}).exe</outfile>
+              <outfile>target/Minecraft_Server_Manager_v${project.version}.exe</outfile>
+              
               <jar>target/build-${project.version}.jar</jar>
               <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
               <icon>D:/icon/mincraft.ico</icon>
