@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -35,7 +34,6 @@ import javax.swing.text.DefaultCaret;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.mozilla.universalchardet.UniversalDetector;
 
 import seok.ParseProperties;
 import seok.Utills;
