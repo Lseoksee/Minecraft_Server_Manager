@@ -27,11 +27,13 @@ jobs:
               run: mvn package -f pom.xml
 
             - name: Rename exe File
-              run: mv target/Minecraft_Server_Manager.exe target/Minecraft_Server_Manager_${{env.TAG}}.exe
+              run: mv target/Minecraft_Server_Manager.exe target/Minecraft_Server_Manager_v${{env.TAG}}.exe
 
             - name: Release
               uses: softprops/action-gh-release@v2
               env:
                   GITHUB_TOKEN: ${{secrets.ACTIONS_TOKEN}}
               with:
-                  files: target/Minecraft_Server_Manager_${{env.TAG}}.exe
+                  files: |
+                      target/Minecraft_Server_Manager_v${{env.TAG}}.exe
+                      target/build-${{env.TAG}}.jar
