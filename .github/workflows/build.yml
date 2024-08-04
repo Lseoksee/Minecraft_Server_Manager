@@ -1,8 +1,9 @@
 name: Build
 
 on:
-    push:   
+    push:
         branches: master
+        tags: "**"
 
 jobs:
     build:
@@ -18,7 +19,7 @@ jobs:
                   java-version: "21"
                   distribution: "temurin"
                   cache: maven
-                  cache-dependency-path: 'pom.xml'
+                  cache-dependency-path: "pom.xml"
 
             - name: Build with Maven
               run: mvn package -f pom.xml
@@ -26,5 +27,4 @@ jobs:
             - name: Release
               uses: softprops/action-gh-release@v2
               with:
-                files: target/Minecraft_Server_Manager_v1.5.exe
-      
+                  files: target/Minecraft_Server_Manager_v1.5.exe
