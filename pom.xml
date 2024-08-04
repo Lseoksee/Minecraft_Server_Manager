@@ -78,7 +78,7 @@
             </goals>
             <configuration>
               <headerType>gui</headerType>
-              <outfile>target/Minecraft_Server_Manager_v${project.version}.exe</outfile>
+              <outfile>target/Minecraft_Server_Manager.exe</outfile>
               
               <jar>target/build-${project.version}.jar</jar>
               <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
