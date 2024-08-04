@@ -8,8 +8,8 @@
 1. 자바를 설치합니다 (64비트)
 
     - `~1.15`: [자바8](https://www.java.com/ko/download/)
-    - `1.16 ~ 1.20`: [자바17](https://www.oracle.com/kr/java/technologies/downloads)
-    - `1.21+`: [자바21](https://www.oracle.com/kr/java/technologies/downloads)
+    - `1.16 ~ 1.20`: [자바17+](https://www.oracle.com/kr/java/technologies/downloads)
+    - `1.21+`: [자바21+](https://www.oracle.com/kr/java/technologies/downloads)
 
 2. [버킷 jar파일을 다운로드 합니다. (Paper 권장)](https://papermc.io/downloads)
 
