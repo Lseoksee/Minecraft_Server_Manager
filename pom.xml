@@ -34,6 +34,8 @@
       <groupId>io.github.MrGraversen</groupId>
       <artifactId>minecraft-rcon</artifactId>
       <version>0.0.16</version>
+      <scope>provided</scope>
+      <!-- 빌드에서 제외 -->
     </dependency>
   </dependencies>
 
@@ -81,7 +83,7 @@
               <outfile>target/Minecraft_Server_Manager.exe</outfile>
               <jar>target/build-${project.version}.jar</jar>
               <downloadUrl>https://www.oracle.com/kr/java/technologies/downloads/#java17</downloadUrl>
-              <icon>.github\\assets\\icon.ico</icon>
+              <icon>D:\icon\\mincraft.ico</icon>
               <!-- 한글 경로 문제 있어서 한글경로에서 작업하려면 icon 위치 변경하기  -->
               <jre>
                 <minVersion>8</minVersion>
@@ -125,6 +127,12 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>seok/test/**</exclude>
+            <!-- 테스트 폴더 jar 패키징 제외 -->
+          </excludes>
+        </configuration>
         <version>3.0.2</version>
       </plugin>
       <plugin>
