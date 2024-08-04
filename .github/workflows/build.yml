@@ -25,5 +25,7 @@ jobs:
 
             - name: Release
               uses: softprops/action-gh-release@v2
+              env:
+                  GITHUB_TOKEN: ${{env.GITHUB_TOKEN}}
               with:
                   files: target/Minecraft_Server_Manager_v1.5.exe
