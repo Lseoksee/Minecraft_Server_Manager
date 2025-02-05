@@ -287,8 +287,10 @@ public class MainUI extends Main {
             pps = new ParseProperties();
         } catch (NullPointerException e) {
             // 처음 서버 시작후 정지한 다음 저장 누르면 null 애러 발생하는거 방지
-            pps = new ParseProperties();
-            pps.saveProperties(map);
+            try {
+                pps = new ParseProperties();
+                pps.saveProperties(map);
+            } catch (Exception e1) {}
         }
 
     }
@@ -299,9 +301,11 @@ public class MainUI extends Main {
         if (e.getSource() == startbt && readThread == null) {
             try {
                 saveProperty(true);
+                jarThread.join();
+                jarstart.runServer();
             } catch (Exception e1) {
+                e1.printStackTrace();
             }
-            new Jarstart();
         }
         // 정지
         if (e.getSource() == stopbt && readThread != null) {

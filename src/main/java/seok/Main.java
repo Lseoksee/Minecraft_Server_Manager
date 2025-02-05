@@ -41,10 +41,19 @@ import seok.UI.NetworkinfoUI;
 import seok.UI.PlayerOptonUI;
 
 public class Main extends EventSuper {
-    public static final String RESVER = "v1.6.1"; // 앱 버전
+    public static final String RESVER = "v1.6.2"; // 앱 버전
     public static final Font APPFONT = new Font("맑은 고딕", Font.PLAIN, 15); // 앱 폰트
 
-    public static Thread readThread; // 로그 쓰레드
+    public static Thread readThread; // 서버 관리 쓰레드
+    public static Jarstart jarstart; // 서버 실행준비 객체
+    // java 선택 쓰레드
+    public static Thread jarThread = new Thread(() -> {
+        jarstart = new Jarstart();
+    });
+    // 버전확인 쓰레드
+    public static Thread VerCheckThread = new Thread(() -> {
+        CheckVer();
+    });
     public static OutputStream outputStream;
     public static Findjar jarver; // 서버 실행파일 찾기
     public static String propertiesfile = "server.properties"; // 서버 설정파일
@@ -120,7 +129,9 @@ public class Main extends EventSuper {
         else
             main.start();
 
-        new Thread(() -> main.CheckVer()).start(); // 버전확인 쓰레드 실행
+        // 버전 및, jar 선택 쓰레드 시작
+        VerCheckThread.start();
+        jarThread.start();
     }
 
     public void start() {
@@ -196,7 +207,7 @@ public class Main extends EventSuper {
         }
     }
 
-    public void CheckVer() {
+    private static void CheckVer() {
         /* 깃허브 api를 사용한 버전확인 방법 */
         try {
             URL url = new URL("https://api.github.com/repos/Lseoksee/Minecraft_Server_Manager/releases/latest");

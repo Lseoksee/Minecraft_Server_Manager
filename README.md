@@ -5,11 +5,11 @@
 
 ## 사용법
 
-1. 자바를 설치합니다 (64비트)
+1. 자바를 설치합니다
 
-    - `~1.15`: [자바8](https://www.java.com/ko/download/)
-    - `1.16 ~ 1.20`: [자바17+](https://www.oracle.com/kr/java/technologies/downloads)
-    - `1.21+`: [자바21+](https://www.oracle.com/kr/java/technologies/downloads)
+    - `~1.16.x`: [자바8](https://www.java.com/ko/download/)
+    - `1.17.x ~ 1.20.x`: [자바17](https://www.oracle.com/kr/java/technologies/downloads)
+    - `1.21.x+`: [자바21+](https://www.oracle.com/kr/java/technologies/downloads)
 
 2. [버킷 jar파일을 다운로드 합니다. (Paper 권장)](https://papermc.io/downloads)
 
@@ -17,7 +17,7 @@
 
 ## 주의사항
 
--   자바 설치는 무조건 기본 경로로 설치해야 하며, 64비트 버전을 설치하시기 바랍니다.
+- 자바를 따로 포더블로 설치한 경우 인식이 안됩니다. 따라서 정상적으로 설치 해 주세요
 
 ## 추가 예정 기능
 
