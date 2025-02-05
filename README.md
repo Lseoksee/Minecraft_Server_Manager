@@ -13,7 +13,9 @@
 
 2. [버킷 jar파일을 다운로드 합니다. (Paper 권장)](https://papermc.io/downloads)
 
-3. [Minecraft_Server_Manager.exe](https://github.com/Lseoksee/Minecraft_Server_Manager/releases) 를 다운로드 하여 버킷 jar과 같은 디렉토리에 넣습니다. 4. Minecraft_Server_Manager.exe 를 실행하여 서버를 실행 합니다.
+3. [Minecraft_Server_Manager.exe](https://github.com/Lseoksee/Minecraft_Server_Manager/releases) 를 다운로드 하여 버킷 jar과 같은 디렉토리에 넣습니다.
+
+4. Minecraft_Server_Manager.exe 를 실행하여 서버를 실행 합니다.
 
 ## 주의사항
 
