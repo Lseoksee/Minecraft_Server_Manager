@@ -10,7 +10,7 @@
     - `~1.16.x`: [자바8](https://www.java.com/ko/download/)
     - `1.17.x ~ 1.20.x`: [자바17](https://www.oracle.com/kr/java/technologies/downloads)
     - `1.21.x`: [자바21+](https://www.oracle.com/kr/java/technologies/downloads)
-    - `26.x+`: [자바25+](https://www.oracle.com/kr/java/technologies/downloads)
+    - `26.x~`: [자바25+](https://www.oracle.com/kr/java/technologies/downloads)
 
 2. [버킷 jar파일을 다운로드 합니다. (Paper 권장)](https://papermc.io/downloads)
 
