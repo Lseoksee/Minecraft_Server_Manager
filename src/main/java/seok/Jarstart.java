@@ -14,31 +14,39 @@ import java.awt.Color;
 
 public class Jarstart extends MainUI implements Runnable {
     public static final int FINALRAM = 4;
-    String path;
+    String path = "java";
 
     public Jarstart() {
         try {
             List<SearchJavaDTO> javaList = Utills.getSystemJava();
+            SearchJavaDTO java;
 
-            // INFO: ~1.16.x
-            if (jarver.version.matches("\\d+\\.(?:1[0-6]|[0-9])(\\.\\d+)*")) {
-                SearchJavaDTO java = choiceJavaVersion(javaList, 8, 11);
+            if (!(jarver.version.charAt(0) == '1')) {
+                /* 26.1+ */
+                //INFO: 향후 나오는 버전에 따라 자바 바뀌면 verNum를 통해 대응
+                int verNum = Integer.valueOf(jarver.version.substring(0, 2));
+
+                java = choiceJavaVersion(javaList, 25, 0);
                 path = java.getPath() + "\\bin\\java";
-                System.out.println("선택된 자바 버전: " + java.getVersion());
-                // INFO: 1.17.x ~ 1.18.x
-            } else if (jarver.version.matches("\\d+\\.(?:1[7-8]|[0-9])(\\.\\d+)*")) {
-                SearchJavaDTO java = choiceJavaVersion(javaList, 16, 17);
-                path = java.getPath() + "\\bin\\java";
-                System.out.println("선택된 자바 버전: " + java.getVersion());
-                // INFO: 1.19.x ~
             } else {
-                SearchJavaDTO java = choiceJavaVersion(javaList, 17, 0);
-                path = java.getPath() + "\\bin\\java";
-                System.out.println("선택된 자바 버전: " + java.getVersion());
+                /* 구버전 */
+                if (jarver.version.matches("\\d+\\.(?:1[0-6]|[0-9])(\\.\\d+)*")) {
+                    // INFO: ~1.16.x
+                    java = choiceJavaVersion(javaList, 8, 11);
+                    path = java.getPath() + "\\bin\\java";
+                } else if (jarver.version.matches("\\d+\\.(?:1[7-8]|[0-9])(\\.\\d+)*")) {
+                    // INFO: 1.17.x ~ 1.18.x
+                    java = choiceJavaVersion(javaList, 16, 17);
+                    path = java.getPath() + "\\bin\\java";
+                } else {
+                    // INFO: 1.19.x ~ 1.21.x
+                    java = choiceJavaVersion(javaList, 25, 0);
+                    path = java.getPath() + "\\bin\\java";
+                }
             }
+            System.out.println("선택된 자바 버전: " + java.getVersion());
         } catch (Exception e) {
             e.printStackTrace();
-            path = "java";
         }
     }
 
