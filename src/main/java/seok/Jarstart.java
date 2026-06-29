@@ -25,12 +25,12 @@ public class Jarstart extends MainUI implements Runnable {
                 SearchJavaDTO java = choiceJavaVersion(javaList, 8, 11);
                 path = java.getPath() + "\\bin\\java";
                 System.out.println("선택된 자바 버전: " + java.getVersion());
-            // INFO: 1.17.x ~ 1.18.x
+                // INFO: 1.17.x ~ 1.18.x
             } else if (jarver.version.matches("\\d+\\.(?:1[7-8]|[0-9])(\\.\\d+)*")) {
                 SearchJavaDTO java = choiceJavaVersion(javaList, 16, 17);
                 path = java.getPath() + "\\bin\\java";
                 System.out.println("선택된 자바 버전: " + java.getVersion());
-            // INFO: 1.19.x ~
+                // INFO: 1.19.x ~
             } else {
                 SearchJavaDTO java = choiceJavaVersion(javaList, 17, 0);
                 path = java.getPath() + "\\bin\\java";
@@ -41,7 +41,7 @@ public class Jarstart extends MainUI implements Runnable {
             path = "java";
         }
     }
- 
+
     public void runServer() {
         readThread = new Thread(this);
         readThread.start();
@@ -125,11 +125,11 @@ public class Jarstart extends MainUI implements Runnable {
      * 검색된 Java 리스트 중에서 조건에 맞는 Java를 선택합니다.
      * 
      * @param javaList 검색된 Java 리스트
-     * @param minVer  최소 java 버전
-     * @param maxVer  최대 java 버전 (0이면 무제한)
+     * @param minVer   최소 java 버전
+     * @param maxVer   최대 java 버전 (0이면 무제한)
      * 
      */
-    private SearchJavaDTO choiceJavaVersion(List<SearchJavaDTO> javaList, int minVer, int maxVer) {
+    private static SearchJavaDTO choiceJavaVersion(List<SearchJavaDTO> javaList, int minVer, int maxVer) {
         SearchJavaDTO prev = javaList.get(0);
 
         for (int i = 1; i < javaList.size(); i++) {
@@ -154,7 +154,7 @@ public class Jarstart extends MainUI implements Runnable {
             if (prevVer < minVer || (prevVer > maxVer && maxVer != 0)) {
                 prev = now;
                 continue;
-            } else if (nowVer < minVer ||  (nowVer > maxVer && maxVer != 0)) {
+            } else if (nowVer < minVer || (nowVer > maxVer && maxVer != 0)) {
                 continue;
             }
 
@@ -174,7 +174,7 @@ public class Jarstart extends MainUI implements Runnable {
     }
 
     /** 자바 버전 비교 함수 */
-    private boolean isUpJavaVersion(int token, ArrayList<String> prev, ArrayList<String> now) {
+    private static boolean isUpJavaVersion(int token, ArrayList<String> prev, ArrayList<String> now) {
         int token_prev = 0;
         int token_now = 0;
 

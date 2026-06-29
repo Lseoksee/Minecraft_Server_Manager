@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.prefs.Preferences;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
 import seok.dto.SearchJavaDTO;
-import seok.lib.WinRegistry;
 
 public class Utills {
 
@@ -61,15 +61,17 @@ public class Utills {
         final String jreRootPath = "SOFTWARE\\JavaSoft\\Java Runtime Environment\\";
         final String jdkRootPath = "SOFTWARE\\JavaSoft\\JDK\\";
 
-        List<String> jreRoot = WinRegistry.subKeysForPath(WinRegistry.HKEY_LOCAL_MACHINE, jreRootPath);
-        List<String> jdkRoot = WinRegistry.subKeysForPath(WinRegistry.HKEY_LOCAL_MACHINE, jdkRootPath);
+        IndexRegistry indexReg = new IndexRegistry(Preferences.systemRoot()); 
+
+        List<String> jreRoot = indexReg.getRegistryDir(jreRootPath);
+        List<String> jdkRoot = indexReg.getRegistryDir(jdkRootPath);
+    
         List<SearchJavaDTO> javaList = new ArrayList<>();
 
         jreRoot.forEach((item) -> {
             try {
                 SearchJavaDTO javaDTO = new SearchJavaDTO();
-                Map<String, String> jreValues = WinRegistry.valuesForPath(WinRegistry.HKEY_LOCAL_MACHINE,
-                        jreRootPath + item);
+                Map<String, String> jreValues = indexReg.getRegistryMapForPath(jreRootPath + item);
 
                 // 해당 경로에 java.exe 파일이 없으면 무시
                 String path = jreValues.get("JavaHome");
@@ -105,8 +107,7 @@ public class Utills {
         jdkRoot.forEach((item) -> {
             try {
                 SearchJavaDTO javaDTO = new SearchJavaDTO();
-                Map<String, String> jdkValues = WinRegistry.valuesForPath(WinRegistry.HKEY_LOCAL_MACHINE,
-                        jdkRootPath + item);
+                Map<String, String> jdkValues = indexReg.getRegistryMapForPath(jdkRootPath + item);
 
                 // 해당 경로에 java.exe 파일이 없으면 무시
                 String path = jdkValues.get("JavaHome");

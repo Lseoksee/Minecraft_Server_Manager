@@ -96,6 +96,11 @@
               <jre>
                 <minVersion>8</minVersion>
                 <runtimeBits>64/32</runtimeBits>
+                <opts>
+                  <!-- 자바 8에는 add-opens이 존재하지 않음, 따라서 아래 vm 옵션을 추가해 옵션을 무시하도록 함 (해당 옵션은 자바8부터 가능) -->
+                  <opt>-XX:+IgnoreUnrecognizedVMOptions</opt>
+                  <opt>--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED</opt>
+                </opts>
               </jre>
               <versionInfo>
                 <fileVersion>1.0.0.0</fileVersion>

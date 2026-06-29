@@ -15,13 +15,21 @@
             "name": "프로그램 실행 (java21)",
             "request": "launch",
             "mainClass": "seok.Main",
-            "javaExec": "C:\\Program Files\\Java\\jdk-21\\bin\\java.exe"
+            "javaExec": "C:\\Program Files\\Java\\jdk-21\\bin\\java.exe",
+            "vmArgs": ["--add-opens=java.prefs/java.util.prefs=ALL-UNNAMED"]
         },
         {
             "type": "java",
             "name": "현재파일",
             "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "현재파일 (java21)",
+            "request": "launch",
             "mainClass": "${file}",
+            "javaExec": "C:\\Program Files\\Java\\jdk-21\\bin\\java.exe",
         }
     ]
 }
