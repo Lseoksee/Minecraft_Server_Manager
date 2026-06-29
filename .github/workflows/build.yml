@@ -2,8 +2,10 @@ name: Build
 
 on:
     push:
-        branches: master
-        tags: "**"
+        branches: 
+          - master
+        tags: 
+          - "**"
 
 jobs:
     build:
@@ -30,7 +32,7 @@ jobs:
               run: mv target/Minecraft_Server_Manager.exe target/Minecraft_Server_Manager_v${{env.TAG}}.exe
 
             - name: Release
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               env:
                   GITHUB_TOKEN: ${{secrets.ACTIONS_TOKEN}}
               with:
