@@ -32,8 +32,7 @@ jobs:
               run: mv target/Minecraft_Server_Manager.exe target/Minecraft_Server_Manager_v${{env.TAG}}.exe
 
             - name: Release
-              uses: softprops/action-gh-release@v3
-              env:
-                  GITHUB_TOKEN: ${{secrets.ACTIONS_TOKEN}}
+              uses: softprops/action-gh-release@v3 
               with:
+                  token: ${{secrets.ACTIONS_TOKEN}}
                   files: target/Minecraft_Server_Manager_v${{env.TAG}}.exe
