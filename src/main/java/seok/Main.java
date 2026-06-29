@@ -41,7 +41,7 @@ import seok.UI.NetworkinfoUI;
 import seok.UI.PlayerOptonUI;
 
 public class Main extends EventSuper {
-    public static final String RESVER = "v1.6.3"; // 앱 버전
+    public static final String RESVER = "v1.6.4"; // 앱 버전
     public static final Font APPFONT = new Font("맑은 고딕", Font.PLAIN, 15); // 앱 폰트
 
     public static Thread readThread; // 서버 관리 쓰레드
